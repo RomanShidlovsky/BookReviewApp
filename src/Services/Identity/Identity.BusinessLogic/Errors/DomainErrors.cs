@@ -1,6 +1,6 @@
 ﻿using Shared;
 
-namespace Identity.DataAccess.Errors;
+namespace Identity.BusinessLogic.Errors;
 
 public static class DomainErrors
 {
