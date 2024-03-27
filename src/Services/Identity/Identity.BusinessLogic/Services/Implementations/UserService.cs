@@ -85,7 +85,8 @@ public class UserService(
             return Response.Failure(DomainErrors.User.UserNotFoundById);
         }
 
-        var result = await userManager.DeleteAsync(user);
+        user.DateDeleted = DateTimeOffset.UtcNow;
+        var result = await userManager.UpdateAsync(user);
 
         return result.Succeeded
             ? Response.Success()
