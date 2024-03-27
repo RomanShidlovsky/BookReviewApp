@@ -16,6 +16,7 @@ public class UserService(
     UserManager<User> userManager,
     RoleManager<Role> roleManager,
     IValidator<RegisterUserDto> registerUserValidator,
+    IValidator<UpdateUserDto> updateUserValidator,
     IMapper mapper) : IUserServiceAsync
 {
     public async Task<Response<UserDto>> CreateUserAsync(RegisterUserDto dto, CancellationToken cancellationToken)
@@ -48,6 +49,46 @@ public class UserService(
         await userManager.AddToRoleAsync(user, Roles.Client.ToString());
 
         return mapper.Map<UserDto>(user);
+    }
+
+    public async Task<Response<UserDto>> UpdateUserAsync(UpdateUserDto dto, CancellationToken cancellationToken)
+    {
+        var user = await userManager.FindByIdAsync(dto.Id.ToString());
+        if (user == null)
+        {
+            return Response.Failure<UserDto>(DomainErrors.User.UserNotFoundById);
+        }
+
+        var validationResult = await updateUserValidator.ValidateAsync(dto, cancellationToken);
+        if (!validationResult.IsValid)
+        {
+            return ValidationFailedResponse<UserDto>.WithErrors(
+                validationResult.Errors.Select(f => new Error(f.PropertyName, f.ErrorMessage)));
+        }
+        
+        user.UserName = dto.UserName;
+        user.Email = dto.Email;
+
+        var result = await userManager.UpdateAsync(user);
+        if (!result.Succeeded)
+        {
+            return Response.Failure<UserDto>(new Error(
+                result.Errors.First().Code,
+                result.Errors.First().Description,
+                400));
+        }
+
+        return mapper.Map<UserDto>(user);
+    }
+
+    public Task<Response> DeleteUserByIdAsync(int id, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Response> AddUserToRoleAsync(int userId, int roleId, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
     }
 
     public async Task<Response<IEnumerable<UserDto>>> GetAllUsersAsync(CancellationToken cancellationToken)
