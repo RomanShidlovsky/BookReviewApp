@@ -19,6 +19,11 @@ public static class DomainErrors
             "User.AlreadyInRole",
             "User is already in role.",
             400);
+        
+        public static readonly Error UserNotInRole = new(
+            "User.NotInRole",
+            "User is not in role.",
+            400);
 
         public static readonly Error RoleNotAdded = new(
             "User.RoleNotAdded",

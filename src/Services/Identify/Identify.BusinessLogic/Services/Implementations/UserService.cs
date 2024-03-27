@@ -42,8 +42,7 @@ public class UserService(
         {
             return Response.Failure<UserDto>(new Error(
                 result.Errors.First().Code,
-                result.Errors.First().Description,
-                400));
+                result.Errors.First().Description));
         }
 
         await userManager.AddToRoleAsync(user, Roles.Client.ToString());
@@ -65,30 +64,90 @@ public class UserService(
             return ValidationFailedResponse<UserDto>.WithErrors(
                 validationResult.Errors.Select(f => new Error(f.PropertyName, f.ErrorMessage)));
         }
-        
+
         user.UserName = dto.UserName;
         user.Email = dto.Email;
 
         var result = await userManager.UpdateAsync(user);
-        if (!result.Succeeded)
-        {
-            return Response.Failure<UserDto>(new Error(
+
+        return result.Succeeded
+            ? mapper.Map<UserDto>(user)
+            : Response.Failure<UserDto>(new Error(
                 result.Errors.First().Code,
-                result.Errors.First().Description,
-                400));
+                result.Errors.First().Description));
+    }
+
+    public async Task<Response> DeleteUserByIdAsync(int id, CancellationToken cancellationToken)
+    {
+        var user = await userManager.FindByIdAsync(id.ToString());
+        if (user == null)
+        {
+            return Response.Failure(DomainErrors.User.UserNotFoundById);
         }
 
-        return mapper.Map<UserDto>(user);
+        var result = await userManager.DeleteAsync(user);
+
+        return result.Succeeded
+            ? Response.Success()
+            : Response.Failure(new Error(
+                result.Errors.First().Code,
+                result.Errors.First().Description));
     }
 
-    public Task<Response> DeleteUserByIdAsync(int id, CancellationToken cancellationToken)
+    public async Task<Response> AddUserToRoleAsync(int userId, int roleId, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var role = await roleManager.FindByIdAsync(roleId.ToString());
+        if (role == null)
+        {
+            return Response.Failure(DomainErrors.Role.RoleNotFoundById);
+        }
+
+        var user = await userManager.FindByIdAsync(userId.ToString());
+        if (user == null)
+        {
+            return Response.Failure(DomainErrors.User.UserNotFoundById);
+        }
+
+        if (await userManager.IsInRoleAsync(user, role.Name))
+        {
+            return Response.Failure(DomainErrors.User.AlreadyInRole);
+        }
+
+        var result = await userManager.AddToRoleAsync(user, role.Name);
+
+        return result.Succeeded
+            ? Response.Success()
+            : Response.Failure(new Error(
+                result.Errors.First().Code,
+                result.Errors.First().Description));
     }
 
-    public Task<Response> AddUserToRoleAsync(int userId, int roleId, CancellationToken cancellationToken)
+    public async Task<Response> RemoveUserFromRoleAsync(int userId, int roleId, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var role = await roleManager.FindByIdAsync(roleId.ToString());
+        if (role == null)
+        {
+            return Response.Failure(DomainErrors.Role.RoleNotFoundById);
+        }
+
+        var user = await userManager.FindByIdAsync(userId.ToString());
+        if (user == null)
+        {
+            return Response.Failure(DomainErrors.User.UserNotFoundById);
+        }
+
+        if (await userManager.IsInRoleAsync(user, role.Name))
+        {
+            return Response.Failure(DomainErrors.User.UserNotInRole);
+        }
+
+        var result = await userManager.RemoveFromRoleAsync(user, role.Name);
+
+        return result.Succeeded
+            ? Response.Success()
+            : Response.Failure(new Error(
+                result.Errors.First().Code,
+                result.Errors.First().Description));
     }
 
     public async Task<Response<IEnumerable<UserDto>>> GetAllUsersAsync(CancellationToken cancellationToken)
@@ -134,5 +193,18 @@ public class UserService(
         response.Roles = userRoles;
 
         return response;
+    }
+
+    public async Task<Response> CheckUserCredentialsAsync(UserCredentialsDto dto, CancellationToken cancellationToken)
+    {
+        var user = await userManager.FindByNameAsync(dto.UserName);
+        if (user == null)
+        {
+            return Response.Failure(DomainErrors.User.InvalidCredentials);
+        }
+
+        return await userManager.CheckPasswordAsync(user, dto.Password)
+            ? Response.Success()
+            : Response.Failure(DomainErrors.User.InvalidCredentials);
     }
 }
