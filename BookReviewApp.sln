@@ -41,7 +41,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ocelot.ApiGateway", "src\Ap
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EventBus", "EventBus", "{B68B1569-24D0-4B77-BDD8-E48F3790D00F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RabbitMQ.EventBus", "src\Infrastructure\EventBus\RabbitMQ.EventBus\RabbitMQ.EventBus.csproj", "{DFA784B7-4143-416F-92B7-E7D001619DDE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RabbitMQ.EventBus", "src\EventBus\RabbitMQ.EventBus\RabbitMQ.EventBus.csproj", "{DFA784B7-4143-416F-92B7-E7D001619DDE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identify.Tests", "src\Services\Identify\Identify.Tests\Identify.Tests.csproj", "{0AF8E1F9-D3EC-42B7-BFA5-AAC01E95C8BA}"
 EndProject
