@@ -17,7 +17,7 @@ public class UserService(
     RoleManager<Role> roleManager,
     IValidator<RegisterUserDto> registerUserValidator,
     IValidator<UpdateUserDto> updateUserValidator,
-    IMapper mapper) : IUserServiceAsync
+    IMapper mapper) : IUserService
 {
     public async Task<Response<UserDto>> CreateUserAsync(RegisterUserDto dto, CancellationToken cancellationToken)
     {

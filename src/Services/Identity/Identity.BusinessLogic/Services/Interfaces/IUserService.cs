@@ -5,7 +5,7 @@ using Shared;
 
 namespace Identity.BusinessLogic.Services.Interfaces;
 
-public interface IUserServiceAsync
+public interface IUserService
 {
     Task<Response<UserDto>> CreateUserAsync(RegisterUserDto dto, CancellationToken cancellationToken);
     Task<Response<UserDto>> UpdateUserAsync(UpdateUserDto dto, CancellationToken cancellationToken);
