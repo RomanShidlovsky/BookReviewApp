@@ -2,9 +2,9 @@
 using FluentValidation;
 using Identity.BusinessLogic.DTOs.RequestDTOs.Role;
 using Identity.BusinessLogic.DTOs.ResponseDTOs;
+using Identity.BusinessLogic.Errors;
 using Identity.BusinessLogic.Services.Interfaces;
 using Identity.DataAccess.Entities;
-using Identity.DataAccess.Errors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Shared;
@@ -29,7 +29,7 @@ public class RoleService(
         var existingRole = await roleManager.FindByNameAsync(dto.Name);
         if (existingRole is not null)
         {
-            return Response.Failure<RoleDto>(DomainErrors.Role.NameConflict);
+            return Response.Failure<RoleDto>(Errors.DomainErrors.Role.NameConflict);
         }
 
         var role = mapper.Map<Role>(dto);
@@ -49,7 +49,7 @@ public class RoleService(
         var role = await roleManager.FindByIdAsync(id.ToString());
         if (role is null)
         {
-            return Response.Failure(DomainErrors.Role.RoleNotFoundById);
+            return Response.Failure(Errors.DomainErrors.Role.RoleNotFoundById);
         }
         
         var result = await roleManager.DeleteAsync(role);
@@ -66,7 +66,7 @@ public class RoleService(
         var role = await roleManager.FindByIdAsync(id.ToString());
         
         return role is null 
-            ? Response.Failure<RoleDto>(DomainErrors.Role.RoleNotFoundById) 
+            ? Response.Failure<RoleDto>(Errors.DomainErrors.Role.RoleNotFoundById) 
             : mapper.Map<RoleDto>(role);
     }
 
@@ -75,7 +75,7 @@ public class RoleService(
         var role = await roleManager.FindByNameAsync(name);
 
         return role is null
-            ? Response.Failure<RoleDto>(DomainErrors.Role.RoleNotFoundByName)
+            ? Response.Failure<RoleDto>(Errors.DomainErrors.Role.RoleNotFoundByName)
             : mapper.Map<RoleDto>(role);
     }
 

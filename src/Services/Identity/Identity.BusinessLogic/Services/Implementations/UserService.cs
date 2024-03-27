@@ -2,10 +2,10 @@
 using FluentValidation;
 using Identity.BusinessLogic.DTOs.RequestDTOs.User;
 using Identity.BusinessLogic.DTOs.ResponseDTOs;
+using Identity.BusinessLogic.Errors;
 using Identity.BusinessLogic.Services.Interfaces;
 using Identity.DataAccess.Entities;
 using Identity.DataAccess.Enums;
-using Identity.DataAccess.Errors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Shared;
@@ -31,7 +31,7 @@ public class UserService(
         var existingUser = await userManager.FindByNameAsync(dto.UserName);
         if (existingUser is not null)
         {
-            return Response.Failure<UserDto>(DomainErrors.User.UsernameConflict);
+            return Response.Failure<UserDto>(Errors.DomainErrors.User.UsernameConflict);
         }
 
         var user = mapper.Map<User>(dto);
@@ -55,7 +55,7 @@ public class UserService(
         var user = await userManager.FindByIdAsync(dto.Id.ToString());
         if (user is not { DateDeleted: null })
         {
-            return Response.Failure<UserDto>(DomainErrors.User.UserNotFoundById);
+            return Response.Failure<UserDto>(Errors.DomainErrors.User.UserNotFoundById);
         }
 
         var validationResult = await updateUserValidator.ValidateAsync(dto, cancellationToken);
@@ -82,7 +82,7 @@ public class UserService(
         var user = await userManager.FindByIdAsync(id.ToString());
         if (user is not { DateDeleted: null })
         {
-            return Response.Failure(DomainErrors.User.UserNotFoundById);
+            return Response.Failure(Errors.DomainErrors.User.UserNotFoundById);
         }
 
         user.DateDeleted = DateTimeOffset.UtcNow;
@@ -100,18 +100,18 @@ public class UserService(
         var role = await roleManager.FindByIdAsync(roleId.ToString());
         if (role is null)
         {
-            return Response.Failure(DomainErrors.Role.RoleNotFoundById);
+            return Response.Failure(Errors.DomainErrors.Role.RoleNotFoundById);
         }
 
         var user = await userManager.FindByIdAsync(userId.ToString());
         if (user is not { DateDeleted: null })
         {
-            return Response.Failure(DomainErrors.User.UserNotFoundById);
+            return Response.Failure(Errors.DomainErrors.User.UserNotFoundById);
         }
 
         if (await userManager.IsInRoleAsync(user, role.Name))
         {
-            return Response.Failure(DomainErrors.User.AlreadyInRole);
+            return Response.Failure(Errors.DomainErrors.User.AlreadyInRole);
         }
 
         var result = await userManager.AddToRoleAsync(user, role.Name);
@@ -128,18 +128,18 @@ public class UserService(
         var role = await roleManager.FindByIdAsync(roleId.ToString());
         if (role is null)
         {
-            return Response.Failure(DomainErrors.Role.RoleNotFoundById);
+            return Response.Failure(Errors.DomainErrors.Role.RoleNotFoundById);
         }
 
         var user = await userManager.FindByIdAsync(userId.ToString());
         if (user is not { DateDeleted: null })
         {
-            return Response.Failure(DomainErrors.User.UserNotFoundById);
+            return Response.Failure(Errors.DomainErrors.User.UserNotFoundById);
         }
 
         if (await userManager.IsInRoleAsync(user, role.Name))
         {
-            return Response.Failure(DomainErrors.User.UserNotInRole);
+            return Response.Failure(Errors.DomainErrors.User.UserNotInRole);
         }
 
         var result = await userManager.RemoveFromRoleAsync(user, role.Name);
@@ -172,7 +172,7 @@ public class UserService(
         var user = await userManager.FindByIdAsync(id.ToString());
         if (user is not { DateDeleted: null })
         {
-            return Response.Failure<UserDto>(DomainErrors.User.UserNotFoundById);
+            return Response.Failure<UserDto>(Errors.DomainErrors.User.UserNotFoundById);
         }
 
         var userRoles = await userManager.GetRolesAsync(user);
@@ -188,7 +188,7 @@ public class UserService(
         var user = await userManager.FindByNameAsync(userName);
         if (user is not { DateDeleted: null })
         {
-            return Response.Failure<UserDto>(DomainErrors.User.UserNotFoundByUsername);
+            return Response.Failure<UserDto>(Errors.DomainErrors.User.UserNotFoundByUsername);
         }
 
         var userRoles = await userManager.GetRolesAsync(user);
@@ -204,11 +204,11 @@ public class UserService(
         var user = await userManager.FindByNameAsync(dto.UserName);
         if (user is not { DateDeleted: null })
         {
-            return Response.Failure(DomainErrors.User.InvalidCredentials);
+            return Response.Failure(Errors.DomainErrors.User.InvalidCredentials);
         }
 
         return await userManager.CheckPasswordAsync(user, dto.Password)
             ? Response.Success()
-            : Response.Failure(DomainErrors.User.InvalidCredentials);
+            : Response.Failure(Errors.DomainErrors.User.InvalidCredentials);
     }
 }
