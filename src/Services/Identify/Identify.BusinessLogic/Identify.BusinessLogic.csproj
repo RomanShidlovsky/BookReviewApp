@@ -7,10 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Entities\" />
-      <Folder Include="Errors\" />
-      <Folder Include="Interfaces\" />
-      <Folder Include="Shared\" />
+      <ProjectReference Include="..\Identify.DataAccess\Identify.DataAccess.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Services\" />
     </ItemGroup>
 
 </Project>
