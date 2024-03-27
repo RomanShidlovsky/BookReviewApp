@@ -1,4 +1,4 @@
-﻿namespace Identity.BusinessLogic.DTOs.RequestDTOs;
+﻿namespace Identity.BusinessLogic.DTOs.RequestDTOs.User;
 
 public sealed record UpdateUserDto(
     int Id,

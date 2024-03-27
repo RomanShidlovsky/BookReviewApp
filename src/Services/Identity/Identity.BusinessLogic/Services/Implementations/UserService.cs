@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
 using FluentValidation;
+using Identity.BusinessLogic.DTOs.RequestDTOs.User;
+using Identity.BusinessLogic.DTOs.ResponseDTOs;
+using Identity.BusinessLogic.Services.Interfaces;
 using Identity.DataAccess.Entities;
 using Identity.DataAccess.Enums;
 using Identity.DataAccess.Errors;
-using Identity.BusinessLogic.DTOs.RequestDTOs;
-using Identity.BusinessLogic.DTOs.ResponseDTOs;
-using Identity.BusinessLogic.Services.Interfaces;
-using Shared;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Shared;
 
 namespace Identity.BusinessLogic.Services.Implementations;
 
@@ -29,7 +29,7 @@ public class UserService(
         }
 
         var existingUser = await userManager.FindByNameAsync(dto.UserName);
-        if (existingUser != null)
+        if (existingUser is not null)
         {
             return Response.Failure<UserDto>(DomainErrors.User.UsernameConflict);
         }
@@ -53,7 +53,7 @@ public class UserService(
     public async Task<Response<UserDto>> UpdateUserAsync(UpdateUserDto dto, CancellationToken cancellationToken)
     {
         var user = await userManager.FindByIdAsync(dto.Id.ToString());
-        if (user == null)
+        if (user is not { DateDeleted: null })
         {
             return Response.Failure<UserDto>(DomainErrors.User.UserNotFoundById);
         }
@@ -80,7 +80,7 @@ public class UserService(
     public async Task<Response> DeleteUserByIdAsync(int id, CancellationToken cancellationToken)
     {
         var user = await userManager.FindByIdAsync(id.ToString());
-        if (user == null)
+        if (user is not { DateDeleted: null })
         {
             return Response.Failure(DomainErrors.User.UserNotFoundById);
         }
@@ -98,13 +98,13 @@ public class UserService(
     public async Task<Response> AddUserToRoleAsync(int userId, int roleId, CancellationToken cancellationToken)
     {
         var role = await roleManager.FindByIdAsync(roleId.ToString());
-        if (role == null)
+        if (role is null)
         {
             return Response.Failure(DomainErrors.Role.RoleNotFoundById);
         }
 
         var user = await userManager.FindByIdAsync(userId.ToString());
-        if (user == null)
+        if (user is not { DateDeleted: null })
         {
             return Response.Failure(DomainErrors.User.UserNotFoundById);
         }
@@ -126,13 +126,13 @@ public class UserService(
     public async Task<Response> RemoveUserFromRoleAsync(int userId, int roleId, CancellationToken cancellationToken)
     {
         var role = await roleManager.FindByIdAsync(roleId.ToString());
-        if (role == null)
+        if (role is null)
         {
             return Response.Failure(DomainErrors.Role.RoleNotFoundById);
         }
 
         var user = await userManager.FindByIdAsync(userId.ToString());
-        if (user == null)
+        if (user is not { DateDeleted: null })
         {
             return Response.Failure(DomainErrors.User.UserNotFoundById);
         }
@@ -153,10 +153,13 @@ public class UserService(
 
     public async Task<Response<IEnumerable<UserDto>>> GetAllUsersAsync(CancellationToken cancellationToken)
     {
-        var usersList = await userManager.Users.ToListAsync(cancellationToken);
+        var usersList = await userManager.Users
+            .Where(u => u.DateDeleted == null)
+            .ToListAsync(cancellationToken);
+
         var userResponses = mapper.Map<List<UserDto>>(usersList);
 
-        for (int i = 0; i < usersList.Count; i++)
+        for (var i = 0; i < usersList.Count; i++)
         {
             userResponses[i].Roles = await userManager.GetRolesAsync(usersList[i]);
         }
@@ -167,7 +170,7 @@ public class UserService(
     public async Task<Response<UserDto>> GetUserByIdAsync(int id, CancellationToken cancellationToken)
     {
         var user = await userManager.FindByIdAsync(id.ToString());
-        if (user == null)
+        if (user is not { DateDeleted: null })
         {
             return Response.Failure<UserDto>(DomainErrors.User.UserNotFoundById);
         }
@@ -183,7 +186,7 @@ public class UserService(
     public async Task<Response<UserDto>> GetUserByUserNameAsync(string userName, CancellationToken cancellationToken)
     {
         var user = await userManager.FindByNameAsync(userName);
-        if (user == null)
+        if (user is not { DateDeleted: null })
         {
             return Response.Failure<UserDto>(DomainErrors.User.UserNotFoundByUsername);
         }
@@ -199,7 +202,7 @@ public class UserService(
     public async Task<Response> CheckUserCredentialsAsync(UserCredentialsDto dto, CancellationToken cancellationToken)
     {
         var user = await userManager.FindByNameAsync(dto.UserName);
-        if (user == null)
+        if (user is not { DateDeleted: null })
         {
             return Response.Failure(DomainErrors.User.InvalidCredentials);
         }

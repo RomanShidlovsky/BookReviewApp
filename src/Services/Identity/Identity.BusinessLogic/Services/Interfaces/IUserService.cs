@@ -1,4 +1,5 @@
 ﻿using Identity.BusinessLogic.DTOs.RequestDTOs;
+using Identity.BusinessLogic.DTOs.RequestDTOs.User;
 using Identity.BusinessLogic.DTOs.ResponseDTOs;
 using Shared;
 
