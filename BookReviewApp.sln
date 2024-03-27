@@ -7,13 +7,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8C86E58B-DD6
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{54F1B9C2-3570-4F6B-A7F4-ABC27B3E7F6C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identify", "Identify", "{C1A4323E-D533-40A2-87D2-09FB22170791}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{C1A4323E-D533-40A2-87D2-09FB22170791}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identify.DataAccess", "src\Services\Identify\Identify.DataAccess\Identify.DataAccess.csproj", "{E2B62714-E82B-4DDD-8BEF-7183ECFA9841}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.DataAccess", "src\Services\Identity\Identity.DataAccess\Identity.DataAccess.csproj", "{E2B62714-E82B-4DDD-8BEF-7183ECFA9841}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identify.BusinessLogic", "src\Services\Identify\Identify.BusinessLogic\Identify.BusinessLogic.csproj", "{B3B02ED8-0BE8-49E6-8DD4-08F49BAD27F7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.BusinessLogic", "src\Services\Identity\Identity.BusinessLogic\Identity.BusinessLogic.csproj", "{B3B02ED8-0BE8-49E6-8DD4-08F49BAD27F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identify.API", "src\Services\Identify\Identify.API\Identify.API.csproj", "{107B0102-7BE5-4EBF-94E9-38FA7FE3DED3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.API", "src\Services\Identity\Identity.API\Identity.API.csproj", "{107B0102-7BE5-4EBF-94E9-38FA7FE3DED3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Book", "Book", "{35E41C4C-0037-4D33-892F-B55F3C5E0967}"
 EndProject
@@ -43,7 +43,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EventBus", "EventBus", "{B6
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RabbitMQ.EventBus", "src\EventBus\RabbitMQ.EventBus\RabbitMQ.EventBus.csproj", "{DFA784B7-4143-416F-92B7-E7D001619DDE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identify.Tests", "src\Services\Identify\Identify.Tests\Identify.Tests.csproj", "{0AF8E1F9-D3EC-42B7-BFA5-AAC01E95C8BA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Tests", "src\Services\Identity\Identity.Tests\Identity.Tests.csproj", "{0AF8E1F9-D3EC-42B7-BFA5-AAC01E95C8BA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Book.Tests", "src\Services\Book\Book.Tests\Book.Tests.csproj", "{249FC483-BAA2-4CE6-9097-39340BC15097}"
 EndProject
