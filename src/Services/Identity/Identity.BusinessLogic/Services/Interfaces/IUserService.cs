@@ -2,6 +2,7 @@
 using Identity.BusinessLogic.DTOs.RequestDTOs.User;
 using Identity.BusinessLogic.DTOs.ResponseDTOs;
 using Shared;
+using Shared.Wrappers;
 
 namespace Identity.BusinessLogic.Services.Interfaces;
 

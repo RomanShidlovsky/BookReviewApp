@@ -9,6 +9,7 @@ using Identity.DataAccess.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Shared;
+using Shared.Wrappers;
 
 namespace Identity.BusinessLogic.Services.Implementations;
 

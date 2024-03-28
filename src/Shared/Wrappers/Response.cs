@@ -1,4 +1,4 @@
-﻿namespace Shared;
+﻿namespace Shared.Wrappers;
 
 public class Response
 {

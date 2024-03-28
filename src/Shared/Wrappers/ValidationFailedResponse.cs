@@ -1,4 +1,6 @@
-﻿namespace Shared;
+﻿using Shared.Wrappers;
+
+namespace Shared;
 
 public class ValidationFailedResponse(IEnumerable<Error> errors) 
     : Response(false, IValidationFailedResponse.ValidationError), IValidationFailedResponse

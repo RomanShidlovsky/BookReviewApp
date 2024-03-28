@@ -18,7 +18,7 @@ public static class ServiceExtensions
     private static void ConfigureServices(this IServiceCollection services)
     {
         services.AddScoped<IUserService, UserService>();
-        services.AddScoped<IRoleService, RoleService>();
-        services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IRoleService, RoleService>(); 
+        //services.AddScoped<ITokenService, TokenService>();
     }
 }
