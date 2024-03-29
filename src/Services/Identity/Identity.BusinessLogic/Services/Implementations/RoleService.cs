@@ -21,14 +21,6 @@ public class RoleService(
 {
     public async Task<Response<RoleDto>> CreateRoleAsync(CreateRoleDto dto, CancellationToken cancellationToken)
     {
-        var validationResult = await _validator.ValidateAsync(dto, cancellationToken);
-        
-        if (!validationResult.IsValid)
-        {
-            return ValidationFailedResponse<RoleDto>.WithErrors(
-                validationResult.Errors.Select(f => new Error(f.PropertyName, f.ErrorMessage)));
-        }
-
         var existingRole = await _roleManager.FindByNameAsync(dto.Name);
         
         if (existingRole is not null)

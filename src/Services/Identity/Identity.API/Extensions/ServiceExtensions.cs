@@ -1,4 +1,5 @@
-﻿using Identity.API.IdentityServerConfiguration;
+﻿using FluentValidation.AspNetCore;
+using Identity.API.IdentityServerConfiguration;
 using Identity.DataAccess.Entities;
 using Shared.Extensions;
 
@@ -12,6 +13,7 @@ public static class ServiceExtensions
         services.AddAuthentication();
         services.AddAuthorization();
         services.AddControllers();
+        services.AddFluentValidationAutoValidation();
         services.ConfigureIdentityServer(configuration);
         services.ConfigureSwagger(configuration);
     }

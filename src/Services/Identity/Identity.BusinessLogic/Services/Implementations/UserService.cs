@@ -22,14 +22,6 @@ public class UserService(
 {
     public async Task<Response<UserDto>> CreateUserAsync(RegisterUserDto dto, CancellationToken cancellationToken)
     {
-        var validationResult = await _registerUserValidator.ValidateAsync(dto, cancellationToken);
-        
-        if (!validationResult.IsValid)
-        {
-            return ValidationFailedResponse<UserDto>.WithErrors(
-                validationResult.Errors.Select(f => new Error(f.PropertyName, f.ErrorMessage)));
-        }
-
         var existingUser = await _userManager.FindByNameAsync(dto.UserName);
         
         if (existingUser is not null)
@@ -62,15 +54,7 @@ public class UserService(
         {
             return Response.Failure<UserDto>(DomainErrors.User.UserNotFoundById);
         }
-
-        var validationResult = await _updateUserValidator.ValidateAsync(dto, cancellationToken);
         
-        if (!validationResult.IsValid)
-        {
-            return ValidationFailedResponse<UserDto>.WithErrors(
-                validationResult.Errors.Select(f => new Error(f.PropertyName, f.ErrorMessage)));
-        }
-
         user.UserName = dto.UserName;
         user.Email = dto.Email;
 
