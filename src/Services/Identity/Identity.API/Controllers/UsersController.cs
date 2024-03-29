@@ -5,12 +5,13 @@ using Identity.BusinessLogic.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared;
+using Shared.Wrappers;
 
 namespace Identity.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class UserController(IUserService userService, IRoleService roleService) : ControllerBase
+public class UsersController(IUserService userService) : ControllerBase
 {
     [HttpGet(nameof(GetAll))]
     //[Authorize(Roles = "SuperAdmin")]
@@ -27,9 +28,9 @@ public class UserController(IUserService userService, IRoleService roleService) 
     [Authorize(Roles = "Client, Admin, SuperAdmin")]
     [ProducesResponseType(typeof(UserDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetById([FromRoute] int id)
     {
-        var user = await userService.GetUserByIdAsync(id, cancellationToken);
+        var user = await userService.GetUserByIdAsync(id);
 
         return ApiResponse.GetObjectResult(user);
     }
@@ -38,9 +39,9 @@ public class UserController(IUserService userService, IRoleService roleService) 
     [Authorize(Roles = "Client, Admin, SuperAdmin")]
     [ProducesResponseType(typeof(UserDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> GetByName(string userName, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetByName([FromRoute] string userName)
     {
-        var user = await userService.GetUserByUserNameAsync(userName, cancellationToken);
+        var user = await userService.GetUserByUserNameAsync(userName);
 
         return ApiResponse.GetObjectResult(user);
     }
@@ -50,7 +51,7 @@ public class UserController(IUserService userService, IRoleService roleService) 
     [ProducesResponseType(typeof(UserDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(IEnumerable<Error>), (int)HttpStatusCode.UnprocessableEntity)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.Conflict)]
-    public async Task<IActionResult> Register(RegisterUserDto dto, CancellationToken cancellationToken)
+    public async Task<IActionResult> Register([FromBody] RegisterUserDto dto, CancellationToken cancellationToken)
     {
         var user = await userService.CreateUserAsync(dto, cancellationToken);
 
@@ -62,7 +63,7 @@ public class UserController(IUserService userService, IRoleService roleService) 
     [ProducesResponseType(typeof(UserDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(IEnumerable<Error>), (int)HttpStatusCode.UnprocessableEntity)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.Conflict)]
-    public async Task<IActionResult> Update(UpdateUserDto dto, CancellationToken cancellationToken)
+    public async Task<IActionResult> Update([FromBody] UpdateUserDto dto, CancellationToken cancellationToken)
     {
         var user = await userService.UpdateUserAsync(dto, cancellationToken);
 
@@ -73,9 +74,9 @@ public class UserController(IUserService userService, IRoleService roleService) 
     [Authorize(Roles = "SuperAdmin")]
     [ProducesResponseType(typeof(bool) ,(int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> Delete([FromRoute] int id)
     {
-        var result = await userService.DeleteUserByIdAsync(id, cancellationToken);
+        var result = await userService.DeleteUserByIdAsync(id);
 
         return ApiResponse.GetObjectResult(result);
     }
@@ -85,9 +86,9 @@ public class UserController(IUserService userService, IRoleService roleService) 
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> AddToRole(AddUserToRoleDto dto, CancellationToken cancellationToken)
+    public async Task<IActionResult> AddToRole([FromBody] AddUserToRoleDto dto)
     {
-        var result = await userService.AddUserToRoleAsync(dto.UserId, dto.RoleId, cancellationToken);
+        var result = await userService.AddUserToRoleAsync(dto.UserId, dto.RoleId);
 
         return ApiResponse.GetObjectResult(result);
     }
@@ -97,9 +98,9 @@ public class UserController(IUserService userService, IRoleService roleService) 
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> RemoveFromRole(AddUserToRoleDto dto, CancellationToken cancellationToken)
+    public async Task<IActionResult> RemoveFromRole([FromBody] RemoveUserFromRoleDto dto)
     {
-        var result = await userService.RemoveUserFromRoleAsync(dto.UserId, dto.RoleId, cancellationToken);
+        var result = await userService.RemoveUserFromRoleAsync(dto.UserId, dto.RoleId);
 
         return ApiResponse.GetObjectResult(result);
     }

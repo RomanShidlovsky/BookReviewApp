@@ -19,6 +19,5 @@ public static class ServiceExtensions
     {
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IRoleService, RoleService>(); 
-        //services.AddScoped<ITokenService, TokenService>();
     }
 }

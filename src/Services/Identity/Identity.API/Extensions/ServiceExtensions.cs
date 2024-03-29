@@ -30,12 +30,15 @@ public static class ServiceExtensions
 
     private static void ConfigureIdentityServer(this IServiceCollection services, IConfiguration configuration)
     {
+        var jwtOptions = new JwtOptions();
+        configuration.GetSection("JwtOptions").Bind(jwtOptions);
+        
         services.AddIdentityServer(opt => 
             opt.IssuerUri = configuration["IdentityServer:IssuerUri"])
             .AddAspNetIdentity<User>()
             .AddInMemoryApiScopes(Configuration.GetApiScopes())
             .AddInMemoryApiResources(Configuration.GetApis())
-            .AddInMemoryClients(Configuration.GetClients())
+            .AddInMemoryClients(Configuration.GetClients(jwtOptions))
             .AddInMemoryIdentityResources(Configuration.GetIdentityResources())
             .AddDeveloperSigningCredential()
             .AddProfileService<ProfileService>();

@@ -6,6 +6,7 @@ using Identity.BusinessLogic.Errors;
 using Identity.BusinessLogic.Services.Interfaces;
 using Identity.DataAccess.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Shared;
 using Shared.Wrappers;
@@ -13,47 +14,50 @@ using Shared.Wrappers;
 namespace Identity.BusinessLogic.Services.Implementations;
 
 public class RoleService(
-    RoleManager<Role> roleManager,
-    IValidator<CreateRoleDto> validator,
-    IMapper mapper)
+    RoleManager<Role> _roleManager,
+    IValidator<CreateRoleDto> _validator,
+    IMapper _mapper)
     : IRoleService
 {
     public async Task<Response<RoleDto>> CreateRoleAsync(CreateRoleDto dto, CancellationToken cancellationToken)
     {
-        var validationResult = await validator.ValidateAsync(dto, cancellationToken);
+        var validationResult = await _validator.ValidateAsync(dto, cancellationToken);
+        
         if (!validationResult.IsValid)
         {
             return ValidationFailedResponse<RoleDto>.WithErrors(
                 validationResult.Errors.Select(f => new Error(f.PropertyName, f.ErrorMessage)));
         }
 
-        var existingRole = await roleManager.FindByNameAsync(dto.Name);
+        var existingRole = await _roleManager.FindByNameAsync(dto.Name);
+        
         if (existingRole is not null)
         {
             return Response.Failure<RoleDto>(DomainErrors.Role.NameConflict);
         }
 
-        var role = mapper.Map<Role>(dto);
+        var role = _mapper.Map<Role>(dto);
         role.ConcurrencyStamp = Guid.NewGuid().ToString();
 
-        var result = await roleManager.CreateAsync(role);
+        var result = await _roleManager.CreateAsync(role);
 
         return result.Succeeded
-            ? mapper.Map<RoleDto>(role)
+            ? _mapper.Map<RoleDto>(role)
             : Response.Failure<RoleDto>(new Error(
                 result.Errors.First().Code,
                 result.Errors.First().Description));
     }
 
-    public async Task<Response> DeleteRoleByIdAsync(int id, CancellationToken cancellationToken)
+    public async Task<Response> DeleteRoleByIdAsync(int id)
     {
-        var role = await roleManager.FindByIdAsync(id.ToString());
+        var role = await _roleManager.FindByIdAsync(id.ToString());
+        
         if (role is null)
         {
             return Response.Failure(DomainErrors.Role.RoleNotFoundById);
         }
         
-        var result = await roleManager.DeleteAsync(role);
+        var result = await _roleManager.DeleteAsync(role);
         
         return result.Succeeded
             ? Response.Success()
@@ -62,28 +66,28 @@ public class RoleService(
                 result.Errors.First().Description));
     }
 
-    public async Task<Response<RoleDto>> GetRoleByIdAsync(int id, CancellationToken cancellationToken)
+    public async Task<Response<RoleDto>> GetRoleByIdAsync(int id)
     {
-        var role = await roleManager.FindByIdAsync(id.ToString());
+        var role = await _roleManager.FindByIdAsync(id.ToString());
         
         return role is null 
             ? Response.Failure<RoleDto>(DomainErrors.Role.RoleNotFoundById) 
-            : mapper.Map<RoleDto>(role);
+            : _mapper.Map<RoleDto>(role);
     }
 
-    public async Task<Response<RoleDto>> GetRoleByNameAsync(string name, CancellationToken cancellationToken)
+    public async Task<Response<RoleDto>> GetRoleByNameAsync(string name)
     {
-        var role = await roleManager.FindByNameAsync(name);
+        var role = await _roleManager.FindByNameAsync(name);
 
         return role is null
             ? Response.Failure<RoleDto>(DomainErrors.Role.RoleNotFoundByName)
-            : mapper.Map<RoleDto>(role);
+            : _mapper.Map<RoleDto>(role);
     }
 
     public async Task<Response<IEnumerable<RoleDto>>> GetAllRolesAsync(CancellationToken cancellationToken)
     {
-        var roles = await roleManager.Roles.ToListAsync(cancellationToken);
+        var roles = await _roleManager.Roles.ToListAsync(cancellationToken);
 
-        return mapper.Map<List<RoleDto>>(roles);
+        return _mapper.Map<List<RoleDto>>(roles);
     }
 }

@@ -1,15 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Shared.Wrappers;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Shared;
+namespace Shared.Wrappers;
 
 public static class ApiResponse
 {
     public static ObjectResult GetObjectResult<T>(Response<T> response)
     {
         return response.Succeeded
-            ? new ObjectResult(response.Value)
-                { StatusCode = 200, ContentTypes = { "application/json" } }
+            ? new OkObjectResult(response.Value)
             : response is IValidationFailedResponse validationError
                 ? new ObjectResult(validationError.Errors)
                     { StatusCode = response.Error.ErrorStatusCode, ContentTypes = { "application/json" } }
@@ -20,8 +19,7 @@ public static class ApiResponse
     public static ObjectResult GetObjectResult(Response response)
     {
         return response.Succeeded
-            ? new ObjectResult(response.Succeeded)
-                { StatusCode = 200, ContentTypes = { "application/json" } }
+            ? new OkObjectResult(response.Succeeded)
             : response is IValidationFailedResponse validationError
                 ? new ObjectResult(validationError.Errors)
                     { StatusCode = response.Error.ErrorStatusCode, ContentTypes = { "application/json" } }
