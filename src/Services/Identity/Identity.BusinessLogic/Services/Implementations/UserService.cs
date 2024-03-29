@@ -16,8 +16,6 @@ namespace Identity.BusinessLogic.Services.Implementations;
 public class UserService(
     UserManager<User> _userManager,
     RoleManager<Role> _roleManager,
-    IValidator<RegisterUserDto> _registerUserValidator,
-    IValidator<UpdateUserDto> _updateUserValidator,
     IMapper _mapper) : IUserService
 {
     public async Task<Response<UserDto>> CreateUserAsync(RegisterUserDto dto, CancellationToken cancellationToken)

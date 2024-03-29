@@ -15,7 +15,6 @@ namespace Identity.BusinessLogic.Services.Implementations;
 
 public class RoleService(
     RoleManager<Role> _roleManager,
-    IValidator<CreateRoleDto> _validator,
     IMapper _mapper)
     : IRoleService
 {
