@@ -1,5 +1,5 @@
-﻿using Identity.DataAccess.Entities;
-using Identity.DataAccess.Enums;
+﻿using Identity.DataAccess.Constants;
+using Identity.DataAccess.Entities;
 using Microsoft.AspNetCore.Identity;
 
 namespace Identity.DataAccess.Seed;
@@ -8,7 +8,7 @@ public static class SeedUsers
 {
     public static async Task Add(UserManager<User> userManager)
     {
-        var roles = Enum.GetNames(typeof(Roles));
+        var roles = new[] { Roles.Client, Roles.Admin, Roles.Reviewer };
         
         foreach (var role in roles)
         {

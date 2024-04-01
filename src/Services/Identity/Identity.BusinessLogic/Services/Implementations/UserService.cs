@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
-using FluentValidation;
 using Identity.BusinessLogic.DTOs.RequestDTOs.User;
 using Identity.BusinessLogic.DTOs.ResponseDTOs;
 using Identity.BusinessLogic.Errors;
 using Identity.BusinessLogic.Services.Interfaces;
+using Identity.DataAccess.Constants;
 using Identity.DataAccess.Entities;
-using Identity.DataAccess.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Shared;
@@ -39,7 +38,7 @@ public class UserService(
                 result.Errors.First().Description));
         }
 
-        await _userManager.AddToRoleAsync(user, Roles.Client.ToString());
+        await _userManager.AddToRoleAsync(user, Roles.Client);
 
         return _mapper.Map<UserDto>(user);
     }
