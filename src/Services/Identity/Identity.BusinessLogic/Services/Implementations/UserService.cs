@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
-using FluentValidation;
 using Identity.BusinessLogic.DTOs.RequestDTOs.User;
 using Identity.BusinessLogic.DTOs.ResponseDTOs;
 using Identity.BusinessLogic.Errors;
 using Identity.BusinessLogic.Services.Interfaces;
+using Identity.DataAccess.Constants;
 using Identity.DataAccess.Entities;
-using Identity.DataAccess.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Shared;
@@ -14,31 +13,24 @@ using Shared.Wrappers;
 namespace Identity.BusinessLogic.Services.Implementations;
 
 public class UserService(
-    UserManager<User> userManager,
-    RoleManager<Role> roleManager,
-    IValidator<RegisterUserDto> registerUserValidator,
-    IValidator<UpdateUserDto> updateUserValidator,
-    IMapper mapper) : IUserService
+    UserManager<User> _userManager,
+    RoleManager<Role> _roleManager,
+    IMapper _mapper) : IUserService
 {
     public async Task<Response<UserDto>> CreateUserAsync(RegisterUserDto dto, CancellationToken cancellationToken)
     {
-        var validationResult = await registerUserValidator.ValidateAsync(dto, cancellationToken);
-        if (!validationResult.IsValid)
-        {
-            return ValidationFailedResponse<UserDto>.WithErrors(
-                validationResult.Errors.Select(f => new Error(f.PropertyName, f.ErrorMessage)));
-        }
-
-        var existingUser = await userManager.FindByNameAsync(dto.UserName);
+        var existingUser = await _userManager.FindByNameAsync(dto.UserName);
+        
         if (existingUser is not null)
         {
-            return Response.Failure<UserDto>(Errors.DomainErrors.User.UsernameConflict);
+            return Response.Failure<UserDto>(DomainErrors.User.UsernameConflict);
         }
 
-        var user = mapper.Map<User>(dto);
+        var user = _mapper.Map<User>(dto);
         user.SecurityStamp = Guid.NewGuid().ToString();
 
-        var result = await userManager.CreateAsync(user, dto.Password);
+        var result = await _userManager.CreateAsync(user, dto.Password);
+        
         if (!result.Succeeded)
         {
             return Response.Failure<UserDto>(new Error(
@@ -46,48 +38,43 @@ public class UserService(
                 result.Errors.First().Description));
         }
 
-        await userManager.AddToRoleAsync(user, Roles.Client.ToString());
+        await _userManager.AddToRoleAsync(user, Roles.Client);
 
-        return mapper.Map<UserDto>(user);
+        return _mapper.Map<UserDto>(user);
     }
 
     public async Task<Response<UserDto>> UpdateUserAsync(UpdateUserDto dto, CancellationToken cancellationToken)
     {
-        var user = await userManager.FindByIdAsync(dto.Id.ToString());
+        var user = await _userManager.FindByIdAsync(dto.Id.ToString());
+        
         if (user is not { DateDeleted: null })
         {
-            return Response.Failure<UserDto>(Errors.DomainErrors.User.UserNotFoundById);
+            return Response.Failure<UserDto>(DomainErrors.User.UserNotFoundById);
         }
-
-        var validationResult = await updateUserValidator.ValidateAsync(dto, cancellationToken);
-        if (!validationResult.IsValid)
-        {
-            return ValidationFailedResponse<UserDto>.WithErrors(
-                validationResult.Errors.Select(f => new Error(f.PropertyName, f.ErrorMessage)));
-        }
-
+        
         user.UserName = dto.UserName;
         user.Email = dto.Email;
 
-        var result = await userManager.UpdateAsync(user);
+        var result = await _userManager.UpdateAsync(user);
 
         return result.Succeeded
-            ? mapper.Map<UserDto>(user)
+            ? _mapper.Map<UserDto>(user)
             : Response.Failure<UserDto>(new Error(
                 result.Errors.First().Code,
                 result.Errors.First().Description));
     }
 
-    public async Task<Response> DeleteUserByIdAsync(int id, CancellationToken cancellationToken)
+    public async Task<Response> DeleteUserByIdAsync(int id)
     {
-        var user = await userManager.FindByIdAsync(id.ToString());
+        var user = await _userManager.FindByIdAsync(id.ToString());
+        
         if (user is not { DateDeleted: null })
         {
-            return Response.Failure(Errors.DomainErrors.User.UserNotFoundById);
+            return Response.Failure(DomainErrors.User.UserNotFoundById);
         }
 
         user.DateDeleted = DateTimeOffset.UtcNow;
-        var result = await userManager.UpdateAsync(user);
+        var result = await _userManager.UpdateAsync(user);
 
         return result.Succeeded
             ? Response.Success()
@@ -96,26 +83,28 @@ public class UserService(
                 result.Errors.First().Description));
     }
 
-    public async Task<Response> AddUserToRoleAsync(int userId, int roleId, CancellationToken cancellationToken)
+    public async Task<Response> AddUserToRoleAsync(int userId, int roleId)
     {
-        var role = await roleManager.FindByIdAsync(roleId.ToString());
+        var role = await _roleManager.FindByIdAsync(roleId.ToString());
+        
         if (role is null)
         {
-            return Response.Failure(Errors.DomainErrors.Role.RoleNotFoundById);
+            return Response.Failure(DomainErrors.Role.RoleNotFoundById);
         }
 
-        var user = await userManager.FindByIdAsync(userId.ToString());
+        var user = await _userManager.FindByIdAsync(userId.ToString());
+        
         if (user is not { DateDeleted: null })
         {
-            return Response.Failure(Errors.DomainErrors.User.UserNotFoundById);
+            return Response.Failure(DomainErrors.User.UserNotFoundById);
         }
 
-        if (await userManager.IsInRoleAsync(user, role.Name))
+        if (await _userManager.IsInRoleAsync(user, role.Name))
         {
-            return Response.Failure(Errors.DomainErrors.User.AlreadyInRole);
+            return Response.Failure(DomainErrors.User.AlreadyInRole);
         }
 
-        var result = await userManager.AddToRoleAsync(user, role.Name);
+        var result = await _userManager.AddToRoleAsync(user, role.Name);
 
         return result.Succeeded
             ? Response.Success()
@@ -124,26 +113,28 @@ public class UserService(
                 result.Errors.First().Description));
     }
 
-    public async Task<Response> RemoveUserFromRoleAsync(int userId, int roleId, CancellationToken cancellationToken)
+    public async Task<Response> RemoveUserFromRoleAsync(int userId, int roleId)
     {
-        var role = await roleManager.FindByIdAsync(roleId.ToString());
+        var role = await _roleManager.FindByIdAsync(roleId.ToString());
+        
         if (role is null)
         {
-            return Response.Failure(Errors.DomainErrors.Role.RoleNotFoundById);
+            return Response.Failure(DomainErrors.Role.RoleNotFoundById);
         }
 
-        var user = await userManager.FindByIdAsync(userId.ToString());
+        var user = await _userManager.FindByIdAsync(userId.ToString());
+        
         if (user is not { DateDeleted: null })
         {
-            return Response.Failure(Errors.DomainErrors.User.UserNotFoundById);
+            return Response.Failure(DomainErrors.User.UserNotFoundById);
         }
 
-        if (await userManager.IsInRoleAsync(user, role.Name))
+        if (await _userManager.IsInRoleAsync(user, role.Name))
         {
-            return Response.Failure(Errors.DomainErrors.User.UserNotInRole);
+            return Response.Failure(DomainErrors.User.UserNotInRole);
         }
 
-        var result = await userManager.RemoveFromRoleAsync(user, role.Name);
+        var result = await _userManager.RemoveFromRoleAsync(user, role.Name);
 
         return result.Succeeded
             ? Response.Success()
@@ -154,62 +145,51 @@ public class UserService(
 
     public async Task<Response<IEnumerable<UserDto>>> GetAllUsersAsync(CancellationToken cancellationToken)
     {
-        var usersList = await userManager.Users
+        var usersList = await _userManager.Users
             .Where(u => u.DateDeleted == null)
             .ToListAsync(cancellationToken);
 
-        var userResponses = mapper.Map<List<UserDto>>(usersList);
+        var userResponses = _mapper.Map<List<UserDto>>(usersList);
 
         for (var i = 0; i < usersList.Count; i++)
         {
-            userResponses[i].Roles = await userManager.GetRolesAsync(usersList[i]);
+            userResponses[i].Roles = await _userManager.GetRolesAsync(usersList[i]);
         }
 
         return userResponses;
     }
 
-    public async Task<Response<UserDto>> GetUserByIdAsync(int id, CancellationToken cancellationToken)
+    public async Task<Response<UserDto>> GetUserByIdAsync(int id)
     {
-        var user = await userManager.FindByIdAsync(id.ToString());
+        var user = await _userManager.FindByIdAsync(id.ToString());
+       
         if (user is not { DateDeleted: null })
         {
-            return Response.Failure<UserDto>(Errors.DomainErrors.User.UserNotFoundById);
+            return Response.Failure<UserDto>(DomainErrors.User.UserNotFoundById);
         }
 
-        var userRoles = await userManager.GetRolesAsync(user);
+        var userRoles = await _userManager.GetRolesAsync(user);
 
-        var response = mapper.Map<UserDto>(user);
+        var response = _mapper.Map<UserDto>(user);
         response.Roles = userRoles;
 
         return response;
     }
 
-    public async Task<Response<UserDto>> GetUserByUserNameAsync(string userName, CancellationToken cancellationToken)
+    public async Task<Response<UserDto>> GetUserByUserNameAsync(string userName)
     {
-        var user = await userManager.FindByNameAsync(userName);
+        var user = await _userManager.FindByNameAsync(userName);
+        
         if (user is not { DateDeleted: null })
         {
-            return Response.Failure<UserDto>(Errors.DomainErrors.User.UserNotFoundByUsername);
+            return Response.Failure<UserDto>(DomainErrors.User.UserNotFoundByUsername);
         }
 
-        var userRoles = await userManager.GetRolesAsync(user);
+        var userRoles = await _userManager.GetRolesAsync(user);
 
-        var response = mapper.Map<UserDto>(user);
+        var response = _mapper.Map<UserDto>(user);
         response.Roles = userRoles;
 
         return response;
-    }
-
-    public async Task<Response> CheckUserCredentialsAsync(UserCredentialsDto dto, CancellationToken cancellationToken)
-    {
-        var user = await userManager.FindByNameAsync(dto.UserName);
-        if (user is not { DateDeleted: null })
-        {
-            return Response.Failure(Errors.DomainErrors.User.InvalidCredentials);
-        }
-
-        return await userManager.CheckPasswordAsync(user, dto.Password)
-            ? Response.Success()
-            : Response.Failure(Errors.DomainErrors.User.InvalidCredentials);
     }
 }

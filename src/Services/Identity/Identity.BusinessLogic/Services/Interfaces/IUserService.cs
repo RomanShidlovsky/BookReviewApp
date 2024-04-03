@@ -10,11 +10,10 @@ public interface IUserService
 {
     Task<Response<UserDto>> CreateUserAsync(RegisterUserDto dto, CancellationToken cancellationToken);
     Task<Response<UserDto>> UpdateUserAsync(UpdateUserDto dto, CancellationToken cancellationToken);
-    Task<Response> DeleteUserByIdAsync(int id, CancellationToken cancellationToken);
-    Task<Response> AddUserToRoleAsync(int userId, int roleId, CancellationToken cancellationToken);
-    Task<Response> RemoveUserFromRoleAsync(int userId, int roleId, CancellationToken cancellationToken);
+    Task<Response> DeleteUserByIdAsync(int id);
+    Task<Response> AddUserToRoleAsync(int userId, int roleId);
+    Task<Response> RemoveUserFromRoleAsync(int userId, int roleId);
     Task<Response<IEnumerable<UserDto>>> GetAllUsersAsync(CancellationToken cancellationToken);
-    Task<Response<UserDto>> GetUserByIdAsync(int id, CancellationToken cancellationToken);
-    Task<Response<UserDto>> GetUserByUserNameAsync(string userName, CancellationToken cancellationToken);
-    Task<Response> CheckUserCredentialsAsync(UserCredentialsDto dto, CancellationToken cancellationToken);
+    Task<Response<UserDto>> GetUserByIdAsync(int id);
+    Task<Response<UserDto>> GetUserByUserNameAsync(string userName);
 }
