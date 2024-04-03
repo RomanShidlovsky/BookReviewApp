@@ -17,13 +17,40 @@ services:
     
   mssql:
     ports:
-      - 1433:1433
+      - "1433:1433"
     environment:
       ACCEPT_EULA: Y
       MSSQL_SA_PASSWORD: "Qwerty123456!"
       MSSQL_PID: Express
     volumes:
       - mssql_data:/var/opt/mssql
+  
+  elasticsearch:
+    ports:
+      - "9200:9200"
+    environment:
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    networks: 
+      - elastic
+  
+  kibana:
+    ports:
+      - "5601:5601"
+    environment:
+      - ELASTICSEARCH_URL=http://localhost:9200
+    depends_on:
+      - elasticsearch
+    networks: 
+      - elastic
+
+networks:
+  elastic:
+    driver: bridge
 
 volumes: 
   mssql_data:
+  elasticsearch-data:
