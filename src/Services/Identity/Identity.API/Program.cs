@@ -2,10 +2,8 @@ using Identity.API.Extensions;
 using Identity.BusinessLogic;
 using Identity.DataAccess;
 using Identity.DataAccess.Contexts;
-using Identity.DataAccess.Entities;
 using Identity.DataAccess.Seed;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.Identity;
 using Shared.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,11 +18,10 @@ builder.Services.AddEndpointsApiExplorer();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
 
 app.UseHttpsRedirection();
 app.UseForwardedHeaders(new ForwardedHeadersOptions { ForwardedHeaders = ForwardedHeaders.All });

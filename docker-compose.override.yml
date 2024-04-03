@@ -1,0 +1,29 @@
+version: "3.8"
+
+services: 
+  identity:
+    depends_on: 
+      - mssql
+    ports:
+      - "5001:8080"
+      - "5002:443"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+      - ASPNETCORE_URLS=https://+:443;http://+:8080
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=1234
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/identity.pfx
+    volumes:
+      - ~/.aspnet/https:/https:ro
+    
+  mssql:
+    ports:
+      - 1433:1433
+    environment:
+      ACCEPT_EULA: Y
+      MSSQL_SA_PASSWORD: "Qwerty123456!"
+      MSSQL_PID: Express
+    volumes:
+      - mssql_data:/var/opt/mssql
+
+volumes: 
+  mssql_data:

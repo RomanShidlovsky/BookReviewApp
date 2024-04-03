@@ -23,7 +23,7 @@ public static class Configuration
             new(IdentityServerConstants.BookApiResourceName, IdentityServerConstants.BookApiResourceDisplayName)
         };
 
-    public static IEnumerable<Client> GetClients() =>
+    public static IEnumerable<Client> GetClients(JwtOptions jwtOptions) =>
         new List<Client>
         {
             new Client
@@ -34,9 +34,9 @@ public static class Configuration
                 AlwaysIncludeUserClaimsInIdToken = true,
                 AllowAccessTokensViaBrowser = true,
                 AllowOfflineAccess = true,
-                AccessTokenLifetime = 60 * 30, // 30 minutes
-                IdentityTokenLifetime = 60 * 30, // 30 minutes
-                AbsoluteRefreshTokenLifetime = 60 * 60 * 24, // 1 day
+                AccessTokenLifetime = jwtOptions.AccessTokenLifetime,
+                IdentityTokenLifetime = jwtOptions.IdentityTokenLifetime,
+                AbsoluteRefreshTokenLifetime = jwtOptions.RefreshTokenLifetime,
                 UpdateAccessTokenClaimsOnRefresh = true,
                 AllowedScopes =
                 {
