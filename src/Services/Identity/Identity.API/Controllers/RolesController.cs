@@ -12,7 +12,8 @@ namespace Identity.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class RolesController(IRoleService _roleService) : ControllerBase
+public class RolesController(IRoleService _roleService, ILogger<RolesController> _logger) 
+    : ControllerBase
 {
     [HttpGet]
     [Authorize(Roles = Roles.Admin)]
@@ -22,7 +23,7 @@ public class RolesController(IRoleService _roleService) : ControllerBase
     {
         var roles = await _roleService.GetAllRolesAsync(cancellationToken);
 
-        return ApiResponse.GetObjectResult(roles);
+        return ApiResponse.GetObjectResult(roles, _logger);
     }
 
     [HttpGet("{id:int}")]
@@ -33,7 +34,7 @@ public class RolesController(IRoleService _roleService) : ControllerBase
     {
         var role = await _roleService.GetRoleByIdAsync(id);
 
-        return ApiResponse.GetObjectResult(role);
+        return ApiResponse.GetObjectResult(role, _logger);
     }
 
     [HttpGet("{name}")]
@@ -44,7 +45,7 @@ public class RolesController(IRoleService _roleService) : ControllerBase
     {
         var role = await _roleService.GetRoleByNameAsync(name);
 
-        return ApiResponse.GetObjectResult(role);
+        return ApiResponse.GetObjectResult(role, _logger);
     }
 
     [HttpPost]
@@ -56,7 +57,7 @@ public class RolesController(IRoleService _roleService) : ControllerBase
     {
         var role = await _roleService.CreateRoleAsync(dto, cancellationToken);
 
-        return ApiResponse.GetObjectResult(role);
+        return ApiResponse.GetObjectResult(role, _logger);
     }
 
     [HttpDelete("{id:int}")]
@@ -67,6 +68,6 @@ public class RolesController(IRoleService _roleService) : ControllerBase
     {
         var result = await _roleService.DeleteRoleByIdAsync(id);
 
-        return ApiResponse.GetObjectResult(result);
+        return ApiResponse.GetObjectResult(result, _logger);
     }
 }
