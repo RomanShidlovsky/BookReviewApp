@@ -12,22 +12,22 @@ public static class LoggerConfigurationExtensions
     {
         var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")!;
         
-        var configuration = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-            .AddJsonFile($"appsettings.{environment}.json", optional: true)
-            .Build();
-        
-        Log.Logger = new LoggerConfiguration()
-            .Enrich.FromLogContext()
-            .Enrich.WithMachineName()
-            .WriteTo.Debug()
-            .WriteTo.Console()
-            .WriteTo.Elasticsearch(ConfigureElasticsearchSink(configuration, environment, assemblyName))
-            .Enrich.WithProperty("Environment", environment)
-            .ReadFrom.Configuration(configuration)
-            .CreateLogger();
+        builder.Host.UseSerilog((context, configuration) =>
+        {
+            var configurationRoot = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{environment}.json", optional: true)
+                .Build();
 
-        builder.Host.UseSerilog();
+            configuration
+                .Enrich.FromLogContext()
+                .Enrich.WithMachineName()
+                .WriteTo.Debug()
+                .WriteTo.Console()
+                .WriteTo.Elasticsearch(ConfigureElasticsearchSink(configurationRoot, environment, assemblyName))
+                .Enrich.WithProperty("Environment", environment)
+                .ReadFrom.Configuration(configurationRoot);
+        });
     }
     
     private static ElasticsearchSinkOptions ConfigureElasticsearchSink(
