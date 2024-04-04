@@ -1,0 +1,51 @@
+﻿using Book.Domain.Entities;
+using Book.Domain.Interfaces.Repositories;
+using Book.Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
+using BookEntity = Book.Domain.Entities.Book;
+
+namespace Book.Infrastructure.Repositories;
+
+public class SubjectRepository(BookContext context) : BaseRepository<Subject>(context), ISubjectRepository
+{
+    private IQueryable<BookEntity> GetBookSet()
+    {
+        return Context.Set<BookEntity>()
+            .Where(b => b.DateDeleted == null);
+    }
+    
+    public async Task<bool> AddSubjectToBookAsync(int subjectId, int bookId, CancellationToken cancellationToken)
+    {
+        var book = await GetBookSet()
+            .FirstOrDefaultAsync(b => b.Id == bookId, cancellationToken);
+
+        if (book == null)
+            return false;
+
+        var subject = await GetEntitySet()
+            .FirstOrDefaultAsync(s => s.Id == subjectId, cancellationToken);
+
+        if (subject == null)
+            return false;
+        
+        book.Subjects.Add(subject);
+        return true;
+    }
+
+    public async Task<bool> RemoveSubjectFromBookAsync(int subjectId, int bookId, CancellationToken cancellationToken)
+    {
+        var book = await GetBookSet()
+            .FirstOrDefaultAsync(b => b.Id == bookId, cancellationToken);
+
+        if (book == null)
+            return false;
+
+        var subject = await GetEntitySet()
+            .FirstOrDefaultAsync(s => s.Id == subjectId, cancellationToken);
+
+        if (subject == null)
+            return false;
+
+        return book.Subjects.Remove(subject);
+    }
+}
