@@ -1,7 +1,10 @@
-﻿using Serilog;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 using Serilog.Sinks.Elasticsearch;
 
-namespace Identity.API.Extensions;
+namespace Shared.Extensions;
 
 public static class LoggerConfigurationExtensions
 {
@@ -20,13 +23,9 @@ public static class LoggerConfigurationExtensions
                 .Build();
 
             configuration
-                .Enrich.FromLogContext()
-                .Enrich.WithMachineName()
-                .WriteTo.Debug()
-                .WriteTo.Console()
+                .ReadFrom.Configuration(configurationRoot)
                 .WriteTo.Elasticsearch(ConfigureElasticsearchSink(configurationRoot, environment, assemblyName))
-                .Enrich.WithProperty("Environment", environment)
-                .ReadFrom.Configuration(configurationRoot);
+                .Enrich.WithProperty("Environment", environment);
         });
     }
     
@@ -37,10 +36,12 @@ public static class LoggerConfigurationExtensions
     {
         return new ElasticsearchSinkOptions(new Uri(configuration["ElasticConfiguration:Uri"]!))
         {
+            IndexFormat = $"{assemblyName.ToLower().Replace(".", "-")}-{environment.ToLower()}-{DateTime.UtcNow:yyyy-MM}",
             AutoRegisterTemplate = true,
+            TemplateName = $"{assemblyName.ToLower().Replace(".", "-")}-{environment.ToLower()}",
             AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv7,
-            IndexFormat =
-                $"{assemblyName.ToLower().Replace(".", "-")}-{environment.ToLower()}-{DateTime.UtcNow:yyyy-MM}",
+            TypeName = null,
+            BatchAction = ElasticOpType.Create,
             NumberOfReplicas = 1,
             NumberOfShards = 2
         };
