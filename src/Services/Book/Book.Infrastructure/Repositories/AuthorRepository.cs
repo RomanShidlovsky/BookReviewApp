@@ -29,6 +29,7 @@ public class AuthorRepository(BookContext context) : BaseRepository<Author>(cont
             return false;
         
         book.Authors.Add(author);
+        
         return true;
     }
 

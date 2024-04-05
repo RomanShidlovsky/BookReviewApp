@@ -29,6 +29,7 @@ public class SubjectRepository(BookContext context) : BaseRepository<Subject>(co
             return false;
         
         book.Subjects.Add(subject);
+        
         return true;
     }
 

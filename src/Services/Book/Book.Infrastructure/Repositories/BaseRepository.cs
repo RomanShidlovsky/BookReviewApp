@@ -3,6 +3,7 @@ using Book.Domain.Interfaces.Repositories;
 using Book.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Shared;
+using Shared.Interfaces;
 
 namespace Book.Infrastructure.Repositories;
 

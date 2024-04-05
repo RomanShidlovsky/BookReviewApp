@@ -1,4 +1,4 @@
-﻿using Shared;
+﻿using Shared.Interfaces;
 
 namespace Book.Domain.Entities;
 

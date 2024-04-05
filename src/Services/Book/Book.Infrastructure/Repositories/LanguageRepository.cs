@@ -30,6 +30,7 @@ public class LanguageRepository(BookContext context) : BaseRepository<Language>(
             return false;
         
         book.Languages.Add(language);
+        
         return true;
     }
 

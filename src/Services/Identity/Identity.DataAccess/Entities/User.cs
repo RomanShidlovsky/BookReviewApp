@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Shared;
+using Shared.Interfaces;
 
 namespace Identity.DataAccess.Entities;
 

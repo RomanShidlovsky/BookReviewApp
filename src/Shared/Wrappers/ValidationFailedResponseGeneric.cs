@@ -1,4 +1,5 @@
-﻿using Shared.Wrappers;
+﻿using Shared.Interfaces;
+using Shared.Wrappers;
 
 namespace Shared;
 

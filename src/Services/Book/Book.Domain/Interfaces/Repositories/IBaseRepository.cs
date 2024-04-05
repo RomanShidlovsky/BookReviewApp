@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using Shared;
+using Shared.Interfaces;
 
 namespace Book.Domain.Interfaces.Repositories;
 

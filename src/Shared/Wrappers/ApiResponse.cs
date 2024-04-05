@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Shared.Interfaces;
 
 namespace Shared.Wrappers;
 
@@ -24,6 +25,7 @@ public static class ApiResponse
         }
 
         logger?.LogError("Error response: {@Error}", response.Error);
+        
         return new ObjectResult(response.Error)
         {
             StatusCode = response.Error.ErrorStatusCode,
@@ -35,7 +37,7 @@ public static class ApiResponse
     {
         if (response.Succeeded)
         {
-            logger?.LogInformation("Successful response");
+            logger?.LogInformation("Successful response {@Response}", response);
             return new OkObjectResult(response.Succeeded);
         }
 
