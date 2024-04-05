@@ -3,4 +3,4 @@ using Shared.Wrappers;
 
 namespace Book.Application.Interfaces.Commands;
 
-public interface IUpdateCommand<TResponseDto> : IRequest<Response<TResponseDto>>;
+public interface IUpdateCommand<TResponseDto> : ICommand<TResponseDto>;

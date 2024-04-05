@@ -11,4 +11,11 @@ public static class AuthorExtensions
         
         return specification.IsSatisfied(author);
     }
+
+    public static bool IsOpenLibraryKey(this Author author, string key)
+    {
+        var specification = new IsOpenLibraryKeySpecification(key);
+
+        return specification.IsSatisfied(author);
+    }
 }

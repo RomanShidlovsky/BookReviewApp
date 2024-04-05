@@ -1,4 +1,5 @@
-﻿using Shared;
+﻿using System.Runtime.InteropServices.JavaScript;
+using Shared;
 
 namespace Book.Domain.Errors;
 
@@ -29,6 +30,16 @@ public class DomainErrors
             "Author.OpenLibraryKeyConflict",
             "Author with provided OpenLibraryKey already exists.",
             409);
+
+        public static readonly Error AuthorNotAddedToBook = new(
+            "Author.AuthorNotAddedToBook",
+            "Author not added to book",
+            500);
+        
+        public static readonly Error AuthorNotRemovedFromBook = new(
+            "Author.AuthorNotRemovedFromBook",
+            "Author not removed from book",
+            500);
     }
 
     public static class Book

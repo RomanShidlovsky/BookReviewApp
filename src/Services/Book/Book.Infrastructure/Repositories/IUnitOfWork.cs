@@ -1,6 +1,6 @@
 ﻿using Book.Domain.Interfaces.Repositories;
 
-namespace Book.Infrastructure.UnitOfWork;
+namespace Book.Infrastructure.Repositories;
 
 public interface IUnitOfWork : IDisposable
 {

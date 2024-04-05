@@ -8,4 +8,5 @@ public sealed record UpdateAuthorDto(
     string FullName,
     DateOnly? BirthDate,
     DateOnly? DeathDate,
-    string? Biography);
+    string? Biography,
+    string? ImageUrl);

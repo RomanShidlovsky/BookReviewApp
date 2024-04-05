@@ -2,10 +2,9 @@
 using Book.Infrastructure.Context;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Book.Infrastructure.UnitOfWork;
+namespace Book.Infrastructure.Repositories;
 
-public class UnitOfWork(BookContext _context, IServiceProvider _serviceProvider) 
-    : IUnitOfWork
+public class UnitOfWork(BookContext _context, IServiceProvider _serviceProvider) : IUnitOfWork
 {
     private bool _disposed = false;
 

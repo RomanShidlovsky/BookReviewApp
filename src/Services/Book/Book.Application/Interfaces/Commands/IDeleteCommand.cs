@@ -3,4 +3,4 @@ using Shared.Wrappers;
 
 namespace Book.Application.Interfaces.Commands;
 
-public interface IDeleteCommand : IRequest<Response>;
+public interface IDeleteCommand : ICommand;

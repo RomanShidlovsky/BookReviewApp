@@ -7,4 +7,5 @@ public sealed record CreateAuthorDto(
     string FullName,
     DateOnly? BirthDate,
     DateOnly? DeathDate,
-    string? Biography);
+    string? Biography,
+    string? ImageUrl);

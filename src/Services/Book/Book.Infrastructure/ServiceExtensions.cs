@@ -1,11 +1,9 @@
 ﻿using Book.Domain.Interfaces.Repositories;
 using Book.Infrastructure.Context;
 using Book.Infrastructure.Repositories;
-using Book.Infrastructure.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using unOfWork = Book.Infrastructure.UnitOfWork.UnitOfWork;
 
 namespace Book.Infrastructure;
 
@@ -15,7 +13,7 @@ public static class ServiceExtensions
     {
         services.ConfigureDbContext(configuration);
         services.ConfigureRepositories();
-        services.AddScoped<IUnitOfWork, unOfWork>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
     
     private static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration)

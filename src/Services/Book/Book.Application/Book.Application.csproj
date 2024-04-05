@@ -8,12 +8,13 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Book.Domain\Book.Domain.csproj" />
+      <ProjectReference Include="..\Book.Infrastructure\Book.Infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="DTOs\Book\RequestDTOs\" />
       <Folder Include="DTOs\Book\ResponseDTOs\" />
-      <Folder Include="Features\" />
+      <Folder Include="Features\AuthorFeatures\Queries\" />
     </ItemGroup>
 
     <ItemGroup>

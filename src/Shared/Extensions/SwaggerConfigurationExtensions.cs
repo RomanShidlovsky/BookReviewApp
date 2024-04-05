@@ -22,7 +22,6 @@ public static class SwaggerConfigurationExtensions
                         TokenUrl = new Uri(configuration["IdentityServer:Token"])
                     }
                 }
-
             });
 
             options.AddSecurityRequirement(new OpenApiSecurityRequirement

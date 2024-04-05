@@ -1,4 +1,5 @@
 ﻿using Book.Domain.Entities;
+using Book.Domain.Extensions;
 using Book.Domain.Interfaces.Repositories;
 using Book.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +14,13 @@ public class AuthorRepository(BookContext context) : BaseRepository<Author>(cont
         return Context.Set<BookEntity>()
             .Where(b => b.DateDeleted == null);
     }
-    
+
+    public Task<Author?> GetByOpenLibraryKey(string key, CancellationToken cancellationToken)
+    {
+        return GetEntitySet()
+            .FirstOrDefaultAsync(a => a.IsOpenLibraryKey(key), cancellationToken);
+    }
+
     public async Task<bool> AddAuthorToBookAsync(int authorId, int bookId, CancellationToken cancellationToken)
     {
         var book = await GetBookSet()
@@ -27,13 +34,13 @@ public class AuthorRepository(BookContext context) : BaseRepository<Author>(cont
 
         if (author == null)
             return false;
-        
+
         book.Authors.Add(author);
-        
+
         return true;
     }
 
-    public async Task<bool> DeleteAuthorFromBookAsync(int authorId, int bookId, CancellationToken cancellationToken)
+    public async Task<bool> RemoveAuthorFromBookAsync(int authorId, int bookId, CancellationToken cancellationToken)
     {
         var book = await GetBookSet()
             .FirstOrDefaultAsync(b => b.Id == bookId, cancellationToken);
