@@ -7,7 +7,7 @@ using Shared.Wrappers;
 
 namespace Book.Application.Features.LanguageFeatures.Commands.RemoveLanguageFromBook;
 
-public class RemoveLanguageFromBookHandler(IUnitOfWork _unitOfWork)
+public class RemoveLanguageFromBookCommandHandler(IUnitOfWork _unitOfWork)
     : ICommandHandler<RemoveLanguageFromBookCommand>
 {
     public async Task<Response> Handle(RemoveLanguageFromBookCommand request, CancellationToken cancellationToken)

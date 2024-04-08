@@ -7,7 +7,7 @@ using Shared.Wrappers;
 
 namespace Book.Application.Features.LanguageFeatures.Commands.Delete;
 
-public class DeleteLanguageCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper)
+public class DeleteLanguageCommandHandler(IUnitOfWork _unitOfWork)
     : IDeleteCommandHandler<DeleteLanguageCommand>
 {
     public async Task<Response> Handle(DeleteLanguageCommand request, CancellationToken cancellationToken)
