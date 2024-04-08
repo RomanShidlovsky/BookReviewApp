@@ -24,4 +24,11 @@ public static class BookExtensions
         
         return specification.IsSatisfied(book);
     }
+
+    public static bool IsOpenLibraryKey(this Entities.Book book, string openLibraryKey)
+    {
+        var specification = new IsOpenLibraryKeySpecification(openLibraryKey);
+
+        return specification.IsSatisfied(book);
+    }
 }

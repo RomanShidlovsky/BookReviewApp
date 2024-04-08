@@ -10,6 +10,6 @@ public class BookConfiguration : BaseConfiguration<BookEntity>
         base.Configure(builder);
         builder.Property(b => b.Title).HasMaxLength(100);
         builder.Property(b => b.OpenLibraryKey).HasMaxLength(50);
-        builder.Property(b => b.ImageUrl).HasMaxLength(100);
+        builder.Property(b => b.ImageUrl).HasMaxLength(2000);
     }
 }
