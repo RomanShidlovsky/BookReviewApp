@@ -64,6 +64,16 @@ public class DomainErrors
             "Book does not contain subject",
             400);
         
+        public static readonly Error AlreadyContainsLanguage = new(
+            "Book.AlreadyContainsLanguage",
+            "Book already contains language.",
+            400);
+
+        public static readonly Error NotContainLanguage = new(
+            "Book.NotContainLanguage",
+            "Book does not contain language",
+            400);
+        
         public static readonly Error BookNotFoundById = new(
             "Book.NotFoundById",
             "Book with specified id not found.",
@@ -104,5 +114,15 @@ public class DomainErrors
             "Language.NameConflict",
             "Language with provided name already exists.",
             409);
+        
+        public static readonly Error LanguageNotAddedToBook = new(
+            "Language.LanguageNotAddedToBook",
+            "Language not added to book",
+            500);
+        
+        public static readonly Error LanguageNotRemovedFromBook = new(
+            "Language.LanguageNotRemovedFromBook",
+            "Language not removed from book",
+            500);
     }
 }

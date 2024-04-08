@@ -18,9 +18,9 @@ public static class BookExtensions
         return specification.IsSatisfied(book);
     }
     
-    public static bool ContainsLanguage(this Entities.Book book, string languageName)
+    public static bool ContainsLanguage(this Entities.Book book, int languageId)
     {
-        var specification = new ContainsLanguageSpecification(languageName);
+        var specification = new ContainsLanguageSpecification(languageId);
         
         return specification.IsSatisfied(book);
     }

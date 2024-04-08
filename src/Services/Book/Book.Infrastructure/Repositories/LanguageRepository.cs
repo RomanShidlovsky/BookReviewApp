@@ -1,4 +1,5 @@
 ﻿using Book.Domain.Entities;
+using Book.Domain.Extensions;
 using Book.Domain.Interfaces.Repositories;
 using Book.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +15,13 @@ public class LanguageRepository(BookContext context) : BaseRepository<Language>(
         return Context.Set<BookEntity>()
             .Where(b => b.DateDeleted == null);
     }
-    
+
+    public Task<Language?> GetByNameAsync(string name, CancellationToken cancellationToken)
+    {
+        return GetEntitySet()
+            .FirstOrDefaultAsync(l => l.IsName(name), cancellationToken);
+    }
+
     public async Task<bool> AddLanguageToBookAsync(int languageId, int bookId, CancellationToken cancellationToken)
     {
         var book = await GetBookSet()
