@@ -14,9 +14,6 @@
     <ItemGroup>
       <Folder Include="DTOs\Book\RequestDTOs\" />
       <Folder Include="DTOs\Book\ResponseDTOs\" />
-      <Folder Include="Features\SubjectFeatures\Queries\GetAll\" />
-      <Folder Include="Features\SubjectFeatures\Queries\GetById\" />
-      <Folder Include="Features\SubjectFeatures\Queries\GetByName\" />
     </ItemGroup>
 
     <ItemGroup>
