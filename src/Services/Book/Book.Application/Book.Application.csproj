@@ -14,7 +14,7 @@
     <ItemGroup>
       <Folder Include="DTOs\Book\RequestDTOs\" />
       <Folder Include="DTOs\Book\ResponseDTOs\" />
-      <Folder Include="Features\AuthorFeatures\Queries\" />
+      <Folder Include="Features\LanguageFeatures\" />
     </ItemGroup>
 
     <ItemGroup>
