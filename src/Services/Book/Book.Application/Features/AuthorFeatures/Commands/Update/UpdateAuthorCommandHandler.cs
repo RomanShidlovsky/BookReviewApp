@@ -18,12 +18,12 @@ public class UpdateAuthorCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper
     {
         var repository = _unitOfWork.GetRepository<IAuthorRepository>();
         var dto = request.Dto;
-
-        var existingAuthor = await repository.GetByIdAsync(dto.Id, cancellationToken);
-
-        if (existingAuthor == null)
+        
+        var author = await repository.GetByIdAsync(dto.Id, cancellationToken);
+        
+        if (author == null)
             return Response.Failure<AuthorResponseDto>(DomainErrors.Author.AuthorNotFoundById);
-
+        
         if (dto.OpenLibraryKey != null)
         {
             var openLibraryKeyAuthor =
@@ -33,12 +33,7 @@ public class UpdateAuthorCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper
             if (openLibraryKeyAuthor.Count != 0)
                 return Response.Failure<AuthorResponseDto>(DomainErrors.Author.OpenLibraryKeyConflict);
         }
-
-        var author = await repository.GetByIdAsync(dto.Id, cancellationToken);
         
-        if (author == null)
-            return Response.Failure<AuthorResponseDto>(DomainErrors.Author.AuthorNotFoundById);
-
         _mapper.Map(dto, author);
         
         repository.Update(author);
