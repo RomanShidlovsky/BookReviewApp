@@ -109,6 +109,11 @@ public class DomainErrors
             "Language.NotFoundById",
             "Language with specified id not found.",
             404);
+        
+        public static readonly Error LanguageNotFoundByName = new(
+            "Language.NotFoundByName",
+            "Language with specified name not found.",
+            404);
 
         public static readonly Error NameConflict = new(
             "Language.NameConflict",
