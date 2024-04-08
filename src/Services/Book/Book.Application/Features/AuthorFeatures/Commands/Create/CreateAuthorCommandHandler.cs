@@ -27,7 +27,7 @@ public class CreateAuthorCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper
         
         var author = _mapper.Map<Author>(dto);
 
-        _unitOfWork.GetRepository<IAuthorRepository>().Create(author);
+        repository.Create(author);
         await _unitOfWork.SaveAsync(cancellationToken);
 
         return _mapper.Map<AuthorResponseDto>(author);

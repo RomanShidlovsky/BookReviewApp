@@ -34,8 +34,13 @@ public class UpdateAuthorCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper
                 return Response.Failure<AuthorResponseDto>(DomainErrors.Author.OpenLibraryKeyConflict);
         }
 
-        var author = _mapper.Map<Author>(dto);
+        var author = await repository.GetByIdAsync(dto.Id, cancellationToken);
+        
+        if (author == null)
+            return Response.Failure<AuthorResponseDto>(DomainErrors.Author.AuthorNotFoundById);
 
+        _mapper.Map(dto, author);
+        
         repository.Update(author);
         await _unitOfWork.SaveAsync(cancellationToken);
 

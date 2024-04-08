@@ -20,6 +20,7 @@ public class DeleteAuthorCommandHandler(IUnitOfWork _unitOfWork)
             return Response.Failure(DomainErrors.Author.AuthorNotFoundById);
 
         repository.Delete(author);
+        await _unitOfWork.SaveAsync(cancellationToken);
         
         return Response.Success();
     }
