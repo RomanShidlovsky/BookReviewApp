@@ -11,9 +11,9 @@ public static class BookExtensions
         return specification.IsSatisfied(book);
     }
 
-    public static bool ContainsSubject(this Entities.Book book, string subjectName)
+    public static bool ContainsSubject(this Entities.Book book, int subjectId)
     {
-        var specification = new ContainsSubjectSpecification(subjectName);
+        var specification = new ContainsSubjectSpecification(subjectId);
         
         return specification.IsSatisfied(book);
     }

@@ -97,10 +97,25 @@ public class DomainErrors
             "Subject with specified id not found.",
             404);
 
+        public static readonly Error SubjectNotFoundByName = new(
+            "Subject.NotFoundByName",
+            "Subject with specified name not found.",
+            404);
+        
         public static readonly Error NameConflict = new(
             "Subject.NameConflict",
             "Subject with provided name already exists.",
             409);
+        
+        public static readonly Error SubjectNotAddedToBook = new(
+            "Subject.SubjectNotAddedToBook",
+            "Subject not added to book",
+            500);
+        
+        public static readonly Error SubjectNotRemovedFromBook = new(
+            "Subject.SubjectNotRemovedFromBook",
+            "Subject not removed from book",
+            500);
     }
     
     public static class Language
