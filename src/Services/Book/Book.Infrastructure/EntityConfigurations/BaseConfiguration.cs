@@ -10,5 +10,6 @@ public class BaseConfiguration<TEntity> : IEntityTypeConfiguration<TEntity> wher
     public virtual void Configure(EntityTypeBuilder<TEntity> builder)
     {
         builder.Property(b => b.DateCreated).HasDefaultValueSql("SYSUTCDATETIME()");
+        builder.HasQueryFilter(e => e.DateDeleted == null);
     }
 }
