@@ -3,11 +3,11 @@ using Identity.BusinessLogic.DTOs.RequestDTOs.User;
 using Identity.BusinessLogic.DTOs.ResponseDTOs;
 using Identity.BusinessLogic.Errors;
 using Identity.BusinessLogic.Services.Interfaces;
-using Identity.DataAccess.Constants;
 using Identity.DataAccess.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Shared;
+using Shared.Constants;
 using Shared.Wrappers;
 
 namespace Identity.BusinessLogic.Services.Implementations;
