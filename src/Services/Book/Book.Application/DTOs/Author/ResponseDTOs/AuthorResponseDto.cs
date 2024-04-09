@@ -8,4 +8,5 @@ public sealed record AuthorResponseDto(
     string FullName,
     DateOnly? BirthDate,
     DateOnly? DeathDate,
-    string? Biography);
+    string? Biography,
+    string? ImageUrl);
