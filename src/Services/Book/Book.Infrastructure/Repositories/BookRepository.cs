@@ -1,4 +1,5 @@
-﻿using Book.Domain.Interfaces.Repositories;
+﻿using Book.Domain.Extensions;
+using Book.Domain.Interfaces.Repositories;
 using BookEntity = Book.Domain.Entities.Book;
 using Book.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
@@ -20,5 +21,15 @@ public class BookRepository(BookContext context) : BaseRepository<BookEntity>(co
         return GetEntitySet()
             .FirstOrDefaultAsync(b => b.OpenLibraryKey != null && b.OpenLibraryKey.Equals(key), 
                 cancellationToken);
+    }
+
+    public Task<List<BookEntity>> GetBooksAsync(int pageNumber, int pageSize, string filterQueryString,
+        string orderByQueryString, CancellationToken cancellationToken)
+    {
+        return GetEntitySet()
+            .Filter(filterQueryString)
+            .Sort(orderByQueryString)
+            .Paginate(pageNumber, pageSize)
+            .ToListAsync(cancellationToken);
     }
 }
