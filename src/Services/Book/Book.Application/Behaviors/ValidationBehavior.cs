@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using System.Diagnostics;
+using FluentValidation;
 using MediatR;
 using Shared;
 using Shared.Wrappers;
@@ -6,7 +7,7 @@ using Shared.Wrappers;
 namespace Book.Application.Behaviors;
 
 public class ValidationBehavior<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators)
-    : IPipelineBehavior<TRequest, TResponse> 
+    : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
     where TResponse : Response
 {
@@ -34,14 +35,12 @@ public class ValidationBehavior<TRequest, TResponse>(IEnumerable<IValidator<TReq
 
         return await next();
     }
-    
+
     private static TResult CreateValidationFailedResponse<TResult>(IEnumerable<Error> errors)
         where TResult : Response
     {
         if (typeof(TResult) == typeof(Response))
-        {
             return (ValidationFailedResponse.WithErrors(errors) as TResult)!;
-        }
 
         var validationResult = typeof(ValidationFailedResponse<>)
             .GetGenericTypeDefinition()
