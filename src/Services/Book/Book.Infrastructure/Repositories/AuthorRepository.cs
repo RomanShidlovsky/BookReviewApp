@@ -18,7 +18,7 @@ public class AuthorRepository(BookContext context) : BaseRepository<Author>(cont
     public Task<Author?> GetByOpenLibraryKey(string key, CancellationToken cancellationToken)
     {
         return GetEntitySet()
-            .FirstOrDefaultAsync(a => a.IsOpenLibraryKey(key), cancellationToken);
+            .FirstOrDefaultAsync(a => a.OpenLibraryKey == key, cancellationToken);
     }
 
     public async Task<bool> AddAuthorToBookAsync(int authorId, int bookId, CancellationToken cancellationToken)

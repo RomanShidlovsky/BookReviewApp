@@ -18,7 +18,7 @@ public class SubjectRepository(BookContext context) : BaseRepository<Subject>(co
     public Task<Subject?> GetByNameAsync(string name, CancellationToken cancellationToken)
     {
         return GetEntitySet()
-            .FirstOrDefaultAsync(s => s.IsName(name), cancellationToken);
+            .FirstOrDefaultAsync(s => s.Name == name, cancellationToken);
     }
 
     public async Task<bool> AddSubjectToBookAsync(int subjectId, int bookId, CancellationToken cancellationToken)

@@ -19,7 +19,7 @@ public class LanguageRepository(BookContext context) : BaseRepository<Language>(
     public Task<Language?> GetByNameAsync(string name, CancellationToken cancellationToken)
     {
         return GetEntitySet()
-            .FirstOrDefaultAsync(l => l.IsName(name), cancellationToken);
+            .FirstOrDefaultAsync(l => l.Name == name, cancellationToken);
     }
 
     public async Task<bool> AddLanguageToBookAsync(int languageId, int bookId, CancellationToken cancellationToken)
@@ -35,9 +35,9 @@ public class LanguageRepository(BookContext context) : BaseRepository<Language>(
 
         if (language == null)
             return false;
-        
+
         book.Languages.Add(language);
-        
+
         return true;
     }
 

@@ -19,7 +19,7 @@ public class BookRepository(BookContext context) : BaseRepository<BookEntity>(co
     public Task<BookEntity?> GetByOpenLibraryKey(string key, CancellationToken cancellationToken)
     {
         return GetEntitySet()
-            .FirstOrDefaultAsync(b => b.OpenLibraryKey != null && b.OpenLibraryKey.Equals(key), 
+            .FirstOrDefaultAsync(b => b.OpenLibraryKey != null && b.OpenLibraryKey == key, 
                 cancellationToken);
     }
 

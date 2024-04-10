@@ -14,8 +14,7 @@ public abstract class BaseRepository<T>(BookContext context) : IBaseRepository<T
     
     protected virtual IQueryable<T> GetEntitySet()
     {
-        return Context.Set<T>()
-            .Where(e => e.DateDeleted == null);
+        return Context.Set<T>();
     }
 
     public virtual void Create(T entity)
