@@ -30,11 +30,11 @@ public static class ServiceExtensions
 
     private static void ConfigureIdentityServer(this IServiceCollection services, IConfiguration configuration)
     {
-        var publicKey = configuration["JwtOptions:Key"];
+        var privateKey = configuration["JwtOptions:Key"];
         
-        var publicKeyBytes = Convert.FromBase64String(publicKey);
+        var privateKeyBytes = Convert.FromBase64String(privateKey);
         var rsa = RSA.Create(2048);
-        rsa.ImportRSAPublicKey(publicKeyBytes, out _);
+        rsa.ImportRSAPrivateKey(privateKeyBytes, out _);
         var key = new RsaSecurityKey(rsa);
         
         services.AddAuthentication(options =>

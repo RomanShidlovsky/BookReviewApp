@@ -34,16 +34,11 @@ public static class ServiceExtensions
 
     private static void ConfigureIdentityServer(this IServiceCollection services, IConfiguration configuration)
     {
-        /*var cert = new X509Certificate2(
-            Path.Combine(Environment.CurrentDirectory, $"Certificates/{configuration["JwtOptions:CertificateName"]}"),
-            configuration["JwtOptions:CertificatePassword"]);*/
         var jwtOptions = new JwtOptions();
         configuration.GetSection("JwtOptions").Bind(jwtOptions);
         
         var privateKeyBytes = Convert.FromBase64String(jwtOptions.PrivateKey);
-        var publicKeyBytes = Convert.FromBase64String(jwtOptions.PublicKey);
-        var rsa = RSA.Create(2048);
-        rsa.ImportRSAPublicKey(publicKeyBytes, out _);
+        var rsa = RSA.Create(2048); 
         rsa.ImportRSAPrivateKey(privateKeyBytes, out _);
         var key = new RsaSecurityKey(rsa);
 
