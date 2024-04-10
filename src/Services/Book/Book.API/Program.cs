@@ -3,6 +3,7 @@ using Book.API.Extensions;
 using Book.Application;
 using Book.Infrastructure;
 using Book.Infrastructure.Context;
+using Book.Infrastructure.Extensions;
 using Microsoft.AspNetCore.HttpOverrides;
 using Shared.Extensions;
 using Shared.Middlewares;
@@ -31,6 +32,8 @@ app.UseCors("CorsPolicy");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+
 app.ApplyMigrations<BookContext>();
+app.AddSeedData();
 
 app.Run();
