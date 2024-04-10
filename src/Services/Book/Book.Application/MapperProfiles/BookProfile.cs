@@ -7,7 +7,7 @@ namespace Book.Application.MapperProfiles;
 
 public class BookProfile : Profile
 {
-    protected BookProfile()
+    public BookProfile()
     {
         CreateMap<CreateBookDto, BookEntity>()
             .ForMember(dest => dest.OpenLibraryKey, opt => opt.MapFrom(src => src.OpenLibraryKey))

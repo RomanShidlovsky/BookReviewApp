@@ -7,7 +7,7 @@ namespace Book.Application.MapperProfiles;
 
 public class SubjectProfile : Profile
 {
-    protected SubjectProfile()
+    public SubjectProfile()
     {
         CreateMap<CreateSubjectDto, Subject>()
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));

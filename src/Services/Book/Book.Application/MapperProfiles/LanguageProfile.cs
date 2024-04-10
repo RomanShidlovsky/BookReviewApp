@@ -7,7 +7,7 @@ namespace Book.Application.MapperProfiles;
 
 public class LanguageProfile : Profile
 {
-    protected LanguageProfile()
+    public LanguageProfile()
     {
         CreateMap<CreateLanguageDto, Language>()
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
