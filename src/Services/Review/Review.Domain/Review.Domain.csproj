@@ -7,10 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Entities\" />
-      <Folder Include="Errors\" />
-      <Folder Include="Interfaces\" />
-      <Folder Include="Shared\" />
+      <ProjectReference Include="..\..\..\Shared\Shared.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="System.Linq.Dynamic.Core" Version="1.3.10" />
     </ItemGroup>
 
 </Project>
