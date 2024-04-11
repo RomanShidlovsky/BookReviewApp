@@ -12,9 +12,9 @@ public class GetAuthorByOpenLibraryKeyQueryHandler(IAuthorRepository _repository
 {
     public async Task<Response<AuthorResponseDto>> Handle(GetAuthorByOpenLibraryKeyQuery request, CancellationToken cancellationToken)
     {
-        var author = await _repository.GetByOpenLibraryKey(request.OpenLibraryKey, cancellationToken);
+        var author = await _repository.GetByOpenLibraryKeyAsync(request.OpenLibraryKey, cancellationToken);
 
-        return author == null
+        return author is null
             ? Response.Failure<AuthorResponseDto>(DomainErrors.Author.AuthorNotFoundByOpenLibraryKey)
             : _mapper.Map<AuthorResponseDto>(author);
     }

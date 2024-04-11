@@ -7,10 +7,10 @@ public class LanguageSeedInitializer(ILanguageRepository _languageRepository) : 
 {
     public static Language[] Languages { get; } =
     [
-        new Language() { Name = "russian" },
-        new Language() { Name = "belorussian" },
-        new Language() { Name = "english" },
-        new Language() { Name = "german" }
+        new Language { Name = "russian" },
+        new Language { Name = "belorussian" },
+        new Language { Name = "english" },
+        new Language { Name = "german" }
     ];
 
     public void Init()

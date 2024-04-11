@@ -1,4 +1,4 @@
-﻿namespace Shared.Interfaces;
+﻿namespace Book.Domain.Interfaces;
 
 public interface IBaseEntity
 {

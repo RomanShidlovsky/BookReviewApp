@@ -26,7 +26,7 @@ public class UpdateLanguageCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapp
 
         var language = await repository.GetByIdAsync(dto.Id, cancellationToken);
         
-        if (language == null)
+        if (language is null)
             return Response.Failure<LanguageResponseDto>(DomainErrors.Language.LanguageNotFoundById);
 
         _mapper.Map(dto, language);

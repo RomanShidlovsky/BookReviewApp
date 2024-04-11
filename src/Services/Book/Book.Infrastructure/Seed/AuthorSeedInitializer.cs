@@ -7,14 +7,14 @@ public class AuthorSeedInitializer(IAuthorRepository _authorRepository) : ISeedI
 {
     public static readonly Author[] Authors =
     [
-        new()
+        new Author
         {
             FirstName = "Joanne",
             LastName = "Rowling",
             FullName = "J. K. Rowling",
             BirthDate = new DateOnly(1965, 7, 31)
         },
-        new()
+        new Author
         {
             FirstName = "Stanisław",
             LastName = "Lem",

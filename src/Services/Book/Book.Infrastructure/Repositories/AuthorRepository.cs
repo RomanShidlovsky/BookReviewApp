@@ -15,7 +15,7 @@ public class AuthorRepository(BookContext context) : BaseRepository<Author>(cont
             .Where(b => b.DateDeleted == null);
     }
 
-    public Task<Author?> GetByOpenLibraryKey(string key, CancellationToken cancellationToken)
+    public Task<Author?> GetByOpenLibraryKeyAsync(string key, CancellationToken cancellationToken)
     {
         return GetEntitySet()
             .FirstOrDefaultAsync(a => a.OpenLibraryKey == key, cancellationToken);
@@ -25,17 +25,11 @@ public class AuthorRepository(BookContext context) : BaseRepository<Author>(cont
     {
         var book = await GetBookSet()
             .FirstOrDefaultAsync(b => b.Id == bookId, cancellationToken);
-
-        if (book == null)
-            return false;
-
+        
         var author = await GetEntitySet()
             .FirstOrDefaultAsync(a => a.Id == authorId, cancellationToken);
-
-        if (author == null)
-            return false;
-
-        book.Authors.Add(author);
+        
+        book?.Authors.Add(author);
 
         return true;
     }
@@ -44,16 +38,10 @@ public class AuthorRepository(BookContext context) : BaseRepository<Author>(cont
     {
         var book = await GetBookSet()
             .FirstOrDefaultAsync(b => b.Id == bookId, cancellationToken);
-
-        if (book == null)
-            return false;
-
+        
         var author = await GetEntitySet()
             .FirstOrDefaultAsync(a => a.Id == authorId, cancellationToken);
-
-        if (author == null)
-            return false;
-
+        
         return book.Authors.Remove(author);
     }
 }

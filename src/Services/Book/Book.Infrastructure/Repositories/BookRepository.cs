@@ -16,7 +16,7 @@ public class BookRepository(BookContext context) : BaseRepository<BookEntity>(co
             .Include(b => b.Languages);
     }
 
-    public Task<BookEntity?> GetByOpenLibraryKey(string key, CancellationToken cancellationToken)
+    public Task<BookEntity?> GetByOpenLibraryKeyAsync(string key, CancellationToken cancellationToken)
     {
         return GetEntitySet()
             .FirstOrDefaultAsync(b => b.OpenLibraryKey != null && b.OpenLibraryKey == key, 

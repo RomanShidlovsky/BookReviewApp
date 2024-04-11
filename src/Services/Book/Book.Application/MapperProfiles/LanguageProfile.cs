@@ -11,9 +11,11 @@ public class LanguageProfile : Profile
     {
         CreateMap<CreateLanguageDto, Language>()
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
+        
         CreateMap<UpdateLanguageDto, Language>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
+        
         CreateMap<Language, LanguageResponseDto>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));

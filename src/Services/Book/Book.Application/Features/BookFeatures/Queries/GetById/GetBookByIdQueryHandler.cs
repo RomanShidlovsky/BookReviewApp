@@ -14,7 +14,7 @@ public class GetBookByIdQueryHandler(IBookRepository _repository, IMapper _mappe
     {
         var book = await _repository.GetByIdAsync(request.Id, cancellationToken);
 
-        return book == null
+        return book is null
             ? Response.Failure<BookResponseDto>(DomainErrors.Book.BookNotFoundById)
             : _mapper.Map<BookResponseDto>(book);
     }

@@ -14,7 +14,7 @@ public class GetSubjectByNameQueryHandler(ISubjectRepository _repository, IMappe
     {
         var subject = await _repository.GetByNameAsync(request.Name, cancellationToken);
 
-        return subject == null
+        return subject is null
             ? Response.Failure<SubjectResponseDto>(DomainErrors.Subject.SubjectNotFoundByName)
             : _mapper.Map<SubjectResponseDto>(subject);
     }

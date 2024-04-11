@@ -25,15 +25,9 @@ public class SubjectRepository(BookContext context) : BaseRepository<Subject>(co
     {
         var book = await GetBookSet()
             .FirstOrDefaultAsync(b => b.Id == bookId, cancellationToken);
-
-        if (book == null)
-            return false;
-
+        
         var subject = await GetEntitySet()
             .FirstOrDefaultAsync(s => s.Id == subjectId, cancellationToken);
-
-        if (subject == null)
-            return false;
         
         book.Subjects.Add(subject);
         
@@ -44,16 +38,10 @@ public class SubjectRepository(BookContext context) : BaseRepository<Subject>(co
     {
         var book = await GetBookSet()
             .FirstOrDefaultAsync(b => b.Id == bookId, cancellationToken);
-
-        if (book == null)
-            return false;
-
+        
         var subject = await GetEntitySet()
             .FirstOrDefaultAsync(s => s.Id == subjectId, cancellationToken);
-
-        if (subject == null)
-            return false;
-
+        
         return book.Subjects.Remove(subject);
     }
 }

@@ -22,7 +22,7 @@ public class AddSubjectToBookCommandHandler(IUnitOfWork _unitOfWork)
 
         var book = await _unitOfWork.GetRepository<IBookRepository>().GetByIdAsync(dto.BookId, cancellationToken);
         
-        if (book == null)
+        if (book is null)
             return Response.Failure(DomainErrors.Book.BookNotFoundById);
         
         if (book.ContainsSubject(dto.SubjectId))

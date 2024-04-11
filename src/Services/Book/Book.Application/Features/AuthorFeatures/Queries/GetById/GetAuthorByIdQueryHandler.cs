@@ -14,7 +14,7 @@ public class GetAuthorByIdQueryHandler(IAuthorRepository _repository, IMapper _m
     {
         var author = await _repository.GetByIdAsync(request.Id, cancellationToken);
         
-        return author == null 
+        return author is null 
             ? Response.Failure<AuthorResponseDto>(DomainErrors.Author.AuthorNotFoundById) 
             : _mapper.Map<AuthorResponseDto>(author);
     }

@@ -16,7 +16,7 @@ public class DeleteLanguageCommandHandler(IUnitOfWork _unitOfWork)
 
         var language = await repository.GetByIdAsync(request.Id, cancellationToken);
         
-        if (language == null)
+        if (language is null)
             return Response.Failure(DomainErrors.Language.LanguageNotFoundById);
         
         repository.Delete(language);

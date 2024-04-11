@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Shared.Interfaces;
+using IBaseEntity = Identity.DataAccess.Interfaces.IBaseEntity;
 
 namespace Identity.DataAccess.EntityConfigurations;
 

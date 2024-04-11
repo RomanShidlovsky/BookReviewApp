@@ -11,7 +11,7 @@ public class GetBookByOpenLibraryKeyQueryHandler(IBookRepository _repository, IM
 {
     public async Task<Response<BookResponseDto>> Handle(GetBookByOpenLibraryKeyQuery request, CancellationToken cancellationToken)
     {
-        var book = await _repository.GetByOpenLibraryKey(request.OpenLibraryKey, cancellationToken);
+        var book = await _repository.GetByOpenLibraryKeyAsync(request.OpenLibraryKey, cancellationToken);
 
         return _mapper.Map<BookResponseDto>(book);
     }

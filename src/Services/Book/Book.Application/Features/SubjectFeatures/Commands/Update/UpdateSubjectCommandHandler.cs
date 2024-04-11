@@ -25,7 +25,7 @@ public class UpdateSubjectCommandHandler(IUnitOfWork _unitOfWork, IMapper _mappe
 
         var subject = await repository.GetByIdAsync(dto.Id, cancellationToken);
         
-        if (subject == null)
+        if (subject is null)
             return Response.Failure<SubjectResponseDto>(DomainErrors.Subject.SubjectNotFoundById);
 
         _mapper.Map(dto, subject);

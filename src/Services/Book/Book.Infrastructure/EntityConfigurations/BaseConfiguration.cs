@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Book.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Shared;
-using Shared.Interfaces;
 
 namespace Book.Infrastructure.EntityConfigurations;
 

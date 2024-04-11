@@ -14,7 +14,7 @@ public class GetSubjectByIdQueryHandler(ISubjectRepository _repository, IMapper 
     {
         var subject = await _repository.GetByIdAsync(request.Id, cancellationToken);
 
-        return subject == null
+        return subject is null
             ? Response.Failure<SubjectResponseDto>(DomainErrors.Subject.SubjectNotFoundById)
             : _mapper.Map<SubjectResponseDto>(subject);
     }

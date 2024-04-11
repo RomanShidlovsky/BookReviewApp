@@ -8,6 +8,7 @@ public class AddSubjectToBookCommandValidator : AbstractValidator<AddSubjectToBo
     {
         RuleFor(s => s.Dto.SubjectId)
             .NotEmpty().WithMessage("LanguageId is required.");
+        
         RuleFor(s => s.Dto.BookId)
             .NotEmpty().WithMessage("BookId is required.");
     }

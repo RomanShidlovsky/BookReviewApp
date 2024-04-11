@@ -11,9 +11,11 @@ public class SubjectProfile : Profile
     {
         CreateMap<CreateSubjectDto, Subject>()
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
+        
         CreateMap<UpdateSubjectDto, Subject>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
+        
         CreateMap<Subject, SubjectResponseDto>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));

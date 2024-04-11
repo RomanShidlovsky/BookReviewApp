@@ -14,7 +14,7 @@ public class GetLanguageByIdQueryHandler(ILanguageRepository _repository, IMappe
     {
         var language = await _repository.GetByIdAsync(request.Id, cancellationToken);
         
-        return language == null 
+        return language is null 
             ? Response.Failure<LanguageResponseDto>(DomainErrors.Language.LanguageNotFoundById) 
             : _mapper.Map<LanguageResponseDto>(language);
     }

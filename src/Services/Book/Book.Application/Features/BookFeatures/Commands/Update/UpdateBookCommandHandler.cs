@@ -19,10 +19,10 @@ public class UpdateBookCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper)
 
         var book = await repository.GetByIdAsync(dto.Id, cancellationToken);
 
-        if (book == null)
+        if (book is null)
             return Response.Failure<BookResponseDto>(DomainErrors.Book.BookNotFoundById);
 
-        if (dto.OpenLibraryKey != null)
+        if (dto.OpenLibraryKey is not null)
         {
             var openLibraryKeyAuthor =
                 await repository.GetAsync(b => 

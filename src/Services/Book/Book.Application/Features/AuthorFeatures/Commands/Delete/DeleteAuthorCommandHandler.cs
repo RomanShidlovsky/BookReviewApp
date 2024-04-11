@@ -16,7 +16,7 @@ public class DeleteAuthorCommandHandler(IUnitOfWork _unitOfWork)
 
         var author = await repository.GetByIdAsync(request.Id, cancellationToken);
 
-        if (author == null)
+        if (author is null)
             return Response.Failure(DomainErrors.Author.AuthorNotFoundById);
 
         repository.Delete(author);

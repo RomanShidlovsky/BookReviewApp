@@ -18,6 +18,7 @@ public class AuthorProfile : Profile
             .ForMember(dest => dest.DeathDate, opt => opt.MapFrom(src => src.DeathDate))
             .ForMember(dest => dest.Biography, opt => opt.MapFrom(src => src.Biography))
             .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.ImageUrl));
+        
         CreateMap<Author, AuthorResponseDto>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.OpenLibraryKey, opt => opt.MapFrom(src => src.OpenLibraryKey))
@@ -28,6 +29,7 @@ public class AuthorProfile : Profile
             .ForMember(dest => dest.DeathDate, opt => opt.MapFrom(src => src.DeathDate))
             .ForMember(dest => dest.Biography, opt => opt.MapFrom(src => src.Biography))
             .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.ImageUrl));
+        
         CreateMap<UpdateAuthorDto, Author>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.OpenLibraryKey, opt => opt.MapFrom(src => src.OpenLibraryKey))

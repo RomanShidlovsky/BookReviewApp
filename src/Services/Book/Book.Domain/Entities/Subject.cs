@@ -1,4 +1,5 @@
 ﻿using Shared.Interfaces;
+using IBaseEntity = Book.Domain.Interfaces.IBaseEntity;
 
 namespace Book.Domain.Entities;
 

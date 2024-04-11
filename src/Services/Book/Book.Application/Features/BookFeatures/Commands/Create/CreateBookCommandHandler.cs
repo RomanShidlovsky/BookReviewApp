@@ -18,11 +18,11 @@ public class CreateBookCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper)
         var repository = _unitOfWork.GetRepository<IBookRepository>();
         var dto = request.Dto;
 
-        if (dto.OpenLibraryKey != null)
+        if (dto.OpenLibraryKey is not null)
         {
-            var existingBook = await repository.GetByOpenLibraryKey(dto.OpenLibraryKey, cancellationToken);
+            var existingBook = await repository.GetByOpenLibraryKeyAsync(dto.OpenLibraryKey, cancellationToken);
             
-            if (existingBook != null)
+            if (existingBook is not null)
                 return Response.Failure<BookResponseDto>(DomainErrors.Book.OpenLibraryKeyConflict);
         }
         

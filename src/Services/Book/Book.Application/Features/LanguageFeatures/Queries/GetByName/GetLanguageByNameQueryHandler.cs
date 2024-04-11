@@ -14,7 +14,7 @@ public class GetLanguageByNameQueryHandler(ILanguageRepository _repository, IMap
     {
         var language = await _repository.GetByNameAsync(request.Name, cancellationToken);
 
-        return language == null
+        return language is null
             ? Response.Failure<LanguageResponseDto>(DomainErrors.Language.LanguageNotFoundByName)
             : _mapper.Map<LanguageResponseDto>(language);
     }

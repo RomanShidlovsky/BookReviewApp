@@ -14,7 +14,7 @@ public static class SeedUsers
         {
             var user = await userManager.FindByNameAsync(role);
             
-            if (user != null)
+            if (user is not null)
                 continue;
 
             user = new User

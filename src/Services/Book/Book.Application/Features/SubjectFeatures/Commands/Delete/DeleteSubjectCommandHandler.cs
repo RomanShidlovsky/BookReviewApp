@@ -15,7 +15,7 @@ public class DeleteSubjectCommandHandler(IUnitOfWork _unitOfWork)
 
         var subject = await repository.GetByIdAsync(request.Id, cancellationToken);
         
-        if (subject == null)
+        if (subject is null)
             return Response.Failure(DomainErrors.Subject.SubjectNotFoundById);
         
         repository.Delete(subject);

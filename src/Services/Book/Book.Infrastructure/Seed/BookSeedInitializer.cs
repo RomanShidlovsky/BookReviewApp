@@ -7,7 +7,7 @@ public class BookSeedInitializer(IBookRepository _bookRepository) : ISeedInitial
 {
     public static BookEntity[] Books =
     [
-        new BookEntity()
+        new BookEntity
         {
             EditionCount = 257,
             Title = "Harry Potter and the Prisoner of Azkaban",
@@ -21,7 +21,7 @@ public class BookSeedInitializer(IBookRepository _bookRepository) : ISeedInitial
                 LanguageSeedInitializer.Languages[2]
             ]
         },
-        new BookEntity()
+        new BookEntity
         {
             EditionCount = 66,
             Title = "Harry Potter and the Prisoner of Azkaban",
