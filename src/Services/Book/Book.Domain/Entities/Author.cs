@@ -14,7 +14,7 @@ public class Author : IBaseEntity
     public DateOnly? DeathDate { get; set; }
     public string? Biography { get; set; }
     public string? ImageUrl { get; set; }
-    public List<Book> Books { get; set; } = [];
+    public virtual List<Book> Books { get; set; } = [];
     public DateTimeOffset DateCreated { get; set; }
     public DateTimeOffset? DateUpdated { get; set; }
     public DateTimeOffset? DateDeleted { get; set; }

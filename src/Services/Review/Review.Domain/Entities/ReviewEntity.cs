@@ -11,9 +11,9 @@ public class ReviewEntity : IBaseEntity
     public string Text { get; set; }
     public int Likes { get; set; }
     public int Dislikes { get; set; }
-    public Comment[] Comments { get; set; }
-    public Book Book { get; set; }
-    public User User { get; set; }
+    public virtual List<Comment> Comments { get; set; }
+    public virtual Book Book { get; set; }
+    public virtual User User { get; set; }
     public DateTimeOffset DateCreated { get; set; }
     public DateTimeOffset? DateUpdated { get; set; }
     public DateTimeOffset? DateDeleted { get; set; }
