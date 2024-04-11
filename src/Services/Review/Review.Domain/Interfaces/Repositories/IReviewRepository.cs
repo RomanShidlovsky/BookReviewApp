@@ -6,5 +6,5 @@ public interface IReviewRepository : IBaseRepository<ReviewEntity>
 {
     Task<List<ReviewEntity>> GetPagedAsync(int pageNumber, int pageSize, string filterQueryString, string orderByQueryString, 
         CancellationToken cancellationToken);
-    Task<bool> AddCommentToReviewAsync(int reviewId, Comment comment, CancellationToken cancellationToken);
+    void AddCommentToReviewAsync(int reviewId, Comment comment, CancellationToken cancellationToken);
 }
