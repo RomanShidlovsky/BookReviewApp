@@ -25,12 +25,12 @@ public class LanguageRepository(BookContext context) : BaseRepository<Language>(
     public async Task<bool> AddLanguageToBookAsync(int languageId, int bookId, CancellationToken cancellationToken)
     {
         var book = await GetBookSet()
-            .FirstOrDefaultAsync(b => b.Id == bookId, cancellationToken);
+            .FirstAsync(b => b.Id == bookId, cancellationToken);
         
         var language = await GetEntitySet()
-            .FirstOrDefaultAsync(l => l.Id == languageId, cancellationToken);
+            .FirstAsync(l => l.Id == languageId, cancellationToken);
         
-        book?.Languages.Add(language);
+        book.Languages.Add(language);
 
         return true;
     }
@@ -38,10 +38,10 @@ public class LanguageRepository(BookContext context) : BaseRepository<Language>(
     public async Task<bool> RemoveLanguageFromBookAsync(int languageId, int bookId, CancellationToken cancellationToken)
     {
         var book = await GetBookSet()
-            .FirstOrDefaultAsync(b => b.Id == bookId, cancellationToken);
+            .FirstAsync(b => b.Id == bookId, cancellationToken);
         
         var language = await GetEntitySet()
-            .FirstOrDefaultAsync(l => l.Id == languageId, cancellationToken);
+            .FirstAsync(l => l.Id == languageId, cancellationToken);
         
         return book.Languages.Remove(language);
     }

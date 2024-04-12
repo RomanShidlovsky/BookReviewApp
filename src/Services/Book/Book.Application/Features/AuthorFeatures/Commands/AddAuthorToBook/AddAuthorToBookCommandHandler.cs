@@ -16,18 +16,24 @@ public class AddAuthorToBookCommandHandler(IUnitOfWork _unitOfWork)
         var dto = request.Dto;
 
         var authorExists = await repository.ExistsAsync(dto.AuthorId, cancellationToken);
-        
-        if (!authorExists)
-            return Response.Failure(DomainErrors.Author.AuthorNotFoundById);
 
+        if (!authorExists)
+        {
+            return Response.Failure(DomainErrors.Author.AuthorNotFoundById);
+        }
+        
         var book = await _unitOfWork.GetRepository<IBookRepository>().GetByIdAsync(dto.BookId, cancellationToken);
 
         if (book is null)
+        {
             return Response.Failure(DomainErrors.Book.BookNotFoundById);
-        
-        if (book.ContainsAuthor(dto.AuthorId))
-            return Response.Failure(DomainErrors.Book.AlreadyContainsAuthor);
+        }
 
+        if (book.ContainsAuthor(dto.AuthorId))
+        {
+            return Response.Failure(DomainErrors.Book.AlreadyContainsAuthor);
+        }
+        
         var result = await repository.AddAuthorToBookAsync(dto.AuthorId, dto.BookId, cancellationToken);
         await _unitOfWork.SaveAsync(cancellationToken);
         

@@ -16,18 +16,24 @@ public class AddLanguageToBookCommandHandler(IUnitOfWork _unitOfWork)
         var dto = request.Dto;
 
         var languageExists = await repository.ExistsAsync(dto.LanguageId, cancellationToken);
-        
+
         if (!languageExists)
+        {
             return Response.Failure(DomainErrors.Language.LanguageNotFoundById);
-
+        }
+        
         var book = await _unitOfWork.GetRepository<IBookRepository>().GetByIdAsync(dto.BookId, cancellationToken);
-        
-        if (book is null)
-            return Response.Failure(DomainErrors.Book.BookNotFoundById);
-        
-        if (book.ContainsLanguage(dto.LanguageId))
-            return Response.Failure(DomainErrors.Book.AlreadyContainsLanguage);
 
+        if (book is null)
+        {
+            return Response.Failure(DomainErrors.Book.BookNotFoundById);
+        }
+
+        if (book.ContainsLanguage(dto.LanguageId))
+        {
+            return Response.Failure(DomainErrors.Book.AlreadyContainsLanguage);
+        }
+        
         var result = await repository.AddLanguageToBookAsync(dto.LanguageId, dto.BookId, cancellationToken);
         await _unitOfWork.SaveAsync(cancellationToken);
 

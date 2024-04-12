@@ -26,7 +26,7 @@ public class AuthorsController(IMediator _mediator, ILogger<AuthorsController> _
     [AllowAnonymous]
     [ProducesResponseType(typeof(IEnumerable<AuthorResponseDto>), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
+    public async Task<IActionResult> GetAllAuthors(CancellationToken cancellationToken)
     {
         var query = new GetAllAuthorsQuery();
         var result = await _mediator.Send(query, cancellationToken);
@@ -38,7 +38,7 @@ public class AuthorsController(IMediator _mediator, ILogger<AuthorsController> _
     [AllowAnonymous]
     [ProducesResponseType(typeof(AuthorResponseDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> GetById([FromRoute] int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetAuthorById([FromRoute] int id, CancellationToken cancellationToken)
     {
         var query = new GetAuthorByIdQuery(id);
         var result = await _mediator.Send(query, cancellationToken);
@@ -50,7 +50,7 @@ public class AuthorsController(IMediator _mediator, ILogger<AuthorsController> _
     [AllowAnonymous]
     [ProducesResponseType(typeof(AuthorResponseDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> GetByOpenLibraryKey([FromRoute] string key, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetAuthorByOpenLibraryKey([FromRoute] string key, CancellationToken cancellationToken)
     {
         var query = new GetAuthorByOpenLibraryKeyQuery(key);
         var result = await _mediator.Send(query, cancellationToken);
@@ -63,7 +63,7 @@ public class AuthorsController(IMediator _mediator, ILogger<AuthorsController> _
     [ProducesResponseType(typeof(AuthorResponseDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(IEnumerable<Error>), (int)HttpStatusCode.UnprocessableEntity)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.Conflict)]
-    public async Task<IActionResult> Create([FromBody] CreateAuthorDto dto, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateAuthor([FromBody] CreateAuthorDto dto, CancellationToken cancellationToken)
     {
         var command = new CreateAuthorCommand(dto);
         var result = await _mediator.Send(command, cancellationToken);
@@ -76,7 +76,7 @@ public class AuthorsController(IMediator _mediator, ILogger<AuthorsController> _
     [ProducesResponseType(typeof(AuthorResponseDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(IEnumerable<Error>), (int)HttpStatusCode.UnprocessableEntity)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.Conflict)]
-    public async Task<IActionResult> Update([FromBody] UpdateAuthorDto dto, CancellationToken cancellationToken)
+    public async Task<IActionResult> UpdateAuthor([FromBody] UpdateAuthorDto dto, CancellationToken cancellationToken)
     {
         var command = new UpdateAuthorCommand(dto);
         var result = await _mediator.Send(command, cancellationToken);
@@ -84,12 +84,12 @@ public class AuthorsController(IMediator _mediator, ILogger<AuthorsController> _
         return ApiResponse.GetObjectResult(result, _logger);
     }
 
-    [HttpPut(nameof(AddToBook))]
+    [HttpPut(nameof(AddAuthorToBook))]
     [Authorize(Roles = Roles.Admin)]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> AddToBook([FromBody] AddAuthorToBookDto dto, CancellationToken cancellationToken)
+    public async Task<IActionResult> AddAuthorToBook([FromBody] AddAuthorToBookDto dto, CancellationToken cancellationToken)
     {
         var command = new AddAuthorToBookCommand(dto);
         var result = await _mediator.Send(command, cancellationToken);
@@ -97,12 +97,12 @@ public class AuthorsController(IMediator _mediator, ILogger<AuthorsController> _
         return ApiResponse.GetObjectResult(result, _logger);
     }
     
-    [HttpPut(nameof(RemoveFromBook))]
+    [HttpPut(nameof(RemoveAuthorFromBook))]
     [Authorize(Roles = Roles.Admin)]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> RemoveFromBook([FromBody] RemoveAuthorFromBookDto dto, CancellationToken cancellationToken)
+    public async Task<IActionResult> RemoveAuthorFromBook([FromBody] RemoveAuthorFromBookDto dto, CancellationToken cancellationToken)
     {
         var command = new RemoveAuthorFromBookCommand(dto);
         var result = await _mediator.Send(command, cancellationToken);
@@ -114,7 +114,7 @@ public class AuthorsController(IMediator _mediator, ILogger<AuthorsController> _
     [Authorize(Roles = Roles.Admin)]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> Delete([FromRoute] int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> DeleteAuthor([FromRoute] int id, CancellationToken cancellationToken)
     {
         var command = new DeleteAuthorCommand(id);
         var result = await _mediator.Send(command, cancellationToken);

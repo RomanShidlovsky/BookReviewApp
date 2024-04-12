@@ -25,7 +25,7 @@ public class LanguagesController(IMediator _mediator, ILogger<LanguagesControlle
     [AllowAnonymous]
     [ProducesResponseType(typeof(IEnumerable<LanguageResponseDto>), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
+    public async Task<IActionResult> GetAlLanguages(CancellationToken cancellationToken)
     {
         var query = new GetAllLanguagesQuery();
         var result = await _mediator.Send(query, cancellationToken);
@@ -37,7 +37,7 @@ public class LanguagesController(IMediator _mediator, ILogger<LanguagesControlle
     [AllowAnonymous]
     [ProducesResponseType(typeof(LanguageResponseDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> GetById([FromRoute] int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetLanguageById([FromRoute] int id, CancellationToken cancellationToken)
     {
         var query = new GetLanguageByIdQuery(id);
         var result = await _mediator.Send(query, cancellationToken);
@@ -50,7 +50,7 @@ public class LanguagesController(IMediator _mediator, ILogger<LanguagesControlle
     [ProducesResponseType(typeof(LanguageResponseDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(IEnumerable<Error>), (int)HttpStatusCode.UnprocessableEntity)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.Conflict)]
-    public async Task<IActionResult> Create([FromBody] CreateLanguageDto dto, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateLanguage([FromBody] CreateLanguageDto dto, CancellationToken cancellationToken)
     {
         var command = new CreateLanguageCommand(dto);
         var result = await _mediator.Send(command, cancellationToken);
@@ -63,7 +63,7 @@ public class LanguagesController(IMediator _mediator, ILogger<LanguagesControlle
     [ProducesResponseType(typeof(LanguageResponseDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(IEnumerable<Error>), (int)HttpStatusCode.UnprocessableEntity)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.Conflict)]
-    public async Task<IActionResult> Update([FromBody] UpdateLanguageDto dto, CancellationToken cancellationToken)
+    public async Task<IActionResult> UpdateLanguage([FromBody] UpdateLanguageDto dto, CancellationToken cancellationToken)
     {
         var command = new UpdateLanguageCommand(dto);
         var result = await _mediator.Send(command, cancellationToken);
@@ -71,12 +71,12 @@ public class LanguagesController(IMediator _mediator, ILogger<LanguagesControlle
         return ApiResponse.GetObjectResult(result, _logger);
     }
 
-    [HttpPut(nameof(AddToBook))]
+    [HttpPut(nameof(AddLanguageToBook))]
     [Authorize(Roles = Roles.Admin)]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> AddToBook([FromBody] AddLanguageToBookDto dto, CancellationToken cancellationToken)
+    public async Task<IActionResult> AddLanguageToBook([FromBody] AddLanguageToBookDto dto, CancellationToken cancellationToken)
     {
         var command = new AddLanguageToBookCommand(dto);
         var result = await _mediator.Send(command, cancellationToken);
@@ -84,12 +84,12 @@ public class LanguagesController(IMediator _mediator, ILogger<LanguagesControlle
         return ApiResponse.GetObjectResult(result, _logger);
     }
     
-    [HttpPut(nameof(RemoveFromBook))]
+    [HttpPut(nameof(RemoveLanguageFromBook))]
     [Authorize(Roles = Roles.Admin)]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> RemoveFromBook([FromBody] RemoveLanguageFromBookDto dto, CancellationToken cancellationToken)
+    public async Task<IActionResult> RemoveLanguageFromBook([FromBody] RemoveLanguageFromBookDto dto, CancellationToken cancellationToken)
     {
         var command = new RemoveLanguageFromBookCommand(dto);
         var result = await _mediator.Send(command, cancellationToken);
@@ -101,7 +101,7 @@ public class LanguagesController(IMediator _mediator, ILogger<LanguagesControlle
     [Authorize(Roles = Roles.Admin)]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> Delete([FromRoute] int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> DeleteLanguage([FromRoute] int id, CancellationToken cancellationToken)
     {
         var command = new DeleteLanguageCommand(id);
         var result = await _mediator.Send(command, cancellationToken);

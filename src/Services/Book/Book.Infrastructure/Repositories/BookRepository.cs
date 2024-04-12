@@ -1,8 +1,8 @@
-﻿using Book.Domain.Extensions;
-using Book.Domain.Interfaces.Repositories;
-using BookEntity = Book.Domain.Entities.Book;
+﻿using Book.Domain.Interfaces.Repositories;
 using Book.Infrastructure.Context;
+using Book.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
+using BookEntity = Book.Domain.Entities.Book;
 
 namespace Book.Infrastructure.Repositories;
 

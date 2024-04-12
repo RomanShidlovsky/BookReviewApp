@@ -24,12 +24,12 @@ public class AuthorRepository(BookContext context) : BaseRepository<Author>(cont
     public async Task<bool> AddAuthorToBookAsync(int authorId, int bookId, CancellationToken cancellationToken)
     {
         var book = await GetBookSet()
-            .FirstOrDefaultAsync(b => b.Id == bookId, cancellationToken);
+            .FirstAsync(b => b.Id == bookId, cancellationToken);
         
         var author = await GetEntitySet()
-            .FirstOrDefaultAsync(a => a.Id == authorId, cancellationToken);
+            .FirstAsync(a => a.Id == authorId, cancellationToken);
         
-        book?.Authors.Add(author);
+        book.Authors.Add(author);
 
         return true;
     }
@@ -37,10 +37,10 @@ public class AuthorRepository(BookContext context) : BaseRepository<Author>(cont
     public async Task<bool> RemoveAuthorFromBookAsync(int authorId, int bookId, CancellationToken cancellationToken)
     {
         var book = await GetBookSet()
-            .FirstOrDefaultAsync(b => b.Id == bookId, cancellationToken);
+            .FirstAsync(b => b.Id == bookId, cancellationToken);
         
         var author = await GetEntitySet()
-            .FirstOrDefaultAsync(a => a.Id == authorId, cancellationToken);
+            .FirstAsync(a => a.Id == authorId, cancellationToken);
         
         return book.Authors.Remove(author);
     }

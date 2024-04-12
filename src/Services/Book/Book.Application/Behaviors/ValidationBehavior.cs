@@ -15,8 +15,10 @@ public class ValidationBehavior<TRequest, TResponse>(IEnumerable<IValidator<TReq
         CancellationToken cancellationToken)
     {
         if (!validators.Any())
+        {
             return await next();
-
+        }
+        
         var context = new ValidationContext<TRequest>(request);
         var validationResults = await Task.WhenAll(
             validators
@@ -31,8 +33,10 @@ public class ValidationBehavior<TRequest, TResponse>(IEnumerable<IValidator<TReq
             .ToList();
 
         if (failures.Count != 0)
+        {
             return CreateValidationFailedResponse<TResponse>(failures);
-
+        }
+        
         return await next();
     }
 

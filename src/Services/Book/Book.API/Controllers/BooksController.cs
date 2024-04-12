@@ -37,7 +37,7 @@ public class BooksController(IMediator _mediator, ILogger<BooksController> _logg
     [AllowAnonymous]
     [ProducesResponseType(typeof(BookResponseDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> GetById([FromRoute] int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetBookById([FromRoute] int id, CancellationToken cancellationToken)
     {
         var query = new GetBookByIdQuery(id);
         var result = await _mediator.Send(query, cancellationToken);
@@ -49,7 +49,7 @@ public class BooksController(IMediator _mediator, ILogger<BooksController> _logg
     [AllowAnonymous]
     [ProducesResponseType(typeof(BookResponseDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> GetByOpenLibraryKey([FromRoute] string key, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetBookByOpenLibraryKey([FromRoute] string key, CancellationToken cancellationToken)
     {
         var query = new GetBookByOpenLibraryKeyQuery(key);
         var result = await _mediator.Send(query, cancellationToken);
@@ -62,7 +62,7 @@ public class BooksController(IMediator _mediator, ILogger<BooksController> _logg
     [ProducesResponseType(typeof(BookResponseDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(IEnumerable<Error>), (int)HttpStatusCode.UnprocessableEntity)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.Conflict)]
-    public async Task<IActionResult> Create([FromBody] CreateBookDto dto, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateBook([FromBody] CreateBookDto dto, CancellationToken cancellationToken)
     {
         var command = new CreateBookCommand(dto);
         var result = await _mediator.Send(command, cancellationToken);
@@ -75,7 +75,7 @@ public class BooksController(IMediator _mediator, ILogger<BooksController> _logg
     [ProducesResponseType(typeof(BookResponseDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(IEnumerable<Error>), (int)HttpStatusCode.UnprocessableEntity)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.Conflict)]
-    public async Task<IActionResult> Update([FromBody] UpdateBookDto dto, CancellationToken cancellationToken)
+    public async Task<IActionResult> UpdateBook([FromBody] UpdateBookDto dto, CancellationToken cancellationToken)
     {
         var command = new UpdateBookCommand(dto);
         var result = await _mediator.Send(command, cancellationToken);
@@ -87,7 +87,7 @@ public class BooksController(IMediator _mediator, ILogger<BooksController> _logg
     [Authorize(Roles = Roles.Admin)]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> Delete([FromRoute] int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> DeleteBook([FromRoute] int id, CancellationToken cancellationToken)
     {
         var command = new DeleteBookCommand(id);
         var result = await _mediator.Send(command, cancellationToken);
