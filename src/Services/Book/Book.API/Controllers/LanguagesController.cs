@@ -1,10 +1,8 @@
 ﻿using System.Net;
 using Book.Application.DTOs.Language.RequestDTOs;
 using Book.Application.DTOs.Language.ResponseDTOs;
-using Book.Application.Features.LanguageFeatures.Commands.AddLanguageToBook;
 using Book.Application.Features.LanguageFeatures.Commands.Create;
 using Book.Application.Features.LanguageFeatures.Commands.Delete;
-using Book.Application.Features.LanguageFeatures.Commands.RemoveLanguageFromBook;
 using Book.Application.Features.LanguageFeatures.Commands.Update;
 using Book.Application.Features.LanguageFeatures.Queries.GetAll;
 using Book.Application.Features.LanguageFeatures.Queries.GetById;
@@ -68,32 +66,6 @@ public class LanguagesController(IMediator _mediator, ILogger<LanguagesControlle
         var command = new UpdateLanguageCommand(dto);
         var result = await _mediator.Send(command, cancellationToken);
 
-        return ApiResponse.GetObjectResult(result, _logger);
-    }
-
-    [HttpPut(nameof(AddLanguageToBook))]
-    [Authorize(Roles = Roles.Admin)]
-    [ProducesResponseType((int)HttpStatusCode.OK)]
-    [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
-    [ProducesResponseType(typeof(Error), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> AddLanguageToBook([FromBody] AddLanguageToBookDto dto, CancellationToken cancellationToken)
-    {
-        var command = new AddLanguageToBookCommand(dto);
-        var result = await _mediator.Send(command, cancellationToken);
-        
-        return ApiResponse.GetObjectResult(result, _logger);
-    }
-    
-    [HttpPut(nameof(RemoveLanguageFromBook))]
-    [Authorize(Roles = Roles.Admin)]
-    [ProducesResponseType((int)HttpStatusCode.OK)]
-    [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
-    [ProducesResponseType(typeof(Error), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> RemoveLanguageFromBook([FromBody] RemoveLanguageFromBookDto dto, CancellationToken cancellationToken)
-    {
-        var command = new RemoveLanguageFromBookCommand(dto);
-        var result = await _mediator.Send(command, cancellationToken);
-        
         return ApiResponse.GetObjectResult(result, _logger);
     }
     

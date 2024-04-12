@@ -1,10 +1,8 @@
 ﻿using System.Net;
 using Book.Application.DTOs.Subject.RequestDTOs;
 using Book.Application.DTOs.Subject.ResponseDTOs;
-using Book.Application.Features.SubjectFeatures.Commands.AddSubjectToBook;
 using Book.Application.Features.SubjectFeatures.Commands.Create;
 using Book.Application.Features.SubjectFeatures.Commands.Delete;
-using Book.Application.Features.SubjectFeatures.Commands.RemoveSubjectFromBook;
 using Book.Application.Features.SubjectFeatures.Commands.Update;
 using Book.Application.Features.SubjectFeatures.Queries.GetAll;
 using Book.Application.Features.SubjectFeatures.Queries.GetById;
@@ -68,32 +66,6 @@ public class SubjectsController(IMediator _mediator, ILogger<SubjectsController>
         var command = new UpdateSubjectCommand(dto);
         var result = await _mediator.Send(command, cancellationToken);
 
-        return ApiResponse.GetObjectResult(result, _logger);
-    }
-
-    [HttpPut(nameof(AddSubjectToBook))]
-    [Authorize(Roles = Roles.Admin)]
-    [ProducesResponseType((int)HttpStatusCode.OK)]
-    [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
-    [ProducesResponseType(typeof(Error), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> AddSubjectToBook([FromBody] AddSubjectToBookDto dto, CancellationToken cancellationToken)
-    {
-        var command = new AddSubjectToBookCommand(dto);
-        var result = await _mediator.Send(command, cancellationToken);
-        
-        return ApiResponse.GetObjectResult(result, _logger);
-    }
-    
-    [HttpPut(nameof(RemoveSubjectFromBook))]
-    [Authorize(Roles = Roles.Admin)]
-    [ProducesResponseType((int)HttpStatusCode.OK)]
-    [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
-    [ProducesResponseType(typeof(Error), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> RemoveSubjectFromBook([FromBody] RemoveSubjectFromBookDto dto, CancellationToken cancellationToken)
-    {
-        var command = new RemoveSubjectFromBookCommand(dto);
-        var result = await _mediator.Send(command, cancellationToken);
-        
         return ApiResponse.GetObjectResult(result, _logger);
     }
     
