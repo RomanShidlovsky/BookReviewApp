@@ -83,24 +83,24 @@ public class UsersController(IUserService _userService, ILogger<UsersController>
         return ApiResponse.GetObjectResult(result, _logger);
     }
     
-    [HttpPut(nameof(AddToRole))]
+    [HttpPut("{id:int}/roles")]
     [Authorize(Roles = Roles.Admin)]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> AddToRole([FromBody] AddUserToRoleDto dto)
+    public async Task<IActionResult> AddUserToRole([FromBody] AddUserToRoleDto dto)
     {
         var result = await _userService.AddUserToRoleAsync(dto);
 
         return ApiResponse.GetObjectResult(result, _logger);
     }
     
-    [HttpPut(nameof(RemoveFromRole))]
+    [HttpDelete("{id:int}/roles")]
     [Authorize(Roles = Roles.Admin)]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> RemoveFromRole([FromBody] RemoveUserFromRoleDto dto)
+    public async Task<IActionResult> RemoveUserFromRole([FromBody] RemoveUserFromRoleDto dto)
     {
         var result = await _userService.RemoveUserFromRoleAsync(dto);
 
