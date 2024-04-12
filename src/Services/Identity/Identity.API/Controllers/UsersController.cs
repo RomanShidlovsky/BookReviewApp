@@ -18,7 +18,7 @@ public class UsersController(IUserService _userService) : ControllerBase
     [Authorize(Roles = Roles.Admin)]
     [ProducesResponseType(typeof(IEnumerable<UserDto>), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
+    public async Task<IActionResult> GetAllUsers(CancellationToken cancellationToken)
     {
         var users = await _userService.GetAllUsersAsync(cancellationToken);
 
@@ -29,7 +29,7 @@ public class UsersController(IUserService _userService) : ControllerBase
     [Authorize(Roles = $"{Roles.Client}, {Roles.Admin}, {Roles.Reviewer}")]
     [ProducesResponseType(typeof(UserDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> GetById([FromRoute] int id)
+    public async Task<IActionResult> GetUserById([FromRoute] int id)
     {
         var user = await _userService.GetUserByIdAsync(id);
 
@@ -40,31 +40,31 @@ public class UsersController(IUserService _userService) : ControllerBase
     [Authorize(Roles = $"{Roles.Client}, {Roles.Admin}, {Roles.Reviewer}")]
     [ProducesResponseType(typeof(UserDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> GetByName([FromRoute] string userName)
+    public async Task<IActionResult> GetUserByName([FromRoute] string userName)
     {
         var user = await _userService.GetUserByUserNameAsync(userName);
 
         return ApiResponse.GetObjectResult(user);
     }
     
-    [HttpPost(nameof(Register))]
+    [HttpPost]
     [AllowAnonymous]
     [ProducesResponseType(typeof(UserDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(IEnumerable<Error>), (int)HttpStatusCode.UnprocessableEntity)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.Conflict)]
-    public async Task<IActionResult> Register([FromBody] RegisterUserDto dto, CancellationToken cancellationToken)
+    public async Task<IActionResult> RegisterUser([FromBody] RegisterUserDto dto, CancellationToken cancellationToken)
     {
         var user = await _userService.CreateUserAsync(dto, cancellationToken);
 
         return ApiResponse.GetObjectResult(user);
     }
     
-    [HttpPut(nameof(Update))]
+    [HttpPut]
     [Authorize(Roles = $"{Roles.Client}, {Roles.Admin}, {Roles.Reviewer}")]
     [ProducesResponseType(typeof(UserDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(IEnumerable<Error>), (int)HttpStatusCode.UnprocessableEntity)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.Conflict)]
-    public async Task<IActionResult> Update([FromBody] UpdateUserDto dto, CancellationToken cancellationToken)
+    public async Task<IActionResult> UpdateUser([FromBody] UpdateUserDto dto, CancellationToken cancellationToken)
     {
         var user = await _userService.UpdateUserAsync(dto, cancellationToken);
 
@@ -75,33 +75,33 @@ public class UsersController(IUserService _userService) : ControllerBase
     [Authorize(Roles = Roles.Admin)]
     [ProducesResponseType(typeof(bool) ,(int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> Delete([FromRoute] int id)
+    public async Task<IActionResult> DeleteUser([FromRoute] int id)
     {
         var result = await _userService.DeleteUserByIdAsync(id);
 
         return ApiResponse.GetObjectResult(result);
     }
     
-    [HttpPut(nameof(AddToRole))]
+    [HttpPut("{id:int}/roles")]
     [Authorize(Roles = Roles.Admin)]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> AddToRole([FromBody] AddUserToRoleDto dto)
+    public async Task<IActionResult> AddUserToRole([FromBody] AddUserToRoleDto dto)
     {
-        var result = await _userService.AddUserToRoleAsync(dto.UserId, dto.RoleId);
+        var result = await _userService.AddUserToRoleAsync(dto);
 
         return ApiResponse.GetObjectResult(result);
     }
     
-    [HttpPut(nameof(RemoveFromRole))]
+    [HttpDelete("{id:int}/roles")]
     [Authorize(Roles = Roles.Admin)]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> RemoveFromRole([FromBody] RemoveUserFromRoleDto dto)
+    public async Task<IActionResult> RemoveUserFromRole([FromBody] RemoveUserFromRoleDto dto)
     {
-        var result = await _userService.RemoveUserFromRoleAsync(dto.UserId, dto.RoleId);
+        var result = await _userService.RemoveUserFromRoleAsync(dto);
 
         return ApiResponse.GetObjectResult(result);
     }

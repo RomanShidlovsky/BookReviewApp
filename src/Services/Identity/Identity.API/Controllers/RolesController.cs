@@ -18,7 +18,7 @@ public class RolesController(IRoleService _roleService) : ControllerBase
     [Authorize(Roles = Roles.Admin)]
     [ProducesResponseType(typeof(IEnumerable<RoleDto>), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
+    public async Task<IActionResult> GetAllRoles(CancellationToken cancellationToken)
     {
         var roles = await _roleService.GetAllRolesAsync(cancellationToken);
 
@@ -29,7 +29,7 @@ public class RolesController(IRoleService _roleService) : ControllerBase
     [Authorize(Roles = Roles.Admin)]
     [ProducesResponseType(typeof(RoleDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> GetById([FromRoute] int id)
+    public async Task<IActionResult> GetRoleById([FromRoute] int id)
     {
         var role = await _roleService.GetRoleByIdAsync(id);
 
@@ -40,7 +40,7 @@ public class RolesController(IRoleService _roleService) : ControllerBase
     [Authorize(Roles = Roles.Admin)]
     [ProducesResponseType(typeof(RoleDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> GetByName([FromRoute] string name)
+    public async Task<IActionResult> GetRoleByName([FromRoute] string name)
     {
         var role = await _roleService.GetRoleByNameAsync(name);
 
@@ -52,7 +52,7 @@ public class RolesController(IRoleService _roleService) : ControllerBase
     [ProducesResponseType(typeof(RoleDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.Conflict)]
     [ProducesResponseType(typeof(IEnumerable<Error>), (int)HttpStatusCode.UnprocessableEntity)]
-    public async Task<IActionResult> Create([FromBody] CreateRoleDto dto, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateRole([FromBody] CreateRoleDto dto, CancellationToken cancellationToken)
     {
         var role = await _roleService.CreateRoleAsync(dto, cancellationToken);
 
@@ -63,7 +63,7 @@ public class RolesController(IRoleService _roleService) : ControllerBase
     [Authorize(Roles = Roles.Admin)]
     [ProducesResponseType(typeof(RoleDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> Delete([FromRoute] int id)
+    public async Task<IActionResult> DeleteRole([FromRoute] int id)
     {
         var result = await _roleService.DeleteRoleByIdAsync(id);
 

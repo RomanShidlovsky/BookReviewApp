@@ -83,16 +83,16 @@ public class UserService(
                 result.Errors.First().Description));
     }
 
-    public async Task<Response> AddUserToRoleAsync(int userId, int roleId)
+    public async Task<Response> AddUserToRoleAsync(AddUserToRoleDto dto)
     {
-        var role = await _roleManager.FindByIdAsync(roleId.ToString());
+        var role = await _roleManager.FindByIdAsync(dto.RoleId.ToString());
         
         if (role is null)
         {
             return Response.Failure(DomainErrors.Role.RoleNotFoundById);
         }
 
-        var user = await _userManager.FindByIdAsync(userId.ToString());
+        var user = await _userManager.FindByIdAsync(dto.UserId.ToString());
         
         if (user is not { DateDeleted: null })
         {
@@ -113,16 +113,16 @@ public class UserService(
                 result.Errors.First().Description));
     }
 
-    public async Task<Response> RemoveUserFromRoleAsync(int userId, int roleId)
+    public async Task<Response> RemoveUserFromRoleAsync(RemoveUserFromRoleDto dto)
     {
-        var role = await _roleManager.FindByIdAsync(roleId.ToString());
+        var role = await _roleManager.FindByIdAsync(dto.RoleId.ToString());
         
         if (role is null)
         {
             return Response.Failure(DomainErrors.Role.RoleNotFoundById);
         }
 
-        var user = await _userManager.FindByIdAsync(userId.ToString());
+        var user = await _userManager.FindByIdAsync(dto.UserId.ToString());
         
         if (user is not { DateDeleted: null })
         {

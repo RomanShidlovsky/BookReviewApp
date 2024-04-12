@@ -8,9 +8,10 @@ public static class SwaggerConfigurationExtensions
 {
     public static void ConfigureSwagger(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddRouting(options => options.LowercaseUrls = true);
+        
         services.AddSwaggerGen(options =>
         {
-
             options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
             {
                 Type = SecuritySchemeType.OAuth2,
