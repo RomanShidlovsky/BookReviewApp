@@ -24,10 +24,10 @@ public class SubjectRepository(BookContext context) : BaseRepository<Subject>(co
     public async Task<bool> AddSubjectToBookAsync(int subjectId, int bookId, CancellationToken cancellationToken)
     {
         var book = await GetBookSet()
-            .FirstOrDefaultAsync(b => b.Id == bookId, cancellationToken);
+            .FirstAsync(b => b.Id == bookId, cancellationToken);
         
         var subject = await GetEntitySet()
-            .FirstOrDefaultAsync(s => s.Id == subjectId, cancellationToken);
+            .FirstAsync(s => s.Id == subjectId, cancellationToken);
         
         book.Subjects.Add(subject);
         
@@ -37,10 +37,10 @@ public class SubjectRepository(BookContext context) : BaseRepository<Subject>(co
     public async Task<bool> RemoveSubjectFromBookAsync(int subjectId, int bookId, CancellationToken cancellationToken)
     {
         var book = await GetBookSet()
-            .FirstOrDefaultAsync(b => b.Id == bookId, cancellationToken);
+            .FirstAsync(b => b.Id == bookId, cancellationToken);
         
         var subject = await GetEntitySet()
-            .FirstOrDefaultAsync(s => s.Id == subjectId, cancellationToken);
+            .FirstAsync(s => s.Id == subjectId, cancellationToken);
         
         return book.Subjects.Remove(subject);
     }

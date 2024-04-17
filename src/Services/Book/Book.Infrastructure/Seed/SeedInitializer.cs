@@ -16,9 +16,11 @@ public class SeedInitializer(IUnitOfWork _unitOfWork) : ISeedInitializer
         ];
 
         var bookExists = await _unitOfWork.GetRepository<IBookRepository>().ExistsAsync(1, new CancellationToken());
-        
+
         if (bookExists)
+        {
             return;
+        }
         
         foreach (var initializer in initializers)
         {

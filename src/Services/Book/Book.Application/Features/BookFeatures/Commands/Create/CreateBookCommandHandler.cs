@@ -21,9 +21,11 @@ public class CreateBookCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper)
         if (dto.OpenLibraryKey is not null)
         {
             var existingBook = await repository.GetByOpenLibraryKeyAsync(dto.OpenLibraryKey, cancellationToken);
-            
+
             if (existingBook is not null)
+            {
                 return Response.Failure<BookResponseDto>(DomainErrors.Book.OpenLibraryKeyConflict);
+            }
         }
         
         var book = _mapper.Map<BookEntity>(dto);

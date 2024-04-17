@@ -20,8 +20,10 @@ public class UpdateBookCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper)
         var book = await repository.GetByIdAsync(dto.Id, cancellationToken);
 
         if (book is null)
+        {
             return Response.Failure<BookResponseDto>(DomainErrors.Book.BookNotFoundById);
-
+        }
+        
         if (dto.OpenLibraryKey is not null)
         {
             var openLibraryKeyAuthor =
@@ -29,7 +31,9 @@ public class UpdateBookCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper)
                         b.Id != dto.Id && b.IsOpenLibraryKey(dto.OpenLibraryKey), cancellationToken);
 
             if (openLibraryKeyAuthor.Count != 0)
+            {
                 return Response.Failure<BookResponseDto>(DomainErrors.Book.OpenLibraryKeyConflict);
+            }
         }
 
         _mapper.Map(dto, book);

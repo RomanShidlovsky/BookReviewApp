@@ -17,8 +17,10 @@ public class DeleteBookCommandHandler(IUnitOfWork _unitOfWork)
         var book = await repository.GetByIdAsync(request.Id, cancellationToken);
 
         if (book is null)
+        {
             return Response.Failure(DomainErrors.Book.BookNotFoundById);
-
+        }
+        
         repository.Delete(book);
         await _unitOfWork.SaveAsync(cancellationToken);
         

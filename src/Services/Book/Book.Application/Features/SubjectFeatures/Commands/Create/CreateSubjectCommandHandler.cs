@@ -18,10 +18,12 @@ public class CreateSubjectCommandHandler(IUnitOfWork _unitOfWork, IMapper _mappe
         var dto = request.Dto;
 
         var existingSubject = await repository.GetByNameAsync(dto.Name, cancellationToken);
-        
-        if (existingSubject is not null)
-            return Response.Failure<SubjectResponseDto>(DomainErrors.Subject.NameConflict);
 
+        if (existingSubject is not null)
+        {
+            return Response.Failure<SubjectResponseDto>(DomainErrors.Subject.NameConflict);
+        }
+        
         var subject = _mapper.Map<Subject>(dto);
         
         repository.Create(subject);

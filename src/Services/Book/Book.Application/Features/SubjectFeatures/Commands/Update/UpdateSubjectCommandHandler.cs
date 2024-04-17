@@ -19,15 +19,19 @@ public class UpdateSubjectCommandHandler(IUnitOfWork _unitOfWork, IMapper _mappe
 
         var existingSubject = await repository.GetAsync(s => 
             s.Id != dto.Id && s.IsName(dto.Name), cancellationToken);
-        
+
         if (existingSubject.Count != 0)
+        {
             return Response.Failure<SubjectResponseDto>(DomainErrors.Subject.NameConflict);
-
-        var subject = await repository.GetByIdAsync(dto.Id, cancellationToken);
+        }
         
-        if (subject is null)
-            return Response.Failure<SubjectResponseDto>(DomainErrors.Subject.SubjectNotFoundById);
+        var subject = await repository.GetByIdAsync(dto.Id, cancellationToken);
 
+        if (subject is null)
+        {
+            return Response.Failure<SubjectResponseDto>(DomainErrors.Subject.SubjectNotFoundById);
+        }
+        
         _mapper.Map(dto, subject);
         
         repository.Update(subject);

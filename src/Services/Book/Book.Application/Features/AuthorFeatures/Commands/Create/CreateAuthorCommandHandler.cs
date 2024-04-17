@@ -20,9 +20,11 @@ public class CreateAuthorCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper
         if (dto.OpenLibraryKey is not null)
         {
             var existingAuthor = await repository.GetByOpenLibraryKeyAsync(dto.OpenLibraryKey, cancellationToken);
-            
-            if (existingAuthor != null)
+
+            if (existingAuthor is not null)
+            {
                 return Response.Failure<AuthorResponseDto>(DomainErrors.Author.OpenLibraryKeyConflict);
+            }
         }
         
         var author = _mapper.Map<Author>(dto);

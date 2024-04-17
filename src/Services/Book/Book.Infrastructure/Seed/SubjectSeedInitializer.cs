@@ -11,8 +11,7 @@ public class SubjectSeedInitializer(ISubjectRepository _subjectRepository) : ISe
         new Subject { Name = "Action & Adventure" },
         new Subject { Name = "Science Fiction" }
     ];
-
-
+    
     public void Init()
     {
         foreach (var subject in Subjects)

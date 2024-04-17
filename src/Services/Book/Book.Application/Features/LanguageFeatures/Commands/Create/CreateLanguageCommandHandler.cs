@@ -18,10 +18,12 @@ public class CreateLanguageCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapp
         var dto = request.Dto;
 
         var existingLanguage = await repository.GetByNameAsync(dto.Name, cancellationToken);
-        
-        if (existingLanguage is not null)
-            return Response.Failure<LanguageResponseDto>(DomainErrors.Language.NameConflict);
 
+        if (existingLanguage is not null)
+        {
+            return Response.Failure<LanguageResponseDto>(DomainErrors.Language.NameConflict);
+        }
+        
         var language = _mapper.Map<Language>(dto);
         
         repository.Create(language);
