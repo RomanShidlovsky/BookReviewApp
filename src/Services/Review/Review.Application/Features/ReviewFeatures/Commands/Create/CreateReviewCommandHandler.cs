@@ -2,6 +2,7 @@
 using Review.Application.DTOs.ResponseDTOs;
 using Review.Application.Interfaces.Commands;
 using Review.Domain.Entities;
+using Review.Domain.Errors;
 using Review.Domain.Interfaces.Repositories;
 using Review.Infrastructure.Repositories;
 using Shared.Wrappers;
@@ -16,21 +17,27 @@ public class CreateReviewCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper
         var repository = _unitOfWork.GetRepository<IReviewRepository>();
         var dto = request.Dto;
 
-        var userExists = await _unitOfWork.GetRepository<IUserRepository>()
+        /*var userExists = await _unitOfWork.GetRepository<IUserRepository>()
             .ExistsAsync(dto.UserId, cancellationToken);
 
-        /*if (!userExists)
+        if (!userExists)
         {
             return Response.Failure<ReviewResponseDto>(DomainErrors.User.UserNotFoundById);
         }
 
-        var bookExists = await _unitOfWork.GetRepository<IBookRepository>()
-            .ExistsAsync(dto.BookId, cancellationToken);
+        var book = await _unitOfWork.GetRepository<IBookRepository>()
+            .GetByIdAsync(dto.BookId, cancellationToken);
 
-        if (!bookExists)
+        if (book is null)
         {
             return Response.Failure<ReviewResponseDto>(DomainErrors.Book.BookNotFoundById);
-        }*/
+        }
+
+        var ratingsSum = book.Reviews.Sum(review => review.Rating) + dto.Rating;
+        var reviewsCount = book.Reviews.Count + 1;
+        var averageRating = ratingsSum / reviewsCount;
+
+        book.AverageRating = averageRating;*/
         
         var review = _mapper.Map<ReviewEntity>(dto);
         
