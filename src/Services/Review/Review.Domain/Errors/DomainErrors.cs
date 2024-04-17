@@ -20,4 +20,20 @@ public class DomainErrors
             "Review with specified id not found.",
             404);
     }
+
+    public static class User
+    {
+        public static readonly Error UserNotFoundById = new(
+            "User.NotFoundById",
+            "User with specified id not found.",
+            404);
+    }
+    
+    public static class Book
+    {
+        public static readonly Error BookNotFoundById = new(
+            "Book.NotFoundById",
+            "Book with specified id not found.",
+            404);
+    }
 }
