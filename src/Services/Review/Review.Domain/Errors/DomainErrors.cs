@@ -27,6 +27,11 @@ public class DomainErrors
             "User.NotFoundById",
             "User with specified id not found.",
             404);
+
+        public static readonly Error AlreadyExists = new(
+            "User.AlreadyExists",
+            "User with specified id already exists.",
+            409);
     }
     
     public static class Book
@@ -35,5 +40,10 @@ public class DomainErrors
             "Book.NotFoundById",
             "Book with specified id not found.",
             404);
+        
+        public static readonly Error AlreadyExists = new(
+            "Book.AlreadyExists",
+            "Book with specified id already exists.",
+            409);
     }
 }
