@@ -1,55 +1,43 @@
 ﻿using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore;
+using MongoDB.Driver;
 using Review.Domain.Interfaces;
 using Review.Domain.Interfaces.Repositories;
-using Review.Infrastructure.Context;
 
 namespace Review.Infrastructure.Repositories;
 
-public abstract class BaseRepository<T>(ReviewContext context) : IBaseRepository<T>
+public abstract class BaseRepository<T>(IMongoCollection<T> collection) : IBaseRepository<T>
     where T : class, IBaseEntity
 {
-    protected readonly ReviewContext Context = context;
-    
-    protected virtual IQueryable<T> GetEntitySet()
+    public virtual async Task CreateAsync(T entity, CancellationToken cancellationToken)
     {
-        return Context.Set<T>();
+        await collection.InsertOneAsync(entity, cancellationToken: cancellationToken);
     }
 
-    public virtual void Create(T entity)
+    public virtual async Task UpdateAsync(T entity, CancellationToken cancellationToken)
     {
-        Context.Add(entity);
+        await collection.ReplaceOneAsync(e => e.Id == entity.Id, entity, cancellationToken: cancellationToken);
     }
 
-    public virtual void Update(T entity)
+    public virtual async Task DeleteAsync(T entity, CancellationToken cancellationToken)
     {
-        entity.DateUpdated = DateTimeOffset.UtcNow;
-        Context.Update(entity);
-    }
-
-    public virtual void Delete(T entity)
-    {
-        entity.DateDeleted = DateTimeOffset.UtcNow;
-        Context.Update(entity);
-    }
-
-    public virtual Task<List<T>> GetAsync(Expression<Func<T, bool>> expression, CancellationToken cancellationToken)
-    {
-        return GetEntitySet().Where(expression).ToListAsync(cancellationToken);
-    }
-
-    public virtual Task<T?> GetByIdAsync(int id, CancellationToken cancellationToken)
-    {
-        return GetEntitySet().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+        await collection.FindOneAndDeleteAsync(e => e.Id == entity.Id, cancellationToken: cancellationToken);
     }
     
-    public virtual Task<List<T>> GetAllAsync(CancellationToken cancellationToken)
+    public virtual async Task<List<T>> GetAsync(Expression<Func<T, bool>> condition, CancellationToken cancellationToken)
     {
-        return GetEntitySet().ToListAsync(cancellationToken);
+        return await collection.Find(condition)
+            .ToListAsync(cancellationToken);
     }
 
-    public Task<bool> ExistsAsync(int id, CancellationToken cancellationToken)
+    public virtual async Task<T?> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
-        return GetEntitySet().AnyAsync(t => t.Id == id, cancellationToken);
+        return await collection.Find(entity => entity.Id == id)
+            .FirstOrDefaultAsync(cancellationToken);
+    }
+    
+    public virtual async Task<List<T>> GetAllAsync(CancellationToken cancellationToken)
+    {
+        return await collection.Find(t => true)
+            .ToListAsync(cancellationToken);
     }
 }

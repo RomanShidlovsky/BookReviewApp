@@ -1,14 +1,15 @@
-﻿using Review.Domain.Interfaces;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using Review.Domain.Interfaces;
 
 namespace Review.Domain.Entities;
 
 public class User : IBaseEntity
 {
+    [BsonId]
+    [BsonRepresentation(BsonType.Int64)]
     public int Id { get; set; }
-    public string UserName { get; set; }
+
+    public string UserName { get; set; } = null!;
     public string? ImageUrl { get; set; }
-    public virtual List<ReviewEntity> Reviews { get; set; }
-    public DateTimeOffset DateCreated { get; set; }
-    public DateTimeOffset? DateUpdated { get; set; }
-    public DateTimeOffset? DateDeleted { get; set; }
 }

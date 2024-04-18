@@ -1,27 +1,19 @@
 ﻿using System.Reflection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using Review.Domain.Entities;
+using Review.Infrastructure.Interfaces;
 
 namespace Review.Infrastructure.Context;
 
-public class ReviewContext(DbContextOptions options) : DbContext(options)
+public class ReviewContext(IOptions<ReviewDatabaseSettings> options, IMongoClient client) : IMongoDbContext
 {
-    public DbSet<ReviewEntity> Reviews { get; init; }
-    public DbSet<User> Users { get; init; }
-    public DbSet<Book> Books { get; init; }
+    private readonly IMongoDatabase _db = client.GetDatabase(options.Value.DatabaseName);
 
-    public static ReviewContext Create(IMongoDatabase database)
+    public IMongoCollection<T> GetCollection<T>(string collectionName)
     {
-        return new(new DbContextOptionsBuilder<ReviewContext>()
-                    .UseMongoDB(database.Client, database.DatabaseNamespace.DatabaseName)
-                    .Options);
+        return _db.GetCollection<T>(collectionName);
     }
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        base.OnModelCreating(modelBuilder);
-
-        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-    }
+    
 }

@@ -1,7 +1,7 @@
-﻿using Review.Domain.Entities;
+﻿using MongoDB.Driver;
+using Review.Domain.Entities;
 using Review.Domain.Interfaces.Repositories;
-using Review.Infrastructure.Context;
 
 namespace Review.Infrastructure.Repositories;
 
-public class UserRepository(ReviewContext context) : BaseRepository<User>(context), IUserRepository;
+public class UserRepository(IMongoCollection<User> collection) : BaseRepository<User>(collection), IUserRepository;

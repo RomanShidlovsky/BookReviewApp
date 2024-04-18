@@ -1,7 +1,7 @@
-﻿using Review.Domain.Entities;
+﻿using MongoDB.Driver;
+using Review.Domain.Entities;
 using Review.Domain.Interfaces.Repositories;
-using Review.Infrastructure.Context;
 
 namespace Review.Infrastructure.Repositories;
 
-public class BookRepository(ReviewContext context) : BaseRepository<Book>(context), IBookRepository;
+public class BookRepository(IMongoCollection<Book> collection) : BaseRepository<Book>(collection), IBookRepository;

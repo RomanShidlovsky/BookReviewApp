@@ -2,9 +2,9 @@
 
 namespace Review.Infrastructure.Repositories;
 
-public interface IUnitOfWork : IDisposable
+public interface IUnitOfWork
 {
-    TRepository GetRepository<TRepository>() where TRepository : IBaseRepository;
-    void Save();
-    Task SaveAsync(CancellationToken cancellationToken);
+    IReviewRepository ReviewRepository { get; }
+    IUserRepository UserRepository { get; }
+    IBookRepository BookRepository { get; }
 }
