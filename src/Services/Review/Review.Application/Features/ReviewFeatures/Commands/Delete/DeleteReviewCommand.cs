@@ -2,4 +2,4 @@
 
 namespace Review.Application.Features.ReviewFeatures.Commands.Delete;
 
-public sealed record DeleteReviewCommand(int Id) : IDeleteCommand;
+public sealed record DeleteReviewCommand(string Id) : IDeleteCommand;

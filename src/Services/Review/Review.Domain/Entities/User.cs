@@ -7,9 +7,8 @@ namespace Review.Domain.Entities;
 public class User : IBaseEntity
 {
     [BsonId]
-    [BsonRepresentation(BsonType.Int64)]
-    public int Id { get; set; }
-
+    [BsonRepresentation(BsonType.String)]
+    public string Id { get; set; } = null!;
     public string UserName { get; set; } = null!;
     public string? ImageUrl { get; set; }
 }

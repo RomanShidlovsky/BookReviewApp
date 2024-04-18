@@ -16,7 +16,7 @@ public class UpdateBookCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper)
         var repository = _unitOfWork.BookRepository;
         var dto = request.Dto;
 
-        var book = await repository.GetByIdAsync(dto.Id, cancellationToken);
+        var book = await repository.GetByIdAsync(dto.Id.ToString(), cancellationToken);
 
         if (book is null)
         {

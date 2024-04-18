@@ -34,11 +34,11 @@ public class ReviewsController(IMediator _mediator, ILogger<ReviewsController> _
         return ApiResponse.GetObjectResult(result, _logger);
     }
     
-    [HttpGet("{id:int}")]
+    [HttpGet("{id:guid}")]
     [AllowAnonymous]
     [ProducesResponseType(typeof(ReviewResponseDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> GetReviewById([FromRoute] int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetReviewById([FromRoute] string id, CancellationToken cancellationToken)
     {
         var query = new GetReviewByIdQuery(id);
         var result = await _mediator.Send(query, cancellationToken);
@@ -72,11 +72,11 @@ public class ReviewsController(IMediator _mediator, ILogger<ReviewsController> _
         return ApiResponse.GetObjectResult(result, _logger);
     }
     
-    [HttpDelete("{id:int}")]
+    [HttpDelete("{id:guid}")]
     [Authorize(Roles = $"{Roles.Client}, {Roles.Admin}")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> DeleteReview([FromRoute] int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> DeleteReview([FromRoute] string id, CancellationToken cancellationToken)
     {
         var command = new DeleteReviewCommand(id);
         var result = await _mediator.Send(command, cancellationToken);
@@ -84,7 +84,7 @@ public class ReviewsController(IMediator _mediator, ILogger<ReviewsController> _
         return ApiResponse.GetObjectResult(result, _logger);
     }
     
-    [HttpPut("{id:int}/comments")]
+    [HttpPut("{id:guid}/comments")]
     [Authorize(Roles = $"{Roles.Client}, {Roles.Admin}")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]

@@ -18,7 +18,7 @@ public class CreateBookCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper)
         var repository = _unitOfWork.BookRepository;
         var dto = request.Dto;
 
-        var existingBook = await repository.GetByIdAsync(dto.Id, cancellationToken);
+        var existingBook = await repository.GetByIdAsync(dto.Id.ToString(), cancellationToken);
 
         if (existingBook is not null)
         {

@@ -3,7 +3,7 @@
 namespace Review.Application.DTOs.ResponseDTOs;
 
 public sealed record ReviewResponseDto(
-    int Id,
+    string Id,
     int BookId,
     int UserId,
     int Rating,

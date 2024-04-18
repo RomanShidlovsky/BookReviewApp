@@ -13,7 +13,7 @@ public class DeleteBookCommandHandler(IUnitOfWork _unitOfWork)
     {
         var repository = _unitOfWork.BookRepository;
 
-        var book = await repository.GetByIdAsync(request.Id, cancellationToken);
+        var book = await repository.GetByIdAsync(request.Id.ToString(), cancellationToken);
 
         if (book is null)
         {

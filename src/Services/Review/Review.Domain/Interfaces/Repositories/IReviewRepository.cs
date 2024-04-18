@@ -4,5 +4,5 @@ namespace Review.Domain.Interfaces.Repositories;
 
 public interface IReviewRepository : IBaseRepository<ReviewEntity>
 {
-    Task AddCommentToReviewAsync(int reviewId, Comment comment, CancellationToken cancellationToken);
+    Task AddCommentToReviewAsync(string reviewId, Comment comment, CancellationToken cancellationToken);
 }

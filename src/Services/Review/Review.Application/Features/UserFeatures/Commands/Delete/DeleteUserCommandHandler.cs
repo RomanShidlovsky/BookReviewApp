@@ -13,7 +13,7 @@ public class DeleteUserCommandHandler(IUnitOfWork _unitOfWork)
     {
         var repository = _unitOfWork.UserRepository;
 
-        var user = await repository.GetByIdAsync(request.Id, cancellationToken);
+        var user = await repository.GetByIdAsync(request.Id.ToString(), cancellationToken);
 
         if (user is null)
         {

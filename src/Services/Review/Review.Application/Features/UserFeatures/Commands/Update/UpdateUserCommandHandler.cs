@@ -16,7 +16,7 @@ public class UpdateUserCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper)
         var repository = _unitOfWork.UserRepository;
         var dto = request.Dto;
 
-        var user = await repository.GetByIdAsync(dto.Id, cancellationToken);
+        var user = await repository.GetByIdAsync(dto.Id.ToString(), cancellationToken);
 
         if (user is null)
         {

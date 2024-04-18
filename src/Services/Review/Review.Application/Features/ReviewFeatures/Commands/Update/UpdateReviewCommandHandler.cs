@@ -2,7 +2,6 @@
 using Review.Application.DTOs.ResponseDTOs;
 using Review.Application.Interfaces.Commands;
 using Review.Domain.Errors;
-using Review.Domain.Interfaces.Repositories;
 using Review.Infrastructure.Repositories;
 using Shared.Wrappers;
 
@@ -24,7 +23,7 @@ public class UpdateReviewCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper
         }
         
         /*var book = await _unitOfWork.BookRepository
-            .GetByIdAsync(review.BookId, cancellationToken);
+            .GetByIdAsync(review.BookId.ToString(), cancellationToken);
 
         if (book is null)
         {

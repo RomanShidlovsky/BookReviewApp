@@ -3,5 +3,5 @@
 namespace Review.Application.DTOs.RequestDTOs;
 
 public sealed record AddCommentToReviewDto(
-    int ReviewId,
+    string ReviewId,
     Comment Comment);

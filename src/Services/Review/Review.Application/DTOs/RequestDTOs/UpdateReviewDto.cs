@@ -1,6 +1,6 @@
 ﻿namespace Review.Application.DTOs.RequestDTOs;
 
 public sealed record UpdateReviewDto(
-    int Id,
+    string Id,
     int Rating,
     string? Text);

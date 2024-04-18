@@ -20,7 +20,7 @@ public class ReviewRepository(
         return reviews;
     }
 
-    public override async Task<ReviewEntity?> GetByIdAsync(int id, CancellationToken cancellationToken)
+    public override async Task<ReviewEntity?> GetByIdAsync(string id, CancellationToken cancellationToken)
     {
         var review = await base.GetByIdAsync(id, cancellationToken);
 
@@ -38,13 +38,13 @@ public class ReviewRepository(
         return reviews;
     }
 
-    public async Task AddCommentToReviewAsync(int reviewId, Comment comment, CancellationToken cancellationToken)
+    public async Task AddCommentToReviewAsync(string reviewId, Comment comment, CancellationToken cancellationToken)
     {
         var review = await GetByIdAsync(reviewId, cancellationToken);
 
         review.Comments.Add(comment);
 
-        await _reviewsCollection.ReplaceOneAsync(entity => entity.Id == reviewId, review,
+        await _reviewsCollection.ReplaceOneAsync(entity => entity.Id.Equals(reviewId), review,
             cancellationToken: cancellationToken);
     }
 
@@ -53,11 +53,11 @@ public class ReviewRepository(
         await Parallel.ForEachAsync(reviews, cancellationToken, async (review, token) =>
         {
             var user = await _usersCollection
-                .Find(user => user.Id == review.UserId)
+                .Find(user => user.Id == review.UserId.ToString())
                 .FirstOrDefaultAsync(token);
 
             var book = await _booksCollection
-                .Find(book => book.Id == review.BookId)
+                .Find(book => book.Id == review.BookId.ToString())
                 .FirstOrDefaultAsync(token);
 
             review.User = user;
@@ -68,11 +68,11 @@ public class ReviewRepository(
     private async Task LoadRelativeData(ReviewEntity review, CancellationToken cancellationToken)
     {
         var user = await _usersCollection
-            .Find(user => user.Id == review.UserId)
+            .Find(user => user.Id == review.UserId.ToString())
             .FirstOrDefaultAsync(cancellationToken);
 
         var book = await _booksCollection
-            .Find(book => book.Id == review.BookId)
+            .Find(book => book.Id == review.BookId.ToString())
             .FirstOrDefaultAsync(cancellationToken);
 
         review.User = user;

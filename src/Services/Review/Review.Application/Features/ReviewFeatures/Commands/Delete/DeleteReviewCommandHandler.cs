@@ -21,7 +21,7 @@ public class DeleteReviewCommandHandler(IUnitOfWork _unitOfWork)
         }
 
         /*var book = await _unitOfWork.BookRepository
-            .GetByIdAsync(review.BookId, cancellationToken);
+            .GetByIdAsync(review.BookId.ToString(), cancellationToken);
 
         if (book is null)
         {

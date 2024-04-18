@@ -7,8 +7,8 @@ namespace Review.Domain.Entities;
 public class Comment : IBaseEntity
 {
     [BsonId]
-    [BsonRepresentation(BsonType.Int64)]
-    public int Id { get; set; }
+    [BsonRepresentation(BsonType.ObjectId)]
+    public string Id { get; set; }
     public int UserId { get; set; }
     public string Text { get; set; } = null!;
     public int Likes { get; set; }

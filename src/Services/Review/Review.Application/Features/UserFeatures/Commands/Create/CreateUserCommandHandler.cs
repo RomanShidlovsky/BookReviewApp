@@ -17,7 +17,7 @@ public class CreateUserCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper)
         var repository = _unitOfWork.UserRepository;
         var dto = request.Dto;
 
-        var existingUser = await repository.GetByIdAsync(dto.Id, cancellationToken);
+        var existingUser = await repository.GetByIdAsync(dto.Id.ToString(), cancellationToken);
 
         if (existingUser is not null)
         {

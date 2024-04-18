@@ -18,7 +18,7 @@ public class CreateReviewCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper
         var dto = request.Dto;
 
         /*var existingUser = await _unitOfWork.UserRepository
-            .GetByIdAsync(dto.UserId, cancellationToken);
+            .GetByIdAsync(dto.UserId.ToString(), cancellationToken);
 
         if (existingUser is null)
         {
@@ -26,7 +26,7 @@ public class CreateReviewCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper
         }
 
         var book = await _unitOfWork.BookRepository
-            .GetByIdAsync(dto.BookId, cancellationToken);
+            .GetByIdAsync(dto.BookId.ToString(), cancellationToken);
 
         if (book is null)
         {
