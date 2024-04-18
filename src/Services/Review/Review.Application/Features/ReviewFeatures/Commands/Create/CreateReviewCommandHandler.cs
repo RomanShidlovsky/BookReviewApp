@@ -14,18 +14,18 @@ public class CreateReviewCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper
 {
     public async Task<Response<ReviewResponseDto>> Handle(CreateReviewCommand request, CancellationToken cancellationToken)
     {
-        var repository = _unitOfWork.GetRepository<IReviewRepository>();
+        var repository = _unitOfWork.ReviewRepository;
         var dto = request.Dto;
 
-        /*var userExists = await _unitOfWork.GetRepository<IUserRepository>()
-            .ExistsAsync(dto.UserId, cancellationToken);
+        /*var existingUser = await _unitOfWork.UserRepository
+            .GetByIdAsync(dto.UserId, cancellationToken);
 
-        if (!userExists)
+        if (existingUser is null)
         {
             return Response.Failure<ReviewResponseDto>(DomainErrors.User.UserNotFoundById);
         }
 
-        var book = await _unitOfWork.GetRepository<IBookRepository>()
+        var book = await _unitOfWork.BookRepository
             .GetByIdAsync(dto.BookId, cancellationToken);
 
         if (book is null)
@@ -41,8 +41,7 @@ public class CreateReviewCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper
         
         var review = _mapper.Map<ReviewEntity>(dto);
         
-        repository.Create(review);
-        await _unitOfWork.SaveAsync(cancellationToken);
+        await repository.CreateAsync(review, cancellationToken);
 
         return _mapper.Map<ReviewResponseDto>(review);
     }

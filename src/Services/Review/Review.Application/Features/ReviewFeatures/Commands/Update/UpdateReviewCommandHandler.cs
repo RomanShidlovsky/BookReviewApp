@@ -13,7 +13,7 @@ public class UpdateReviewCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper
 {
     public async Task<Response<ReviewResponseDto>> Handle(UpdateReviewCommand request, CancellationToken cancellationToken)
     {
-        var repository = _unitOfWork.GetRepository<IReviewRepository>();
+        var repository = _unitOfWork.ReviewRepository;
         var dto = request.Dto;
 
         var review = await repository.GetByIdAsync(dto.Id, cancellationToken);
@@ -22,11 +22,24 @@ public class UpdateReviewCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper
         {
             return Response.Failure<ReviewResponseDto>(DomainErrors.Review.ReviewNotFoundById);
         }
+        
+        /*var book = await _unitOfWork.BookRepository
+            .GetByIdAsync(review.BookId, cancellationToken);
 
+        if (book is null)
+        {
+            return Response.Failure<ReviewResponseDto>(DomainErrors.Book.BookNotFoundById);
+        }
+
+        var ratingsSum = book.Reviews.Sum(r => r.Rating) - review.Rating + dto.Rating;
+        var reviewsCount = book.Reviews.Count;
+        var averageRating = ratingsSum / reviewsCount;
+
+        book.AverageRating = averageRating;*/
+        
         _mapper.Map(dto, review);
         
-        repository.Update(review);
-        await _unitOfWork.SaveAsync(cancellationToken);
+        await repository.UpdateAsync(review, cancellationToken);
 
         return _mapper.Map<ReviewResponseDto>(review);
     }

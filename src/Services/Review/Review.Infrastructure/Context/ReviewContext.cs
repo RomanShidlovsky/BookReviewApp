@@ -15,5 +15,4 @@ public class ReviewContext(IOptions<ReviewDatabaseSettings> options, IMongoClien
     {
         return _db.GetCollection<T>(collectionName);
     }
-    
 }

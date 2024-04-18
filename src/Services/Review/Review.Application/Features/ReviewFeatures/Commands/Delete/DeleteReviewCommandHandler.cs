@@ -11,7 +11,7 @@ public class DeleteReviewCommandHandler(IUnitOfWork _unitOfWork)
 {
     public async Task<Response> Handle(DeleteReviewCommand request, CancellationToken cancellationToken)
     {
-        var repository = _unitOfWork.GetRepository<IReviewRepository>();
+        var repository = _unitOfWork.ReviewRepository;
 
         var review = await repository.GetByIdAsync(request.Id, cancellationToken);
 
@@ -19,9 +19,22 @@ public class DeleteReviewCommandHandler(IUnitOfWork _unitOfWork)
         {
             return Response.Failure(DomainErrors.Review.ReviewNotFoundById);
         }
+
+        /*var book = await _unitOfWork.BookRepository
+            .GetByIdAsync(review.BookId, cancellationToken);
+
+        if (book is null)
+        {
+            return Response.Failure(DomainErrors.Book.BookNotFoundById);
+        }
+
+        var ratingsSum = book.Reviews.Sum(r => r.Rating) - review.Rating;
+        var reviewsCount = book.Reviews.Count - 1;
+        var averageRating = ratingsSum / reviewsCount;
+
+        book.AverageRating = averageRating;*/
         
-        repository.Delete(review);
-        await _unitOfWork.SaveAsync(cancellationToken);
+        await repository.DeleteAsync(review, cancellationToken);
         
         return Response.Success();
     }

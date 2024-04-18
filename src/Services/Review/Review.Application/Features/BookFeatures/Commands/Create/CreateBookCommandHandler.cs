@@ -15,20 +15,19 @@ public class CreateBookCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper)
 {
     public async Task<Response<BookResponseDto>> Handle(CreateBookCommand request, CancellationToken cancellationToken)
     {
-        var repository = _unitOfWork.GetRepository<IBookRepository>();
+        var repository = _unitOfWork.BookRepository;
         var dto = request.Dto;
 
-        var bookExists = await repository.ExistsAsync(dto.Id, cancellationToken);
+        var existingBook = await repository.GetByIdAsync(dto.Id, cancellationToken);
 
-        if (bookExists)
+        if (existingBook is not null)
         {
             return Response.Failure<BookResponseDto>(DomainErrors.Book.AlreadyExists);
         }
 
         var book = _mapper.Map<Book>(dto);
         
-        repository.Create(book);
-        await _unitOfWork.SaveAsync(cancellationToken);
+        await repository.CreateAsync(book, cancellationToken);
 
         return _mapper.Map<BookResponseDto>(book);
     }

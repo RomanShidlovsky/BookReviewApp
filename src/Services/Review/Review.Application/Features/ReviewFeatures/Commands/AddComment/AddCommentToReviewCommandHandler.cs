@@ -12,7 +12,7 @@ public class AddCommentToReviewCommandHandler(IUnitOfWork _unitOfWork, IMapper _
 {
     public async Task<Response> Handle(AddCommentToReviewCommand request, CancellationToken cancellationToken)
     {
-        var repository = _unitOfWork.GetRepository<IReviewRepository>();
+        var repository = _unitOfWork.ReviewRepository;
         var dto = request.Dto;
 
         var review = await repository.GetByIdAsync(dto.ReviewId, cancellationToken);
@@ -22,8 +22,7 @@ public class AddCommentToReviewCommandHandler(IUnitOfWork _unitOfWork, IMapper _
             return Response.Failure(DomainErrors.Review.ReviewNotFoundById);
         }
         
-        repository.AddCommentToReviewAsync(dto.ReviewId, dto.Comment, cancellationToken);
-        await _unitOfWork.SaveAsync(cancellationToken);
+        await repository.AddCommentToReviewAsync(dto.ReviewId, dto.Comment, cancellationToken);
         
         return Response.Success();
     }

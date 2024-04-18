@@ -14,20 +14,19 @@ public class CreateUserCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper)
 {
     public async Task<Response<UserResponseDto>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
-        var repository = _unitOfWork.GetRepository<IUserRepository>();
+        var repository = _unitOfWork.UserRepository;
         var dto = request.Dto;
 
-        var userExists = await repository.ExistsAsync(dto.Id, cancellationToken);
+        var existingUser = await repository.GetByIdAsync(dto.Id, cancellationToken);
 
-        if (userExists)
+        if (existingUser is not null)
         {
             return Response.Failure<UserResponseDto>(DomainErrors.User.AlreadyExists);
         }
 
         var user = _mapper.Map<User>(dto);
         
-        repository.Create(user);
-        await _unitOfWork.SaveAsync(cancellationToken);
+        await repository.CreateAsync(user, cancellationToken);
 
         return _mapper.Map<UserResponseDto>(user);
     }

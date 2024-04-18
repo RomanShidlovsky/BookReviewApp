@@ -11,7 +11,7 @@ public class DeleteUserCommandHandler(IUnitOfWork _unitOfWork)
 {
     public async Task<Response> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
     {
-        var repository = _unitOfWork.GetRepository<IUserRepository>();
+        var repository = _unitOfWork.UserRepository;
 
         var user = await repository.GetByIdAsync(request.Id, cancellationToken);
 
@@ -20,8 +20,7 @@ public class DeleteUserCommandHandler(IUnitOfWork _unitOfWork)
             return Response.Failure(DomainErrors.User.UserNotFoundById);
         }
         
-        repository.Delete(user);
-        await _unitOfWork.SaveAsync(cancellationToken);
+        await repository.DeleteAsync(user, cancellationToken);
         
         return Response.Success();
     }

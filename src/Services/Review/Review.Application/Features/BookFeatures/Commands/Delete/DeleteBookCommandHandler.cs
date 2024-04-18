@@ -11,7 +11,7 @@ public class DeleteBookCommandHandler(IUnitOfWork _unitOfWork)
 {
     public async Task<Response> Handle(DeleteBookCommand request, CancellationToken cancellationToken)
     {
-        var repository = _unitOfWork.GetRepository<IBookRepository>();
+        var repository = _unitOfWork.BookRepository;
 
         var book = await repository.GetByIdAsync(request.Id, cancellationToken);
 
@@ -20,8 +20,7 @@ public class DeleteBookCommandHandler(IUnitOfWork _unitOfWork)
             return Response.Failure(DomainErrors.Book.BookNotFoundById);
         }
         
-        repository.Delete(book);
-        await _unitOfWork.SaveAsync(cancellationToken);
+        await repository.DeleteAsync(book, cancellationToken);
         
         return Response.Success();
     }

@@ -13,7 +13,7 @@ public class UpdateBookCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper)
 {
     public async Task<Response<BookResponseDto>> Handle(UpdateBookCommand request, CancellationToken cancellationToken)
     {
-        var repository = _unitOfWork.GetRepository<IBookRepository>();
+        var repository = _unitOfWork.BookRepository;
         var dto = request.Dto;
 
         var book = await repository.GetByIdAsync(dto.Id, cancellationToken);
@@ -25,8 +25,8 @@ public class UpdateBookCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper)
 
         _mapper.Map(dto, book);
         
-        repository.Update(book);
-        await _unitOfWork.SaveAsync(cancellationToken);
+        await repository.UpdateAsync(book, cancellationToken);
+        
 
         return _mapper.Map<BookResponseDto>(book);
     }

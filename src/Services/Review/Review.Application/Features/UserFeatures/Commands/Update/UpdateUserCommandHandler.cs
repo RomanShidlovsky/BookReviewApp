@@ -13,7 +13,7 @@ public class UpdateUserCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper)
 {
     public async Task<Response<UserResponseDto>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
-        var repository = _unitOfWork.GetRepository<IUserRepository>();
+        var repository = _unitOfWork.UserRepository;
         var dto = request.Dto;
 
         var user = await repository.GetByIdAsync(dto.Id, cancellationToken);
@@ -25,8 +25,7 @@ public class UpdateUserCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper)
 
         _mapper.Map(dto, user);
         
-        repository.Update(user);
-        await _unitOfWork.SaveAsync(cancellationToken);
+        await repository.UpdateAsync(user, cancellationToken);
 
         return _mapper.Map<UserResponseDto>(user);
     }

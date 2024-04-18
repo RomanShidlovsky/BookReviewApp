@@ -20,9 +20,6 @@ public static class ServiceExtensions
     private static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration)
     {
         var connectionString = configuration["ReviewDatabaseSettings:ConnectionString"]!;
-        var databaseName = configuration["ReviewDatabaseSettings:DatabaseName"]!;
-
-        var client = new MongoClient(connectionString);
         
         services.Configure<ReviewDatabaseSettings>(
             configuration.GetSection(nameof(ReviewDatabaseSettings)));
