@@ -17,7 +17,7 @@ public class CreateReviewCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper
         var repository = _unitOfWork.ReviewRepository;
         var dto = request.Dto;
 
-        /*var existingUser = await _unitOfWork.UserRepository
+        var existingUser = await _unitOfWork.UserRepository
             .GetByIdAsync(dto.UserId.ToString(), cancellationToken);
 
         if (existingUser is null)
@@ -37,7 +37,7 @@ public class CreateReviewCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper
         var reviewsCount = book.Reviews.Count + 1;
         var averageRating = ratingsSum / reviewsCount;
 
-        book.AverageRating = averageRating;*/
+        book.AverageRating = averageRating;
         
         var review = _mapper.Map<ReviewEntity>(dto);
         

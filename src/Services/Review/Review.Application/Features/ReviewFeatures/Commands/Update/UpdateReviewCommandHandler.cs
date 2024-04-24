@@ -22,7 +22,7 @@ public class UpdateReviewCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper
             return Response.Failure<ReviewResponseDto>(DomainErrors.Review.ReviewNotFoundById);
         }
         
-        /*var book = await _unitOfWork.BookRepository
+        var book = await _unitOfWork.BookRepository
             .GetByIdAsync(review.BookId.ToString(), cancellationToken);
 
         if (book is null)
@@ -34,7 +34,7 @@ public class UpdateReviewCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper
         var reviewsCount = book.Reviews.Count;
         var averageRating = ratingsSum / reviewsCount;
 
-        book.AverageRating = averageRating;*/
+        book.AverageRating = averageRating;
         
         _mapper.Map(dto, review);
         
