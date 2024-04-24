@@ -20,7 +20,7 @@ public class DeleteReviewCommandHandler(IUnitOfWork _unitOfWork)
             return Response.Failure(DomainErrors.Review.ReviewNotFoundById);
         }
 
-        /*var book = await _unitOfWork.BookRepository
+        var book = await _unitOfWork.BookRepository
             .GetByIdAsync(review.BookId.ToString(), cancellationToken);
 
         if (book is null)
@@ -32,7 +32,7 @@ public class DeleteReviewCommandHandler(IUnitOfWork _unitOfWork)
         var reviewsCount = book.Reviews.Count - 1;
         var averageRating = ratingsSum / reviewsCount;
 
-        book.AverageRating = averageRating;*/
+        book.AverageRating = averageRating;
         
         await repository.DeleteAsync(review, cancellationToken);
         

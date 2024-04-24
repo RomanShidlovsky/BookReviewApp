@@ -47,7 +47,7 @@ public class ReviewsController(IMediator _mediator, ILogger<ReviewsController> _
     }
     
     [HttpPost]
-    //[Authorize(Roles = $"{Roles.Client}, {Roles.Admin}")]
+    [Authorize(Roles = $"{Roles.Client}, {Roles.Admin}, {Roles.Reviewer}")]
     [ProducesResponseType(typeof(ReviewResponseDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(IEnumerable<Error>), (int)HttpStatusCode.UnprocessableEntity)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.Conflict)]
@@ -59,8 +59,8 @@ public class ReviewsController(IMediator _mediator, ILogger<ReviewsController> _
         return ApiResponse.GetObjectResult(result, _logger);
     }
     
-    [HttpPut]
-    [Authorize(Roles = $"{Roles.Client}, {Roles.Admin}")]
+    [HttpPut("{id:guid}")]
+    [Authorize(Roles = $"{Roles.Client}, {Roles.Admin}, {Roles.Reviewer}")]
     [ProducesResponseType(typeof(ReviewResponseDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(IEnumerable<Error>), (int)HttpStatusCode.UnprocessableEntity)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.Conflict)]
@@ -73,7 +73,7 @@ public class ReviewsController(IMediator _mediator, ILogger<ReviewsController> _
     }
     
     [HttpDelete("{id:guid}")]
-    [Authorize(Roles = $"{Roles.Client}, {Roles.Admin}")]
+    [Authorize(Roles = $"{Roles.Client}, {Roles.Admin}, {Roles.Reviewer}")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
     public async Task<IActionResult> DeleteReview([FromRoute] string id, CancellationToken cancellationToken)
@@ -85,7 +85,7 @@ public class ReviewsController(IMediator _mediator, ILogger<ReviewsController> _
     }
     
     [HttpPut("{id:guid}/comments")]
-    [Authorize(Roles = $"{Roles.Client}, {Roles.Admin}")]
+    [Authorize(Roles = $"{Roles.Client}, {Roles.Admin}, {Roles.Reviewer}")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.BadRequest)]
