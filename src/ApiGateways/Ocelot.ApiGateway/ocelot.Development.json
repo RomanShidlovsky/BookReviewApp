@@ -13,7 +13,9 @@
           "Host": "localhost",
           "Port": 5002
         }
-      ]
+      ],
+      "SwaggerKey": "identity",
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
       "UpstreamPathTemplate": "/authentication/register",
@@ -25,7 +27,9 @@
           "Host": "localhost",
           "Port": 5002
         }
-      ]
+      ],
+      "SwaggerKey": "identity",
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
       "UpstreamPathTemplate": "/users",
@@ -43,7 +47,9 @@
       },
       "RouteClaimsRequirement": {
         "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Admin"
-      }
+      },
+      "SwaggerKey": "identity",
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
       "UpstreamPathTemplate": "/users/{id}",
@@ -61,7 +67,9 @@
       },
       "RouteClaimsRequirement": {
         "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Client, Admin, Reviewer"
-      }
+      },
+      "SwaggerKey": "identity",
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
       "UpstreamPathTemplate": "/users/{id}/roles",
@@ -79,7 +87,9 @@
       },
       "RouteClaimsRequirement": {
         "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Admin"
-      }
+      },
+      "SwaggerKey": "identity",
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
       "UpstreamPathTemplate": "/roles",
@@ -97,7 +107,9 @@
       },
       "RouteClaimsRequirement": {
         "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Admin"
-      }
+      },
+      "SwaggerKey": "identity",
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
       "UpstreamPathTemplate": "/roles/{id}",
@@ -115,19 +127,79 @@
       },
       "RouteClaimsRequirement": {
         "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Admin"
-      }
+      },
+      "SwaggerKey": "identity",
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
-      "UpstreamPathTemplate": "/{controller}",
+      "UpstreamPathTemplate": "/books",
       "UpstreamHttpMethod": [ "Get" ],
-      "DownstreamPathTemplate": "/api/{controller}",
+      "DownstreamPathTemplate": "/api/books",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
           "Port": 5004
         }
-      ]
+      ],
+      "SwaggerKey": "books",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/authors",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/authors",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5004
+        }
+      ],
+      "SwaggerKey": "books",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/subjects",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/subjects",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5004
+        }
+      ],
+      "SwaggerKey": "books",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/languages",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/languages",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5004
+        }
+      ],
+      "SwaggerKey": "books",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/{controller}/{id}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/{controller}/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5004
+        }
+      ],
+      "SwaggerKey": "books",
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
       "UpstreamPathTemplate": "/{controller}",
@@ -145,19 +217,9 @@
       },
       "RouteClaimsRequirement": {
         "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Admin"
-      }
-    },
-    {
-      "UpstreamPathTemplate": "/{controller}/{id}",
-      "UpstreamHttpMethod": [ "Get" ],
-      "DownstreamPathTemplate": "/api/{controller}/{id}",
-      "DownstreamScheme": "https",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5004
-        }
-      ]
+      },
+      "SwaggerKey": "books",
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
       "UpstreamPathTemplate": "/{controller}/{id}",
@@ -175,7 +237,9 @@
       },
       "RouteClaimsRequirement": {
         "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Admin"
-      }
+      },
+      "SwaggerKey": "books",
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
       "UpstreamPathTemplate": "/books/{id}/{collection}",
@@ -193,19 +257,9 @@
       },
       "RouteClaimsRequirement": {
         "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Admin"
-      }
-    },
-    {
-      "UpstreamPathTemplate": "/books/{id}/{collection}",
-      "UpstreamHttpMethod": [ "Put", "Delete" ],
-      "DownstreamPathTemplate": "/api/books/{id}/{collection}",
-      "DownstreamScheme": "https",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5004
-        }
-      ]
+      },
+      "SwaggerKey": "books",
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
       "UpstreamPathTemplate": "/reviews",
@@ -217,7 +271,9 @@
           "Host": "localhost",
           "Port": 5006
         }
-      ]
+      ],
+      "SwaggerKey": "books",
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
       "UpstreamPathTemplate": "/reviews",
@@ -232,14 +288,13 @@
       ],
       "RouteClaimsRequirement": {
         "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Client, Admin, Reviewer"
-      }
+      },
+      "SwaggerKey": "reviews",
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
       "UpstreamPathTemplate": "/reviews/{id}",
-      "UpstreamHttpMethod": [
-        "Delete",
-        "Put"
-      ],
+      "UpstreamHttpMethod": ["Delete", "Put" ],
       "DownstreamPathTemplate": "/api/reviews",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -250,7 +305,41 @@
       ],
       "RouteClaimsRequirement": {
         "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Client, Admin, Reviewer"
-      }
+      },
+      "SwaggerKey": "reviews",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    }
+  ],
+  "SwaggerEndPoints": [
+    {
+      "Key": "identity",
+      "Config": [
+        {
+          "Name": "Identity API",
+          "Version": "v1",
+          "Url": "https://identity-service:443/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "books",
+      "Config": [
+        {
+          "Name": "Books API",
+          "Version": "v1",
+          "Url": "https://book-service:443/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "reviews",
+      "Config": [
+        {
+          "Name": "Reviews API",
+          "Version": "v1",
+          "Url": "https://review-service:443/swagger/v1/swagger.json"
+        }
+      ]
     }
   ]
 }
