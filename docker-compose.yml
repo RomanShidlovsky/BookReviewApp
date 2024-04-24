@@ -21,6 +21,13 @@ services:
       context: .
       dockerfile: "src/Services/Review/Review.API/Dockerfile"
     restart: unless-stopped
+  
+  ocelot-api-gateway:
+    container_name: ocelot-api-gateway
+    build:
+      context: .
+      dockerfile: "src/ApiGateways/Ocelot.ApiGateway/Dockerfile"
+    restart: unless-stopped
     
   mssql:
     container_name: mssql

@@ -13,7 +13,8 @@
           "Host": "identity-service",
           "Port": 443
         }
-      ]
+      ],
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
       "UpstreamPathTemplate": "/authentication/register",
@@ -25,7 +26,8 @@
           "Host": "identity-service",
           "Port": 443
         }
-      ]
+      ],
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
       "UpstreamPathTemplate": "/users",
@@ -43,7 +45,8 @@
       },
       "RouteClaimsRequirement": {
         "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Admin"
-      }
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
       "UpstreamPathTemplate": "/users/{id}",
@@ -61,7 +64,8 @@
       },
       "RouteClaimsRequirement": {
         "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Client, Admin, Reviewer"
-      }
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
       "UpstreamPathTemplate": "/users/{id}/roles",
@@ -79,7 +83,8 @@
       },
       "RouteClaimsRequirement": {
         "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Admin"
-      }
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
       "UpstreamPathTemplate": "/roles",
@@ -97,7 +102,8 @@
       },
       "RouteClaimsRequirement": {
         "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Admin"
-      }
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
       "UpstreamPathTemplate": "/roles/{id}",
@@ -115,19 +121,73 @@
       },
       "RouteClaimsRequirement": {
         "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Admin"
-      }
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
-      "UpstreamPathTemplate": "/{controller}",
+      "UpstreamPathTemplate": "/books",
       "UpstreamHttpMethod": [ "Get" ],
-      "DownstreamPathTemplate": "/api/{controller}",
+      "DownstreamPathTemplate": "/api/books",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "book-service",
           "Port": 443
         }
-      ]
+      ],
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/authors",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/authors",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "book-service",
+          "Port": 443
+        }
+      ],
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/subjects",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/subjects",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "book-service",
+          "Port": 443
+        }
+      ],
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/languages",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/languages",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "book-service",
+          "Port": 443
+        }
+      ],
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/{controller}/{id}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/{controller}/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "book-service",
+          "Port": 443
+        }
+      ],
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
       "UpstreamPathTemplate": "/{controller}",
@@ -145,19 +205,8 @@
       },
       "RouteClaimsRequirement": {
         "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Admin"
-      }
-    },
-    {
-      "UpstreamPathTemplate": "/{controller}/{id}",
-      "UpstreamHttpMethod": [ "Get" ],
-      "DownstreamPathTemplate": "/api/{controller}/{id}",
-      "DownstreamScheme": "https",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "book-service",
-          "Port": 443
-        }
-      ]
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
       "UpstreamPathTemplate": "/{controller}/{id}",
@@ -175,7 +224,8 @@
       },
       "RouteClaimsRequirement": {
         "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Admin"
-      }
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
       "UpstreamPathTemplate": "/books/{id}/{collection}",
@@ -193,7 +243,8 @@
       },
       "RouteClaimsRequirement": {
         "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Admin"
-      }
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
       "UpstreamPathTemplate": "/reviews",
@@ -205,7 +256,8 @@
           "Host": "review-service",
           "Port": 443
         }
-      ]
+      ],
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
       "UpstreamPathTemplate": "/reviews",
@@ -220,14 +272,12 @@
       ],
       "RouteClaimsRequirement": {
         "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Client, Admin, Reviewer"
-      }
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
       "UpstreamPathTemplate": "/reviews/{id}",
-      "UpstreamHttpMethod": [
-        "Delete",
-        "Put"
-      ],
+      "UpstreamHttpMethod": ["Delete", "Put" ],
       "DownstreamPathTemplate": "/api/reviews",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -238,7 +288,8 @@
       ],
       "RouteClaimsRequirement": {
         "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Client, Admin, Reviewer"
-      }
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true
     }
   ]
 }
