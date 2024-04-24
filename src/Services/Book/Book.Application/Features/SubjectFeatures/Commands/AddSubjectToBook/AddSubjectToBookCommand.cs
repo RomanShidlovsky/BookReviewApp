@@ -1,0 +1,6 @@
+﻿using Book.Application.DTOs.Subject.RequestDTOs;
+using Book.Application.Interfaces.Commands;
+
+namespace Book.Application.Features.SubjectFeatures.Commands.AddSubjectToBook;
+
+public sealed record AddSubjectToBookCommand(AddSubjectToBookDto Dto) : ICommand;

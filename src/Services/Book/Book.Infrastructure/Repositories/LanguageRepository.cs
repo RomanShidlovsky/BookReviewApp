@@ -1,0 +1,48 @@
+﻿using Book.Domain.Entities;
+using Book.Domain.Extensions;
+using Book.Domain.Interfaces.Repositories;
+using Book.Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using BookEntity = Book.Domain.Entities.Book;
+
+namespace Book.Infrastructure.Repositories;
+
+public class LanguageRepository(BookContext context) : BaseRepository<Language>(context), ILanguageRepository
+{
+    private IQueryable<BookEntity> GetBookSet()
+    {
+        return Context.Set<BookEntity>()
+            .Where(b => b.DateDeleted == null);
+    }
+
+    public Task<Language?> GetByNameAsync(string name, CancellationToken cancellationToken)
+    {
+        return GetEntitySet()
+            .FirstOrDefaultAsync(l => l.Name == name, cancellationToken);
+    }
+
+    public async Task<bool> AddLanguageToBookAsync(int languageId, int bookId, CancellationToken cancellationToken)
+    {
+        var book = await GetBookSet()
+            .FirstAsync(b => b.Id == bookId, cancellationToken);
+        
+        var language = await GetEntitySet()
+            .FirstAsync(l => l.Id == languageId, cancellationToken);
+        
+        book.Languages.Add(language);
+
+        return true;
+    }
+
+    public async Task<bool> RemoveLanguageFromBookAsync(int languageId, int bookId, CancellationToken cancellationToken)
+    {
+        var book = await GetBookSet()
+            .FirstAsync(b => b.Id == bookId, cancellationToken);
+        
+        var language = await GetEntitySet()
+            .FirstAsync(l => l.Id == languageId, cancellationToken);
+        
+        return book.Languages.Remove(language);
+    }
+}
