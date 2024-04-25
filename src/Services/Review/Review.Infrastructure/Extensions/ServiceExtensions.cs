@@ -1,13 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
-using Review.Domain.Interfaces.Repositories;
 using Review.Infrastructure.Context;
 using Review.Infrastructure.Interfaces;
 using Review.Infrastructure.Repositories;
+using Review.Infrastructure.Seed;
 
-namespace Review.Infrastructure;
+namespace Review.Infrastructure.Extensions;
 
 public static class ServiceExtensions
 {
@@ -15,6 +14,7 @@ public static class ServiceExtensions
     {
         services.ConfigureDbContext(configuration);
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddTransient<ISeedInitializer, SeedInitializer>();
     }
 
     private static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration)

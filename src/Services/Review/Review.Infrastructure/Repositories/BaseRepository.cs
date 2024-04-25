@@ -8,6 +8,11 @@ namespace Review.Infrastructure.Repositories;
 public abstract class BaseRepository<T>(IMongoCollection<T> collection) : IBaseRepository<T>
     where T : class, IBaseEntity
 {
+    public virtual void Create(T entity)
+    {
+        collection.InsertOne(entity);
+    }
+
     public virtual async Task CreateAsync(T entity, CancellationToken cancellationToken)
     {
         await collection.InsertOneAsync(entity, cancellationToken: cancellationToken);
