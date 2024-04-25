@@ -4,6 +4,7 @@ using Review.API.Extensions;
 using Review.Application;
 using Review.Infrastructure;
 using Review.Infrastructure.Context;
+using Review.Infrastructure.Extensions;
 using Shared.Extensions;
 using Shared.Middlewares;
 
@@ -31,5 +32,7 @@ app.UseCors("CorsPolicy");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+
+app.AddSeedData();
 
 app.Run();
