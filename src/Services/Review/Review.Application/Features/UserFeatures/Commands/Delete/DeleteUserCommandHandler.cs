@@ -12,8 +12,9 @@ public class DeleteUserCommandHandler(IUnitOfWork _unitOfWork)
     public async Task<Response> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
     {
         var repository = _unitOfWork.UserRepository;
-
-        var user = await repository.GetByIdAsync(request.Id.ToString(), cancellationToken);
+        var dto = request.Dto;
+        
+        var user = await repository.GetByIdAsync(dto.Id.ToString(), cancellationToken);
 
         if (user is null)
         {

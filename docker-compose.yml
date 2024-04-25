@@ -29,6 +29,11 @@ services:
       dockerfile: "src/ApiGateways/Ocelot.ApiGateway/Dockerfile"
     restart: unless-stopped
     
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:management
+    restart: unless-stopped
+    
   mssql:
     container_name: mssql
     image: mcr.microsoft.com/mssql/server:2022-latest

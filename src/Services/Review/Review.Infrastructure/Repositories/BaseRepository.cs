@@ -31,7 +31,7 @@ public abstract class BaseRepository<T>(IMongoCollection<T> collection) : IBaseR
 
     public virtual async Task<T?> GetByIdAsync(string id, CancellationToken cancellationToken)
     {
-        return await collection.Find(entity => entity.Equals(id))
+        return await collection.Find(entity => entity.Id.Equals(id))
             .FirstOrDefaultAsync(cancellationToken);
     }
     

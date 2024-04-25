@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Book.Application.Behaviors;
 using FluentValidation;
+using MassTransit;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,7 +14,20 @@ public static class ServiceExtensions
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+        services.AddMessageBroker();
         
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+    }
+    
+    public static void AddMessageBroker(this IServiceCollection services)
+    {
+        services.AddMassTransit(x =>
+        {
+            x.SetKebabCaseEndpointNameFormatter();
+            x.UsingRabbitMq((context, busFactoryConfigurator) =>
+            {
+                busFactoryConfigurator.Host("rabbitmq");
+            });
+        });
     }
 }
