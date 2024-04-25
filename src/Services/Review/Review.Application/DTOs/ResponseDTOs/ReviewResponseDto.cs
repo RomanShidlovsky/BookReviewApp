@@ -10,4 +10,6 @@ public sealed record ReviewResponseDto(
     string? Text,
     int? Likes,
     int? Dislikes,
-    IEnumerable<Comment>? Comments);
+    IEnumerable<Comment>? Comments,
+    UserResponseDto User,
+    BookResponseDto Book);

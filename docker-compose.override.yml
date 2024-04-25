@@ -4,6 +4,7 @@ services:
   identity-service:
     depends_on: 
       - mssql
+      - rabbitmq
     ports:
       - "5001:8080"
       - "5002:443"
@@ -23,6 +24,7 @@ services:
   book-service:
     depends_on: 
       - mssql
+      - rabbitmq
     ports:
       - "5003:8080"
       - "5004:443"
@@ -42,6 +44,7 @@ services:
   review-service:
     depends_on:
       - mongodb
+      - rabbitmq
     ports:
       - "5005:8080"
       - "5006:443"

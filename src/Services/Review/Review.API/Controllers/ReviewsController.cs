@@ -34,7 +34,7 @@ public class ReviewsController(IMediator _mediator, ILogger<ReviewsController> _
         return ApiResponse.GetObjectResult(result, _logger);
     }
     
-    [HttpGet("{id:guid}")]
+    [HttpGet("{id}")]
     [AllowAnonymous]
     [ProducesResponseType(typeof(ReviewResponseDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
@@ -59,7 +59,7 @@ public class ReviewsController(IMediator _mediator, ILogger<ReviewsController> _
         return ApiResponse.GetObjectResult(result, _logger);
     }
     
-    [HttpPut("{id:guid}")]
+    [HttpPut("{id}")]
     [Authorize(Roles = $"{Roles.Client}, {Roles.Admin}, {Roles.Reviewer}")]
     [ProducesResponseType(typeof(ReviewResponseDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(IEnumerable<Error>), (int)HttpStatusCode.UnprocessableEntity)]
@@ -72,7 +72,7 @@ public class ReviewsController(IMediator _mediator, ILogger<ReviewsController> _
         return ApiResponse.GetObjectResult(result, _logger);
     }
     
-    [HttpDelete("{id:guid}")]
+    [HttpDelete("{id}")]
     [Authorize(Roles = $"{Roles.Client}, {Roles.Admin}, {Roles.Reviewer}")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
@@ -84,7 +84,7 @@ public class ReviewsController(IMediator _mediator, ILogger<ReviewsController> _
         return ApiResponse.GetObjectResult(result, _logger);
     }
     
-    [HttpPut("{id:guid}/comments")]
+    [HttpPut("{id}/comments")]
     [Authorize(Roles = $"{Roles.Client}, {Roles.Admin}, {Roles.Reviewer}")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
