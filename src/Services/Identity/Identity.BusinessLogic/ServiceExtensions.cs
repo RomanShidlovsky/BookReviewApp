@@ -31,6 +31,7 @@ public static class ServiceExtensions
             x.UsingRabbitMq((context, busFactoryConfigurator) =>
             {
                 busFactoryConfigurator.Host("rabbitmq");
+                busFactoryConfigurator.ConfigureEndpoints(context);
             });
         });
     }

@@ -11,11 +11,13 @@ public class BookSeedInitializer(IBookRepository _bookRepository) : ISeedInitial
         {
             Id = "1",
             Title = "Harry Potter and the Prisoner of Azkaban",
+            AverageRating = 8
         },
         new Book
         {
             Id = "2",
-            Title = "Harry Potter and the Prisoner of Azkaban",
+            Title = "Solaris",
+            AverageRating = 9
         }
     ];
 

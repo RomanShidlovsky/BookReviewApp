@@ -24,9 +24,12 @@ public static class ServiceExtensions
         services.AddMassTransit(x =>
         {
             x.SetKebabCaseEndpointNameFormatter();
+            x.AddConsumers(Assembly.GetExecutingAssembly());
+            
             x.UsingRabbitMq((context, busFactoryConfigurator) =>
             {
-                busFactoryConfigurator.Host("rabbitmq");
+                busFactoryConfigurator.Host("rabbitmq", "/");
+                busFactoryConfigurator.ConfigureEndpoints(context);
             });
         });
     }
