@@ -8,6 +8,11 @@ namespace Review.Infrastructure.Repositories;
 public abstract class BaseRepository<T>(IMongoCollection<T> collection) : IBaseRepository<T>
     where T : class, IBaseEntity
 {
+    public virtual void Create(T entity)
+    {
+        collection.InsertOne(entity);
+    }
+
     public virtual async Task CreateAsync(T entity, CancellationToken cancellationToken)
     {
         await collection.InsertOneAsync(entity, cancellationToken: cancellationToken);
@@ -31,7 +36,7 @@ public abstract class BaseRepository<T>(IMongoCollection<T> collection) : IBaseR
 
     public virtual async Task<T?> GetByIdAsync(string id, CancellationToken cancellationToken)
     {
-        return await collection.Find(entity => entity.Equals(id))
+        return await collection.Find(entity => entity.Id.Equals(id))
             .FirstOrDefaultAsync(cancellationToken);
     }
     
