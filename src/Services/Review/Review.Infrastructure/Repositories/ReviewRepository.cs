@@ -25,14 +25,7 @@ public class ReviewRepository(
 
         return reviews;
     }
-
-    public async Task<List<ReviewEntity>> GetBookReviewsAsync(int bookId, CancellationToken cancellationToken)
-    {
-        var reviews = await GetAsync(review => review.BookId == bookId, cancellationToken);
-
-        return reviews;
-    }
-
+    
     public override async Task<ReviewEntity?> GetByIdAsync(string id, CancellationToken cancellationToken)
     {
         var cacheKey = BaseCacheKey + id;
