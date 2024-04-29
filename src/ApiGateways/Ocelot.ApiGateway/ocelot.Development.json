@@ -222,6 +222,20 @@
       "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
+      "UpstreamPathTemplate": "/reviews/book/{bookId}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/reviews/book/{bookId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5006
+        }
+      ],
+      "SwaggerKey": "books",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
       "UpstreamPathTemplate": "/reviews",
       "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/reviews",
