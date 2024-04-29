@@ -188,6 +188,74 @@
       "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
+      "UpstreamPathTemplate": "/reviews",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/reviews",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "review-service",
+          "Port": 443
+        }
+      ],
+      "SwaggerKey": "reviews",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/books/{id}/{collection}",
+      "UpstreamHttpMethod": [ "Put", "Delete" ],
+      "DownstreamPathTemplate": "/api/books/{id}/{collection}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "book-service",
+          "Port": 443
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      },
+      "RouteClaimsRequirement": {
+        "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Admin"
+      },
+      "SwaggerKey": "books",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/reviews",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/reviews",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "review-service",
+          "Port": 443
+        }
+      ],
+      "RouteClaimsRequirement": {
+        "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Client, Admin, Reviewer"
+      },
+      "SwaggerKey": "reviews",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/reviews/{id}",
+      "UpstreamHttpMethod": ["Delete", "Put" ],
+      "DownstreamPathTemplate": "/api/reviews",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "review-service",
+          "Port": 443
+        }
+      ],
+      "RouteClaimsRequirement": {
+        "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Client, Admin, Reviewer"
+      },
+      "SwaggerKey": "reviews",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
       "UpstreamPathTemplate": "/{controller}/{id}",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/{controller}/{id}",
@@ -239,74 +307,6 @@
         "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Admin"
       },
       "SwaggerKey": "books",
-      "DangerousAcceptAnyServerCertificateValidator": true
-    },
-    {
-      "UpstreamPathTemplate": "/books/{id}/{collection}",
-      "UpstreamHttpMethod": [ "Put", "Delete" ],
-      "DownstreamPathTemplate": "/api/books/{id}/{collection}",
-      "DownstreamScheme": "https",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "book-service",
-          "Port": 443
-        }
-      ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer"
-      },
-      "RouteClaimsRequirement": {
-        "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Admin"
-      },
-      "SwaggerKey": "books",
-      "DangerousAcceptAnyServerCertificateValidator": true
-    },
-    {
-      "UpstreamPathTemplate": "/reviews",
-      "UpstreamHttpMethod": [ "Get" ],
-      "DownstreamPathTemplate": "/api/reviews",
-      "DownstreamScheme": "https",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "review-service",
-          "Port": 443
-        }
-      ],
-      "SwaggerKey": "books",
-      "DangerousAcceptAnyServerCertificateValidator": true
-    },
-    {
-      "UpstreamPathTemplate": "/reviews",
-      "UpstreamHttpMethod": [ "Post" ],
-      "DownstreamPathTemplate": "/api/reviews",
-      "DownstreamScheme": "https",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "review-service",
-          "Port": 443
-        }
-      ],
-      "RouteClaimsRequirement": {
-        "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Client, Admin, Reviewer"
-      },
-      "SwaggerKey": "reviews",
-      "DangerousAcceptAnyServerCertificateValidator": true
-    },
-    {
-      "UpstreamPathTemplate": "/reviews/{id}",
-      "UpstreamHttpMethod": ["Delete", "Put" ],
-      "DownstreamPathTemplate": "/api/reviews",
-      "DownstreamScheme": "https",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "review-service",
-          "Port": 443
-        }
-      ],
-      "RouteClaimsRequirement": {
-        "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Client, Admin, Reviewer"
-      },
-      "SwaggerKey": "reviews",
       "DangerousAcceptAnyServerCertificateValidator": true
     }
   ],
