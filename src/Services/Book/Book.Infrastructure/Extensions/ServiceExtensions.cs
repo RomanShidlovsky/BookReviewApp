@@ -14,8 +14,9 @@ public static class ServiceExtensions
     {
         services.ConfigureDbContext(configuration);
         services.ConfigureRepositories();
+        services.ConfigureRedis(configuration);
         services.AddScoped<IUnitOfWork, UnitOfWork>();
-        services.AddSingleton<ISeedInitializer, SeedInitializer>();
+        services.AddTransient<ISeedInitializer, SeedInitializer>();
     }
     
     private static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration)
@@ -32,5 +33,14 @@ public static class ServiceExtensions
         services.AddScoped<IAuthorRepository, AuthorRepository>();
         services.AddScoped<ISubjectRepository, SubjectRepository>();
         services.AddScoped<ILanguageRepository, LanguageRepository>();
+    }
+    
+    private static void ConfigureRedis(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddStackExchangeRedisCache(options =>
+        {
+            options.Configuration = configuration["RedisURI"];
+            options.InstanceName = "Redis";
+        });
     }
 }

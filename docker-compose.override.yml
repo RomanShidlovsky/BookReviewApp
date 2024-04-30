@@ -40,6 +40,7 @@ services:
       - mssql-network
       - api-gateway
       - rabbitmq-network
+      - redis-network
   
   review-service:
     depends_on:
@@ -60,6 +61,7 @@ services:
       - mongodb-network
       - api-gateway
       - rabbitmq-network
+      - redis-network
         
   ocelot-api-gateway:
     depends_on:
@@ -88,6 +90,16 @@ services:
     hostname: "rabbitmq"
     networks:
       - rabbitmq-network
+  
+  redis:
+    ports:
+      - "6379:6379"
+    environment:
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=1234
+    networks:
+      - redis-network
+      
   
   mssql:
     ports:
@@ -142,6 +154,8 @@ networks:
   api-gateway:
     driver: bridge
   rabbitmq-network:
+    driver: bridge
+  redis-network:
     driver: bridge
 
 volumes: 
