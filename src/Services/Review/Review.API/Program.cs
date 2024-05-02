@@ -2,6 +2,7 @@ using System.Reflection;
 using Microsoft.AspNetCore.HttpOverrides;
 using Review.API.Extensions;
 using Review.Application;
+using Review.Application.GrpcServices;
 using Review.Infrastructure;
 using Review.Infrastructure.Context;
 using Review.Infrastructure.Extensions;
@@ -31,6 +32,8 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions { ForwardedHeaders = Forward
 app.UseCors("CorsPolicy");
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapGrpcService<GrpcReviewService>();
 app.MapControllers();
 
 app.AddSeedData();
