@@ -4,12 +4,13 @@ using Book.Domain.Interfaces.Repositories;
 using Book.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Logging;
 using Shared.Cache;
 using BookEntity = Book.Domain.Entities.Book;
 
 namespace Book.Infrastructure.Repositories;
 
-public class AuthorRepository(BookContext context, IDistributedCache _cache) 
+public class AuthorRepository(BookContext context, IDistributedCache _cache, ILogger<AuthorRepository> _logger) 
     : BaseRepository<Author>(context), IAuthorRepository
 {
     private const string BaseCacheKey = "Author";
@@ -31,10 +32,14 @@ public class AuthorRepository(BookContext context, IDistributedCache _cache)
         if (authorCache is not null)
         {
             author = Cache<Author>.GetData(authorCache);
+            
+            _logger.LogInformation("Get author with id = {id} from cash", id);
         }
         else
         {
             author = await base.GetByIdAsync(id, cancellationToken);
+            
+            _logger.LogInformation("Get author with id = {id} from db", id);
 
             authorCache = Cache<Author>.GetCache(author, out var options);
 
@@ -55,11 +60,15 @@ public class AuthorRepository(BookContext context, IDistributedCache _cache)
         if (authorCache is not null)
         {
             author = Cache<Author>.GetData(authorCache);
+            
+            _logger.LogInformation("Get author with key = {key} from cash", key);
         }
         else
         {
             author = await GetEntitySet()
                 .FirstOrDefaultAsync(a => a.OpenLibraryKey == key, cancellationToken);
+            
+            _logger.LogInformation("Get author with key = {key} from db", key);
 
             authorCache = Cache<Author>.GetCache(author, out var options);
 
