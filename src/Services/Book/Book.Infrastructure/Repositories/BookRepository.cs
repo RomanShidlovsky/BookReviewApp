@@ -3,12 +3,13 @@ using Book.Infrastructure.Context;
 using Book.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Logging;
 using Shared.Cache;
 using BookEntity = Book.Domain.Entities.Book;
 
 namespace Book.Infrastructure.Repositories;
 
-public class BookRepository(BookContext context, IDistributedCache _cache)
+public class BookRepository(BookContext context, IDistributedCache _cache, ILogger<BookRepository> _logger)
     : BaseRepository<BookEntity>(context), IBookRepository
 {
     public const string BaseCacheKey = "Book";
@@ -36,6 +37,8 @@ public class BookRepository(BookContext context, IDistributedCache _cache)
         if (booksCache is not null)
         {
             books = Cache<List<BookEntity>>.GetData(booksCache);
+            
+            _logger.LogInformation("Get books with cashKey = {key} from cache", cacheKey);
         }
         else
         {
@@ -45,6 +48,8 @@ public class BookRepository(BookContext context, IDistributedCache _cache)
                 .Paginate(pageNumber, pageSize)
                 .ToListAsync(cancellationToken);
 
+            _logger.LogInformation("Get books with cashKey = {key} from db", cacheKey);
+            
             booksCache = Cache<List<BookEntity>>.GetCache(books, out var options);
 
             await _cache.SetAsync(cacheKey, booksCache, options, cancellationToken);
@@ -66,10 +71,14 @@ public class BookRepository(BookContext context, IDistributedCache _cache)
         if (bookCache is not null)
         {
             book = Cache<BookEntity>.GetData(bookCache);
+            
+            _logger.LogInformation("Get book with id = {id} from cache", id);
         }
         else
         {
             book = await base.GetByIdAsync(id, cancellationToken);
+            
+            _logger.LogInformation("Get book with id = {id} from db", id);
 
             bookCache = Cache<BookEntity>.GetCache(book, out var options);
 
@@ -90,12 +99,16 @@ public class BookRepository(BookContext context, IDistributedCache _cache)
         if (bookCache is not null)
         {
             book = Cache<BookEntity>.GetData(bookCache);
+            
+            _logger.LogInformation("Get book with key = {key} from cache", cacheKey);
         }
         else
         {
             book = await GetEntitySet()
                 .FirstOrDefaultAsync(b => b.OpenLibraryKey != null && b.OpenLibraryKey == key,
                     cancellationToken);
+            
+            _logger.LogInformation("Get book with key = {key} from db", cacheKey);
 
             bookCache = Cache<BookEntity>.GetCache(book, out var options);
 
