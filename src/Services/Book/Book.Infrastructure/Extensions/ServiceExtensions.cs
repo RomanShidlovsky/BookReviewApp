@@ -15,8 +15,8 @@ public static class ServiceExtensions
         services.ConfigureDbContext(configuration);
         services.ConfigureRepositories();
         services.ConfigureRedis(configuration);
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
-        services.AddTransient<ISeedInitializer, SeedInitializer>();
+        services.AddTransient<IUnitOfWork, UnitOfWork>();
+        services.AddSingleton<ISeedInitializer, SeedInitializer>();
     }
     
     private static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration)
