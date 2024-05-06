@@ -1,4 +1,4 @@
-﻿using System.Security.Cryptography.X509Certificates;
+using System.Security.Cryptography;
 using FluentValidation.AspNetCore;
 using Identity.API.IdentityServerConfiguration;
 using Identity.DataAccess.Entities;
@@ -13,33 +13,13 @@ public static class ServiceExtensions
     public static void ConfigureApi(this IServiceCollection services, IConfiguration configuration)
     {
         services.ConfigureCors();
-        services.ConfigureAuthentication(configuration);
         services.AddAuthorization();
         services.AddControllers();
         services.AddFluentValidationAutoValidation();
         services.ConfigureIdentityServer(configuration);
         services.ConfigureSwagger(configuration);
     }
-
-    private static void ConfigureAuthentication(this IServiceCollection services, IConfiguration configuration)
-    {
-        var cert = new X509Certificate2(
-            Path.Combine(Environment.CurrentDirectory, $"Certificates/{configuration["JwtOptions:CertificateName"]}"),
-            configuration["JwtOptions:CertificatePassword"]);
-
-        services.AddAuthentication(options =>
-        {
-            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        }).AddJwtBearer(options =>
-        {
-            options.Authority = configuration["IdentityServer:IssuerUri"];
-            options.TokenValidationParameters.ValidateAudience = false;
-            options.TokenValidationParameters.ValidTypes = new[] { "at+jwt" };
-            options.TokenValidationParameters.IssuerSigningKey = new X509SecurityKey(cert);
-        });
-    }
-
+    
     private static void ConfigureCors(this IServiceCollection services)
     {
         services.AddCors(options =>
@@ -54,13 +34,21 @@ public static class ServiceExtensions
 
     private static void ConfigureIdentityServer(this IServiceCollection services, IConfiguration configuration)
     {
-        var cert = new X509Certificate2(
+        /*var cert = new X509Certificate2(
             Path.Combine(Environment.CurrentDirectory, $"Certificates/{configuration["JwtOptions:CertificateName"]}"),
-            configuration["JwtOptions:CertificatePassword"]);
-
+            configuration["JwtOptions:CertificatePassword"]);*/
         var jwtOptions = new JwtOptions();
         configuration.GetSection("JwtOptions").Bind(jwtOptions);
 
+
+        var privateKeyBytes = Convert.FromBase64String(jwtOptions.Key);
+        var rsa = RSA.Create(2048);
+        rsa.ImportRSAPrivateKey(privateKeyBytes, out _);
+        var key = new RsaSecurityKey(rsa);
+
+        var creds = new SigningCredentials(key, SecurityAlgorithms.RsaSha256);
+        
+        
         services.AddIdentityServer(opt =>
                 opt.IssuerUri = configuration["IdentityServer:IssuerUri"])
             .AddAspNetIdentity<User>()
@@ -68,7 +56,23 @@ public static class ServiceExtensions
             .AddInMemoryApiResources(Configuration.GetApis())
             .AddInMemoryClients(Configuration.GetClients(jwtOptions))
             .AddInMemoryIdentityResources(Configuration.GetIdentityResources())
-            .AddSigningCredential(cert)
+            .AddSigningCredential(creds)
             .AddProfileService<ProfileService>();
+        
+        
+        
+        services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        }).AddJwtBearer(options =>
+        {
+            options.Authority = configuration["IdentityServer:IssuerUri"];
+            options.RequireHttpsMetadata = false;
+            options.TokenValidationParameters.ValidateAudience = false;
+            options.TokenValidationParameters.ValidTypes = new[] { "at+jwt" };
+            options.TokenValidationParameters.ValidIssuer = configuration["IdentityServer:IssuerUri"];
+            options.TokenValidationParameters.IssuerSigningKey = new RsaSecurityKey(key.Rsa.ExportParameters(false));
+        });
     }
 }

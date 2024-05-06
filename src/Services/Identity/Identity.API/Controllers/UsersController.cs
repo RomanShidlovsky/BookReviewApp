@@ -12,7 +12,8 @@ namespace Identity.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class UsersController(IUserService _userService) : ControllerBase
+public class UsersController(IUserService _userService, ILogger<UsersController> _logger) 
+    : ControllerBase
 {
     [HttpGet]
     [Authorize(Roles = Roles.Admin)]
@@ -22,7 +23,7 @@ public class UsersController(IUserService _userService) : ControllerBase
     {
         var users = await _userService.GetAllUsersAsync(cancellationToken);
 
-        return ApiResponse.GetObjectResult(users);
+        return ApiResponse.GetObjectResult(users, _logger);
     }
     
     [HttpGet("{id:int}")]
@@ -33,7 +34,7 @@ public class UsersController(IUserService _userService) : ControllerBase
     {
         var user = await _userService.GetUserByIdAsync(id);
 
-        return ApiResponse.GetObjectResult(user);
+        return ApiResponse.GetObjectResult(user, _logger);
     }
     
     [HttpGet("{userName}")]
@@ -44,7 +45,7 @@ public class UsersController(IUserService _userService) : ControllerBase
     {
         var user = await _userService.GetUserByUserNameAsync(userName);
 
-        return ApiResponse.GetObjectResult(user);
+        return ApiResponse.GetObjectResult(user, _logger);
     }
     
     [HttpPost]
@@ -56,7 +57,7 @@ public class UsersController(IUserService _userService) : ControllerBase
     {
         var user = await _userService.CreateUserAsync(dto, cancellationToken);
 
-        return ApiResponse.GetObjectResult(user);
+        return ApiResponse.GetObjectResult(user, _logger);
     }
     
     [HttpPut]
@@ -68,7 +69,7 @@ public class UsersController(IUserService _userService) : ControllerBase
     {
         var user = await _userService.UpdateUserAsync(dto, cancellationToken);
 
-        return ApiResponse.GetObjectResult(user);
+        return ApiResponse.GetObjectResult(user, _logger);
     }
     
     [HttpDelete("{id:int}")]
@@ -79,7 +80,7 @@ public class UsersController(IUserService _userService) : ControllerBase
     {
         var result = await _userService.DeleteUserByIdAsync(id);
 
-        return ApiResponse.GetObjectResult(result);
+        return ApiResponse.GetObjectResult(result, _logger);
     }
     
     [HttpPut("{id:int}/roles")]
@@ -91,7 +92,7 @@ public class UsersController(IUserService _userService) : ControllerBase
     {
         var result = await _userService.AddUserToRoleAsync(dto);
 
-        return ApiResponse.GetObjectResult(result);
+        return ApiResponse.GetObjectResult(result, _logger);
     }
     
     [HttpDelete("{id:int}/roles")]
@@ -103,6 +104,6 @@ public class UsersController(IUserService _userService) : ControllerBase
     {
         var result = await _userService.RemoveUserFromRoleAsync(dto);
 
-        return ApiResponse.GetObjectResult(result);
+        return ApiResponse.GetObjectResult(result, _logger);
     }
 }
