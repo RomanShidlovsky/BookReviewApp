@@ -16,7 +16,7 @@ services:
       - ~/.aspnet/https:/https:ro
     networks: 
       - elastic
-      - mssqlnetwork
+      - mssql-network
   
   book-service:
     depends_on: 
@@ -33,7 +33,24 @@ services:
       - ~/.aspnet/https:/https:ro
     networks:
       - elastic
-      - mssqlnetwork
+      - mssql-network
+  
+  review-service:
+    depends_on:
+      - mongodb
+    ports:
+      - "5005:8080"
+      - "5006:443"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+      - ASPNETCORE_URLS=https://+:443;http://+:8080
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=1234
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/identity.pfx
+    volumes:
+      - ~/.aspnet/https:/https:ro
+    networks:
+      - elastic
+      - mongodb-network
   
   mssql:
     ports:
@@ -43,9 +60,17 @@ services:
       MSSQL_SA_PASSWORD: "Qwerty123456!"
       MSSQL_PID: Express
     volumes:
-      - mssql_data:/var/opt/mssql
+      - mssql-data:/var/opt/mssql
     networks: 
-      - mssqlnetwork
+      - mssql-network
+  
+  mongodb:
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb-data:/data/db
+    networks:
+      - mongodb-network
   
   elasticsearch:
     ports:
@@ -73,9 +98,12 @@ services:
 networks:
   elastic:
     driver: bridge
-  mssqlnetwork:
+  mssql-network:
+    driver: bridge
+  mongodb-network:
     driver: bridge
 
 volumes: 
-  mssql_data:
+  mssql-data:
   elasticsearch-data:
+  mongodb-data:

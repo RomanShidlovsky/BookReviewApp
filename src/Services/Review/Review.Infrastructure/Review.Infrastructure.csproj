@@ -7,15 +7,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Review.Application\Review.Application.csproj" />
       <ProjectReference Include="..\Review.Domain\Review.Domain.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Context\" />
-      <Folder Include="EntityConfigurations\" />
-      <Folder Include="Migrations\" />
-      <Folder Include="Repositories\" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="8.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
+      <PackageReference Include="MongoDB.Driver" Version="2.25.0" />
+      <PackageReference Include="MongoDBMigrations" Version="2.2.0" />
     </ItemGroup>
 
 </Project>

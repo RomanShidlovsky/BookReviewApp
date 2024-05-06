@@ -15,9 +15,21 @@ services:
       dockerfile: "src/Services/Book/Book.API/Dockerfile"
     restart: unless-stopped
     
+  review-service:
+    container_name: review-service
+    build:
+      context: .
+      dockerfile: "src/Services/Review/Review.API/Dockerfile"
+    restart: unless-stopped
+    
   mssql:
     container_name: mssql
     image: mcr.microsoft.com/mssql/server:2022-latest
+    restart: unless-stopped
+    
+  mongodb:
+    container_name: mongodb
+    image: mongodb/mongodb-community-server:latest
     restart: unless-stopped
   
   elasticsearch:
