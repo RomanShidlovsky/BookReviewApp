@@ -12,6 +12,12 @@ public class UserMapper : AutoMapper.Profile
             .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName))
             .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email));
         
+        CreateMap<UpdateUserDto, UserDto>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName))
+            .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
+            .ReverseMap();
+        
         CreateMap<User, UserDto>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName))

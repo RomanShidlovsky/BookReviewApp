@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Shared;
+using Shared.Interfaces;
+using IBaseEntity = Identity.DataAccess.Interfaces.IBaseEntity;
 
 namespace Identity.DataAccess.Entities;
 

@@ -1,13 +1,20 @@
 version: "3.8"
 
 services: 
-  identity:
+  identity-service:
     container_name: identity-service
     build:
       context: .
       dockerfile: "src/Services/Identity/Identity.API/Dockerfile"
     restart: unless-stopped
-      
+    
+  book-service:
+    container_name: book-service
+    build:
+      context: .
+      dockerfile: "src/Services/Book/Book.API/Dockerfile"
+    restart: unless-stopped
+    
   mssql:
     container_name: mssql
     image: mcr.microsoft.com/mssql/server:2022-latest

@@ -1,4 +1,4 @@
-﻿namespace Identity.DataAccess.Constants;
+﻿namespace Shared.Constants;
 
 public static class Roles
 {

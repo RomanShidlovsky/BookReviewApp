@@ -12,7 +12,7 @@ public class RoleMapper : AutoMapper.Profile
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
         
         CreateMap<Role, RoleDto>()
-            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
             .ReverseMap();
     }

@@ -34,20 +34,15 @@ public static class ServiceExtensions
 
     private static void ConfigureIdentityServer(this IServiceCollection services, IConfiguration configuration)
     {
-        /*var cert = new X509Certificate2(
-            Path.Combine(Environment.CurrentDirectory, $"Certificates/{configuration["JwtOptions:CertificateName"]}"),
-            configuration["JwtOptions:CertificatePassword"]);*/
         var jwtOptions = new JwtOptions();
         configuration.GetSection("JwtOptions").Bind(jwtOptions);
-
-
-        var privateKeyBytes = Convert.FromBase64String(jwtOptions.Key);
-        var rsa = RSA.Create(2048);
+        
+        var privateKeyBytes = Convert.FromBase64String(jwtOptions.PrivateKey);
+        var rsa = RSA.Create(2048); 
         rsa.ImportRSAPrivateKey(privateKeyBytes, out _);
         var key = new RsaSecurityKey(rsa);
 
         var creds = new SigningCredentials(key, SecurityAlgorithms.RsaSha256);
-        
         
         services.AddIdentityServer(opt =>
                 opt.IssuerUri = configuration["IdentityServer:IssuerUri"])
@@ -58,8 +53,6 @@ public static class ServiceExtensions
             .AddInMemoryIdentityResources(Configuration.GetIdentityResources())
             .AddSigningCredential(creds)
             .AddProfileService<ProfileService>();
-        
-        
         
         services.AddAuthentication(options =>
         {

@@ -1,4 +1,7 @@
-﻿namespace Shared;
+﻿using Shared.Interfaces;
+using Shared.Wrappers;
+
+namespace Shared;
 
 public class ValidationFailedResponse<T>(IEnumerable<Error> errors)
     : Response<T>(default, false, IValidationFailedResponse.ValidationError), IValidationFailedResponse

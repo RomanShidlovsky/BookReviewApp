@@ -2,10 +2,10 @@
 using Identity.BusinessLogic.DTOs.RequestDTOs.User;
 using Identity.BusinessLogic.DTOs.ResponseDTOs;
 using Identity.BusinessLogic.Services.Interfaces;
-using Identity.DataAccess.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared;
+using Shared.Constants;
 using Shared.Wrappers;
 
 namespace Identity.API.Controllers;

@@ -1,6 +1,6 @@
-﻿using Identity.DataAccess.Constants;
-using Identity.DataAccess.Entities;
+﻿using Identity.DataAccess.Entities;
 using Microsoft.AspNetCore.Identity;
+using Shared.Constants;
 
 namespace Identity.DataAccess.Seed;
 
