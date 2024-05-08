@@ -165,8 +165,6 @@ namespace Book.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasAlternateKey("Name");
-
                     b.ToTable("Languages");
                 });
 
@@ -195,8 +193,6 @@ namespace Book.Infrastructure.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
-
-                    b.HasAlternateKey("Name");
 
                     b.ToTable("Subjects");
                 });

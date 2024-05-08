@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+option csharp_namespace = "Review.Application.GrpcServices";
+
+import "google/protobuf/wrappers.proto";
+
+message Review {
+  string id = 1;
+  int32 bookId = 2;
+  int32 userId = 3;
+  int32 rating = 4;
+  google.protobuf.StringValue text = 5;
+  google.protobuf.UInt32Value Likes = 6;
+  google.protobuf.UInt32Value Dislikes = 7;
+}
+
+message GetBookReviewsRequest {
+  int32 bookId = 1;
+}
+
+message GetBookReviewsResponse {
+  repeated Review reviews = 1;
+}
+
+service ReviewService {
+  rpc GetBookReviews(GetBookReviewsRequest) returns (GetBookReviewsResponse);
+}

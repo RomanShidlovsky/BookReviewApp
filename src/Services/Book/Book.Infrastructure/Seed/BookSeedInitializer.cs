@@ -14,6 +14,7 @@ public class BookSeedInitializer(IBookRepository _bookRepository) : ISeedInitial
             Authors = [AuthorSeedInitializer.Authors[0]],
             Subjects = [SubjectSeedInitializer.Subjects[0], SubjectSeedInitializer.Subjects[1]],
             PublicationYear = 1999,
+            AverageRating = 8,
             Languages =
             [
                 LanguageSeedInitializer.Languages[0],
@@ -24,10 +25,11 @@ public class BookSeedInitializer(IBookRepository _bookRepository) : ISeedInitial
         new BookEntity
         {
             EditionCount = 66,
-            Title = "Harry Potter and the Prisoner of Azkaban",
+            Title = "Solaris",
             Authors = [AuthorSeedInitializer.Authors[1]],
             Subjects = [SubjectSeedInitializer.Subjects[2]],
             PublicationYear = 1962,
+            AverageRating = 9,
             Languages =
             [
                 LanguageSeedInitializer.Languages[0],

@@ -9,6 +9,5 @@ public class LanguageConfiguration : BaseConfiguration<Language>
     {
         base.Configure(builder);
         builder.Property(l => l.Name).HasMaxLength(15);
-        builder.HasAlternateKey(l => l.Name);
     }
 }

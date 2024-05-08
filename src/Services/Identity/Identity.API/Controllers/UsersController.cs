@@ -60,7 +60,7 @@ public class UsersController(IUserService _userService, ILogger<UsersController>
         return ApiResponse.GetObjectResult(user, _logger);
     }
     
-    [HttpPut]
+    [HttpPut("{id:int}")]
     [Authorize(Roles = $"{Roles.Client}, {Roles.Admin}, {Roles.Reviewer}")]
     [ProducesResponseType(typeof(UserDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(IEnumerable<Error>), (int)HttpStatusCode.UnprocessableEntity)]
@@ -73,7 +73,7 @@ public class UsersController(IUserService _userService, ILogger<UsersController>
     }
     
     [HttpDelete("{id:int}")]
-    [Authorize(Roles = Roles.Admin)]
+    [Authorize(Roles = $"{Roles.Client}, {Roles.Admin}, {Roles.Reviewer}")]
     [ProducesResponseType(typeof(bool) ,(int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
     public async Task<IActionResult> DeleteUser([FromRoute] int id)

@@ -1,18 +1,21 @@
 ﻿using AutoMapper;
 using Book.Application.DTOs.Book.ResponseDTOs;
+using Book.Application.DTOs.EventBus;
 using Book.Application.Interfaces.Commands;
 using Book.Domain.Errors;
 using Book.Domain.Extensions;
 using Book.Domain.Interfaces.Repositories;
 using Book.Infrastructure.Repositories;
-using Shared.Wrappers;
+using MassTransit;
+using RabbitMQ.EventBus.Interfaces.BookMessages;
+using Response = Shared.Wrappers.Response;
 
 namespace Book.Application.Features.BookFeatures.Commands.Update;
 
-public class UpdateBookCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper)
+public class UpdateBookCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper, IPublishEndpoint _publishEndpoint)
     : IUpdateCommandHandler<UpdateBookCommand, BookResponseDto>
 {
-    public async Task<Response<BookResponseDto>> Handle(UpdateBookCommand request, CancellationToken cancellationToken)
+    public async Task<Shared.Wrappers.Response<BookResponseDto>> Handle(UpdateBookCommand request, CancellationToken cancellationToken)
     {
         var repository = _unitOfWork.GetRepository<IBookRepository>();
         var dto = request.Dto;
@@ -26,11 +29,11 @@ public class UpdateBookCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper)
         
         if (dto.OpenLibraryKey is not null)
         {
-            var openLibraryKeyAuthor =
+            var openLibraryKeyBook =
                 await repository.GetAsync(b => 
-                        b.Id != dto.Id && b.IsOpenLibraryKey(dto.OpenLibraryKey), cancellationToken);
+                        b.Id != dto.Id && b.OpenLibraryKey == dto.OpenLibraryKey, cancellationToken);
 
-            if (openLibraryKeyAuthor.Count != 0)
+            if (openLibraryKeyBook.Count != 0)
             {
                 return Response.Failure<BookResponseDto>(DomainErrors.Book.OpenLibraryKeyConflict);
             }
@@ -40,6 +43,11 @@ public class UpdateBookCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper)
 
         repository.Update(book);
         await _unitOfWork.SaveAsync(cancellationToken);
+
+        await _publishEndpoint.Publish<IBookUpdated>(new BookUpdated(book.Id, book.Title, book.ImageUrl),
+            cancellationToken);
+        
+        await Console.Out.WriteLineAsync($"BookUpdated with Id = {book.Id} published.");
 
         return _mapper.Map<BookResponseDto>(book);
     }

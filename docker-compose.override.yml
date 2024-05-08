@@ -4,6 +4,7 @@ services:
   identity-service:
     depends_on: 
       - mssql
+      - rabbitmq
     ports:
       - "5001:8080"
       - "5002:443"
@@ -11,16 +12,19 @@ services:
       - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=https://+:443;http://+:8080
       - ASPNETCORE_Kestrel__Certificates__Default__Password=1234
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/identity.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnet.pfx
     volumes:
       - ~/.aspnet/https:/https:ro
     networks: 
       - elastic
       - mssql-network
+      - api-gateway
+      - rabbitmq-network
   
   book-service:
     depends_on: 
       - mssql
+      - rabbitmq
     ports:
       - "5003:8080"
       - "5004:443"
@@ -28,16 +32,20 @@ services:
       - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=https://+:443;http://+:8080
       - ASPNETCORE_Kestrel__Certificates__Default__Password=1234
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/identity.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnet.pfx
     volumes:
       - ~/.aspnet/https:/https:ro
     networks:
       - elastic
       - mssql-network
+      - api-gateway
+      - rabbitmq-network
+      - redis-network
   
   review-service:
     depends_on:
       - mongodb
+      - rabbitmq
     ports:
       - "5005:8080"
       - "5006:443"
@@ -45,12 +53,53 @@ services:
       - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=https://+:443;http://+:8080
       - ASPNETCORE_Kestrel__Certificates__Default__Password=1234
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/identity.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnet.pfx
     volumes:
       - ~/.aspnet/https:/https:ro
     networks:
       - elastic
       - mongodb-network
+      - api-gateway
+      - rabbitmq-network
+      - redis-network
+        
+  ocelot-api-gateway:
+    depends_on:
+      - identity-service
+      - book-service
+      - review-service
+    ports:
+      - "5010:8080"
+      - "5000:443"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+      - ASPNETCORE_URLS=https://+:443;http://+:8080
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=1234
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnet.pfx
+    volumes:
+      - ~/.aspnet/https:/https:ro
+    networks:
+      - elastic
+      - api-gateway
+      - rabbitmq-network
+  
+  rabbitmq:
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    hostname: "rabbitmq"
+    networks:
+      - rabbitmq-network
+  
+  redis:
+    ports:
+      - "6379:6379"
+    environment:
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=1234
+    networks:
+      - redis-network
+      
   
   mssql:
     ports:
@@ -101,6 +150,12 @@ networks:
   mssql-network:
     driver: bridge
   mongodb-network:
+    driver: bridge
+  api-gateway:
+    driver: bridge
+  rabbitmq-network:
+    driver: bridge
+  redis-network:
     driver: bridge
 
 volumes: 

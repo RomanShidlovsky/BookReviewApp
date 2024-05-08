@@ -13,6 +13,7 @@ public static class ServiceExtensions
     public static void ConfigureInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.ConfigureDbContext(configuration);
+        services.ConfigureRedis(configuration);
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddTransient<ISeedInitializer, SeedInitializer>();
     }
@@ -27,5 +28,14 @@ public static class ServiceExtensions
         services.AddSingleton<IMongoClient>(_ => new MongoClient(connectionString));
 
         services.AddScoped<IMongoDbContext, ReviewContext>();
+    }
+
+    private static void ConfigureRedis(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddStackExchangeRedisCache(options =>
+        {
+            options.Configuration = configuration["RedisURI"];
+            options.InstanceName = "Redis";
+        });
     }
 }

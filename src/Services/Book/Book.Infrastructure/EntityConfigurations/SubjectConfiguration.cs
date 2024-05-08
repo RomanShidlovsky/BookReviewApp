@@ -9,6 +9,5 @@ public class SubjectConfiguration : BaseConfiguration<Subject>
     {
         base.Configure(builder);
         builder.Property(s => s.Name).HasMaxLength(255);
-        builder.HasAlternateKey(s => s.Name);
     }
 }

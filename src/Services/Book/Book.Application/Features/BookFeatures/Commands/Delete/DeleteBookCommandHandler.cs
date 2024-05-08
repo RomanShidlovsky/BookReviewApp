@@ -1,13 +1,16 @@
 ﻿using AutoMapper;
+using Book.Application.DTOs.EventBus;
 using Book.Application.Interfaces.Commands;
 using Book.Domain.Errors;
 using Book.Domain.Interfaces.Repositories;
 using Book.Infrastructure.Repositories;
-using Shared.Wrappers;
+using MassTransit;
+using RabbitMQ.EventBus.Interfaces.BookMessages;
+using Response = Shared.Wrappers.Response;
 
 namespace Book.Application.Features.BookFeatures.Commands.Delete;
 
-public class DeleteBookCommandHandler(IUnitOfWork _unitOfWork)
+public class DeleteBookCommandHandler(IUnitOfWork _unitOfWork, IPublishEndpoint _publishEndpoint)
     : IDeleteCommandHandler<DeleteBookCommand>
 {
     public async Task<Response> Handle(DeleteBookCommand request, CancellationToken cancellationToken)
@@ -23,6 +26,10 @@ public class DeleteBookCommandHandler(IUnitOfWork _unitOfWork)
         
         repository.Delete(book);
         await _unitOfWork.SaveAsync(cancellationToken);
+        
+        await _publishEndpoint.Publish<IBookDeleted>(new BookDeleted(book.Id), cancellationToken);
+        
+        await Console.Out.WriteLineAsync($"BookDeleted with Id = {book.Id} published.");
         
         return Response.Success();
     }

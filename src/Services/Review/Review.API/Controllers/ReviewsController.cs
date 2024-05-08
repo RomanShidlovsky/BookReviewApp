@@ -9,8 +9,9 @@ using Review.Application.Features.ReviewFeatures.Commands.AddComment;
 using Review.Application.Features.ReviewFeatures.Commands.Create;
 using Review.Application.Features.ReviewFeatures.Commands.Delete;
 using Review.Application.Features.ReviewFeatures.Commands.Update;
+using Review.Application.Features.ReviewFeatures.Queries.GetAll;
+using Review.Application.Features.ReviewFeatures.Queries.GetBookReviews;
 using Review.Application.Features.ReviewFeatures.Queries.GetById;
-using Review.Application.Features.ReviewFeatures.Queries.GetPaged;
 using Shared;
 using Shared.Constants;
 using Shared.Wrappers;
@@ -25,16 +26,27 @@ public class ReviewsController(IMediator _mediator, ILogger<ReviewsController> _
     [AllowAnonymous]
     [ProducesResponseType(typeof(IEnumerable<ReviewResponseDto>), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> GetPagedReviews(CancellationToken cancellationToken, [FromQuery] string filterQueryString = "", 
-        [FromQuery] string orderByQueryString = "", [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+    public async Task<IActionResult> GetAllReviews(CancellationToken cancellationToken)
     {
-        var query = new GetPagedReviewsQuery(filterQueryString, orderByQueryString, pageNumber, pageSize);
+        var query = new GetAllReviewsQuery();
         var result = await _mediator.Send(query, cancellationToken);
 
         return ApiResponse.GetObjectResult(result, _logger);
     }
     
-    [HttpGet("{id:guid}")]
+    [HttpGet("book/{bookId:int}")]
+    [AllowAnonymous]
+    [ProducesResponseType(typeof(IEnumerable<ReviewResponseDto>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(Error), (int)HttpStatusCode.BadRequest)]
+    public async Task<IActionResult> GetBookReviews([FromRoute] int bookId,CancellationToken cancellationToken)
+    {
+        var query = new GetBookReviewsQuery(bookId);
+        var result = await _mediator.Send(query, cancellationToken);
+
+        return ApiResponse.GetObjectResult(result, _logger);
+    }
+    
+    [HttpGet("{id}")]
     [AllowAnonymous]
     [ProducesResponseType(typeof(ReviewResponseDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
@@ -59,7 +71,7 @@ public class ReviewsController(IMediator _mediator, ILogger<ReviewsController> _
         return ApiResponse.GetObjectResult(result, _logger);
     }
     
-    [HttpPut("{id:guid}")]
+    [HttpPut("{id}")]
     [Authorize(Roles = $"{Roles.Client}, {Roles.Admin}, {Roles.Reviewer}")]
     [ProducesResponseType(typeof(ReviewResponseDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(IEnumerable<Error>), (int)HttpStatusCode.UnprocessableEntity)]
@@ -72,7 +84,7 @@ public class ReviewsController(IMediator _mediator, ILogger<ReviewsController> _
         return ApiResponse.GetObjectResult(result, _logger);
     }
     
-    [HttpDelete("{id:guid}")]
+    [HttpDelete("{id}")]
     [Authorize(Roles = $"{Roles.Client}, {Roles.Admin}, {Roles.Reviewer}")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
@@ -84,7 +96,7 @@ public class ReviewsController(IMediator _mediator, ILogger<ReviewsController> _
         return ApiResponse.GetObjectResult(result, _logger);
     }
     
-    [HttpPut("{id:guid}/comments")]
+    [HttpPut("{id}/comments")]
     [Authorize(Roles = $"{Roles.Client}, {Roles.Admin}, {Roles.Reviewer}")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]

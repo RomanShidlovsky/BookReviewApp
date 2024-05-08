@@ -56,7 +56,7 @@ public class LanguagesController(IMediator _mediator, ILogger<LanguagesControlle
         return ApiResponse.GetObjectResult(result, _logger);
     }
 
-    [HttpPut]
+    [HttpPut("{id:int}")]
     [Authorize(Roles = Roles.Admin)]
     [ProducesResponseType(typeof(LanguageResponseDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(IEnumerable<Error>), (int)HttpStatusCode.UnprocessableEntity)]

@@ -12,6 +12,7 @@ public static class ServiceExtensions
     {
         services.ConfigureCors();
         services.AddAuthorization();
+        services.AddGrpc();
         services.AddControllers();
         services.ConfigureIdentityServer(configuration);
         services.ConfigureSwagger(configuration);
