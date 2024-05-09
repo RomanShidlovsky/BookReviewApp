@@ -1,5 +1,6 @@
 .card{
   border-radius: 4px;
+  height: 97%;
   background: #fff;
   box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
   cursor: pointer;
@@ -23,4 +24,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+img {
+  height: 70%;
 }

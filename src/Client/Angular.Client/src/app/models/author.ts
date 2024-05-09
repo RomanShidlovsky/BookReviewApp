@@ -1,4 +1,4 @@
-﻿export interface AuthorResponseDto {
+﻿export interface Author {
   id: number;
   openLibraryKey?: string | null;
   firstName: string;

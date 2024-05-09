@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {BookResponseDto} from "../../models/bookResponseDto";
+import {Book} from "../../models/book";
 import {BookService} from "../../services/book.service";
 import {NgForOf} from "@angular/common";
 import {BookPreviewComponent} from "../book-preview/book-preview.component";
@@ -15,7 +15,7 @@ import {BookPreviewComponent} from "../book-preview/book-preview.component";
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit{
-  lastUpdatedBooks: BookResponseDto[] = [];
+  lastUpdatedBooks: Book[] = [];
 
   constructor(private _bookService: BookService) {
   }
@@ -23,7 +23,5 @@ export class HomeComponent implements OnInit{
   ngOnInit() {
     this._bookService.getLastUpdatedBooks()
       .subscribe(books => this.lastUpdatedBooks = books);
-
-    console.log(this.lastUpdatedBooks);
   }
 }

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {BookResponseDto} from "../models/bookResponseDto";
+import {Book} from "../models/book";
 import {apiUrl} from "../app.config";
 
 @Injectable({
@@ -16,8 +16,8 @@ export class BookService {
     this.pageSize = 3;
   }
 
-  getLastUpdatedBooks(): Observable<BookResponseDto[]> {
-    return this.httpClient.get<BookResponseDto[]>(apiUrl +
+  getLastUpdatedBooks(): Observable<Book[]> {
+    return this.httpClient.get<Book[]>(apiUrl +
       `books?pageNumber=${this.pageNumber}&pageSize=${this.pageSize}`);
   }
 }

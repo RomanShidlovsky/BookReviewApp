@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {BookResponseDto} from "../../models/bookResponseDto";
+import {Book} from "../../models/book";
 import {apiUrl} from "../../app.config";
 
 @Component({
@@ -10,6 +10,6 @@ import {apiUrl} from "../../app.config";
   styleUrl: './book-preview.component.css'
 })
 export class BookPreviewComponent {
-  @Input() book!: BookResponseDto;
+  @Input() book!: Book;
   protected readonly apiUrl = apiUrl;
 }
