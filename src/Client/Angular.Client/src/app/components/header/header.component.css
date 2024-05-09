@@ -79,27 +79,26 @@ a:hover {
   margin-left: 0.5em;
 }
 
-.icon-Header {
+.icon-header {
   color: #757575 !important;
   font-size: 1em;
   list-style: none;
 }
 
-.icon-Header-li {
+.icon-header-li {
   padding: 10px 9px;
   transition: .2s;
-
 }
 
-.icon-Header {
+.icon-header {
   color: white !important;
 }
 
-.icon-Header:hover {
+.icon-header:hover {
   background-color: #e25714;
 }
 
-.icon-Header-li {
+.icon-header-li {
   background-color: #e25714;
 }
 

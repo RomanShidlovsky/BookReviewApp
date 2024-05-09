@@ -10,8 +10,8 @@ h2 {
   font-size: 1.4em;
 }
 hr {
-  border: 0px solid #FBD160;
-  height: 0px;
+  border: 0 solid #FBD160;
+  height: 0;
   text-align: center;
   width: 100%;
 }
@@ -23,7 +23,7 @@ h4{
 }
 
 /* Title BoxA */
-.Title-Container{
+.logo-container{
   padding: 5% 10%;
   max-width: 40%;
   height: 50em;
@@ -35,15 +35,14 @@ h4{
   font-weight: bold;
   text-align: center;
 }
+
 .strong-title{
   margin: 0 auto;
   font-size: 3em;
   margin-top: 10%;
 }
 
-/* About Us Box */
-
-.aboutUs-box{
+.about-box{
   width: 50%;
   height: auto;
   color:#757575;
@@ -55,8 +54,8 @@ h4{
   position:relative;
   border: #FBD160 1px solid;
   letter-spacing: 0.2em;
-
 }
+
 .box-policies {
   width: 30%;
   background-color: #4285F4;
@@ -73,12 +72,12 @@ h4{
   margin-left:4%;
   font-weight: bold;
 }
-/* BestSell Section */
+
 .flex {
   display: flex;
   flex-wrap: wrap;
 }
-/* .box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); } */
+
 
 .best-Sell{
   width: 50%;
@@ -92,9 +91,8 @@ h4{
   bottom: 0;
   font-family: 'M PLUS Rounded 1c', sans-serif;
   font-size:0.9em;
-  font-weight: regular;
-
 }
+
 .salesFont{
   font-family: 'Gloria Hallelujah', cursive;
   margin-top:0;
@@ -112,7 +110,6 @@ strong{
   bottom: 10px!important;
 }
 
-/* Responsive */
 
 @media (max-width: 717px){
   .logo{
@@ -127,7 +124,7 @@ strong{
   a{
     font-size: 12px;
   }
-  .aboutUs-box{
+  .about-box{
     margin-right: 30%;
     width: 90%;
     display: none;
@@ -136,7 +133,7 @@ strong{
     display: none;
   }
 
-  .Title-Container{
+  .logo-Container{
     margin: 30px auto;
     max-width: 100%;
 
@@ -146,19 +143,19 @@ strong{
 .img {
   display: block;
   max-width: 100%;
+  margin-top: 55px;
 }
 
 
 @media (max-width: 575.98px) {
-  .aboutUs-box{
+  .about-box{
     width: 70%;
     margin-top:2%;
     margin-right: 2%;
   }
-  .Title-Container{
-    margin: 20px auto;
+  .logo-container{
     padding-top:70px;
-    margin-top:-55px;
+    margin: -55px auto 20px;
     max-width: 100%;
     height: 43em;
     font-weight: bold;
