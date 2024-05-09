@@ -2,7 +2,7 @@
 import {LanguageResponseDto} from "./languageResponseDto";
 import {SubjectResponseDto} from "./subjectResponseDto";
 
-export interface BookResponseDtoBook {
+export interface BookResponseDto {
   id: number;
   openLibraryKey?: string | null;
   title: string;

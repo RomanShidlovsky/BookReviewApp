@@ -10,8 +10,10 @@
     <div class="col-12">
       <div class="row container-fluid text-center">
         <em>
-          Each dimension of <strong>our website</strong> is meticulously designed to facilitate your journey into the world of
-          literature, fostering interdisciplinary exploration and discovery. We handpick <strong>reviews</strong> to maximize
+          Each dimension of <strong>our website</strong> is meticulously designed to facilitate your journey into the
+          world of
+          literature, fostering interdisciplinary exploration and discovery. We handpick <strong>reviews</strong> to
+          maximize
           serendipity, ensuring you encounter captivating titles that may have otherwise slipped under your radar. Our
           curated content invites you to delve into diverse literary landscapes and uncover hidden gems.
         </em>
@@ -19,36 +21,17 @@
     </div>
   </div>
 
-  <!-- Start Best Sales  -->
-  <div class="container text-center best-Sell">
+  <div class="container text-center last-updates">
     <div class="row ">
       <div class="col">
-        <h5 class="text-center"><strong> RECOMMENDED FOR YOU </strong></h5>
+        <h5 class="text-center"><strong>LAST UPDATES</strong></h5>
       </div>
     </div>
     <div class="container">
       <div class="row">
-        <!--<div  *ngFor="let book of books|Filter: {inStock : 15}| slice:0:4;">
-          <hr>
-          &lt;!&ndash; Card image &ndash;&gt;
-          <div class="col-sm-12 my-1 ">
-            <img class="card-image-best-Sell " src="{{book.photo}}" alt="Card image cap">
-            <a>
-              <div class="mask rgba-white-slight"></div>
-            </a>
-          </div>
-          &lt;!&ndash; Card content &ndash;&gt;
-          <div>
-            &lt;!&ndash; Title &ndash;&gt;
-            <h4 class="card-text"> {{book.title}} </h4>
-            &lt;!&ndash; Text &ndash;&gt;
-            <p class="card-text">{{book.ourPrice}}dt</p>
-            <span  class ="salesFont"*ngIf="book.ourPrice < 14"  [style.color]="book.ourPrice < 14 ?  'orange':'transparent'"
-            >SALES
-            </span>
-
-          </div>
-        </div>-->
+        <div *ngFor="let book of lastUpdatedBooks">
+          <app-book-preview [book]="book"></app-book-preview>
+        </div>
       </div>
     </div>
   </div>
