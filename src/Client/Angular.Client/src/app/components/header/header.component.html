@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md  navbar-light bg-light navbar-light-color ">
+<nav class="navbar navbar-expand-md  navbar-light bg-light navbar-light-color mr-30">
 
   <button class="navbar-toggler animatedBtn" type="button" data-toggle="collapse" data-target="#navbar-dropdown"
           aria-controls="navbar-dropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,19 +29,19 @@
 
   <div class="text-center" *ngIf="!isLogin">
     <button [routerLink]="['/Register']" type="button" class="btn  btn-rounded icon-header-li">
-      Register
+      Sign Up
     </button>
   </div>
 
   <div class="text-center" *ngIf="!isLogin">
     <button [routerLink]="['/Login']" type="button" class="btn btn-rounded icon-header-li">
-      LogIn
+      Sign In
     </button>
   </div>
 
   <div class="text-center" *ngIf="isLogin">
     <button type="button" class="btn btn-rounded icon-header-li">
-      LogOut
+      Sign Out
     </button>
   </div>
 

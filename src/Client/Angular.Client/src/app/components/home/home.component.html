@@ -22,13 +22,13 @@
   </div>
 
   <div class="container text-center last-updates">
-    <div class="row ">
+    <div class="row">
       <div class="col">
         <h5 class="text-center"><strong>LAST UPDATES</strong></h5>
       </div>
     </div>
     <div class="container">
-      <div class="row">
+      <div class="d-flex justify-content-around">
         <div *ngFor="let book of lastUpdatedBooks">
           <app-book-preview [book]="book"></app-book-preview>
         </div>
