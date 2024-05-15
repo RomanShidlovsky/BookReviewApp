@@ -1,3 +1,13 @@
+.card-body {
+  width: 240px;
+  height: 100px;
+}
+
+.card-img-top {
+  width: 240px;
+  height: 360px;
+}
+
 .card{
   border-radius: 4px;
   height: 97%;
