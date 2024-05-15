@@ -1,1 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
+
+.logo-container {
+  padding: 5% 10%;
+  max-width: 40%;
+  float: left;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  background-color: #202020;
+  color: whitesmoke;
+  margin-top: -100px;
+  font-weight: bold;
+  text-align: center;
+  min-height: 100vh;
+}
+
+.strong-title {
+  margin: 0 auto;
+  font-size: 3em;
+  margin-top: 10%;
+}
+
+.logo-img {
+  display: block;
+  max-width: 100%;
+  margin-top: 55px;
+}
+
+.background {
+  height: 100%;
+}

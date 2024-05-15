@@ -1,6 +1,4 @@
-.background {
-  height: 100%;
-}
+
 
 a:link {
   text-decoration: none;
@@ -28,25 +26,6 @@ a:link {
 
 h4 {
   font-size: 1em;
-}
-
-.logo-container {
-  padding: 5% 10%;
-  max-width: 40%;
-  float: left;
-  font-family: 'M PLUS Rounded 1c', sans-serif;
-  background-color: #202020;
-  color: whitesmoke;
-  margin-top: -100px;
-  font-weight: bold;
-  text-align: center;
-  min-height: 95vh;
-}
-
-.strong-title {
-  margin: 0 auto;
-  font-size: 3em;
-  margin-top: 10%;
 }
 
 .about-box {
