@@ -2,7 +2,6 @@
 .navbar {
   background-color: transparent !important;
   font-family: 'Karla', sans-serif;
-  margin-bottom: .25rem !important;
   padding: 0 !important;
   box-shadow: none;
 }
@@ -65,13 +64,18 @@ a:hover {
 }
 
 .nav-item {
-  margin-left: 3em;
   list-style: none;
+  width: 130px;
+}
+
+.nav-brand {
+  list-style: none;
+  width: 200px;
+  color: whitesmoke;
 }
 
 .icons {
   margin-left: auto;
-
 }
 
 .icon-bar {
@@ -88,6 +92,7 @@ a:hover {
 .icon-header-li {
   padding: 10px 9px;
   transition: .2s;
+  height: 40px;
 }
 
 .icon-header {
@@ -175,5 +180,4 @@ a:hover {
 ::placeholder {
   color: #757575;
 }
-
 /* Responsive */

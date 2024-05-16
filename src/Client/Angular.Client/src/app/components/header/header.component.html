@@ -1,11 +1,61 @@
-<nav class="navbar navbar-expand-md  navbar-light bg-light navbar-light-color mr-30">
+<nav class="container-fluid navbar navbar-expand-md navbar-light bg-light navbar-light-color w-100 m-0">
 
   <button class="navbar-toggler animatedBtn" type="button" data-toggle="collapse" data-target="#navbar-dropdown"
           aria-controls="navbar-dropdown" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon icon-bar"></span>
   </button>
 
-  <div class="collapse navbar-collapse" id="navbar-dropdown">
+
+  <div class="row w-100 m-0">
+    <div class="col-lg-5 d-flex align-items-center bg-darker">
+      <div class="collapse navbar-collapse" id="navbar-dropdown">
+        <ul class="navbar-nav content-nav text-center">
+          <li class="nav-brand">
+            <span>Book Reviews</span>
+          </li>
+          <li class="nav-item ml-5">
+            <a [routerLink]="['/home']" [routerLinkActive]="['active']" class="nav-link text-white " href="#">
+              <span>HOME</span>
+            </a>
+          </li>
+          <li class="nav-item active ml-5">
+            <a [routerLink]="['/BookList']" [routerLinkActive]="['active']" class="nav-link text-white" href="#">
+              <span>READING LIST</span>
+            </a>
+          </li>
+          <li class="nav-item active ml-5">
+            <a [routerLink]="['/PrivatePage']" [routerLinkActive]="['active']" class="nav-link text-white" href="#"
+               *ngIf="isLogin">
+              <span>MANAGE BOOKS</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-lg-7">
+      <div class="row m-0 d-flex justify-content-end">
+        <div class="text-center" *ngIf="!isLogin">
+          <button [routerLink]="['/register']" type="button" class="btn  btn-rounded icon-header-li">
+            Sign Up
+          </button>
+        </div>
+
+        <div class="text-center" *ngIf="!isLogin">
+          <button [routerLink]="['/Login']" type="button" class="btn btn-rounded icon-header-li">
+            Sign In
+          </button>
+        </div>
+
+        <div class="text-center" *ngIf="isLogin">
+          <button type="button" class="btn btn-rounded icon-header-li">
+            Sign Out
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--<div class="collapse navbar-collapse" id="navbar-dropdown">
     <div class="content-div">
       <ul class="navbar-nav content-nav text-center">
         <li class="nav-item ml-5">
@@ -19,13 +69,15 @@
           </a>
         </li>
         <li class="nav-item active ml-5">
-          <a [routerLink]="['/PrivatePage']" [routerLinkActive]="['active']" class="nav-link text-white" href="#" *ngIf="isLogin">
+          <a [routerLink]="['/PrivatePage']" [routerLinkActive]="['active']" class="nav-link text-white" href="#"
+             *ngIf="isLogin">
             <span>MANAGE BOOKS</span>
           </a>
         </li>
       </ul>
     </div>
   </div>
+
 
   <div class="text-center" *ngIf="!isLogin">
     <button [routerLink]="['/register']" type="button" class="btn  btn-rounded icon-header-li">
@@ -43,6 +95,7 @@
     <button type="button" class="btn btn-rounded icon-header-li">
       Sign Out
     </button>
-  </div>
+  </div>-->
+
 
 </nav>

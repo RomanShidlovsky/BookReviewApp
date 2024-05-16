@@ -6,7 +6,7 @@
     </div>
     <div>
       <span>Rating: </span>
-      <button class="rating_circle">{{ book.averageRating }}</button>
+      <button class="rating_circle">{{ book.averageRating > 0 ? book.averageRating : "n/a" }}</button>
     </div>
   </a>
 </div>

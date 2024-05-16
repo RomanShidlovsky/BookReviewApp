@@ -1,23 +1,23 @@
-<footer class="page-footer fixed-bottom">
-  <div class="pre-footer text-right">
-    <strong class="ml-4 mr-2"> FOLLOW US: </strong>
-    <a href="">
-      <i class="fab fa-instagram icon-prefooter ml-1"></i>
-    </a>
-    <a href="">
-      <i class="fab fa-facebook icon-prefooter ml-3"></i>
-    </a>
-  </div>
+<footer class="container-fluid page-footer fixed-bottom p-0">
+  <div class="row h-100 m-0">
+    <div class="col-lg-5 bg-darker p-0 d-flex align-items-center">
+      <strong class="ml-4 mr-2"> FOLLOW US: </strong>
+      <a href="">
+        <i class="fab fa-instagram icon-prefooter ml-1"></i>
+      </a>
+      <a href="">
+        <i class="fab fa-facebook icon-prefooter ml-3"></i>
+      </a>
+    </div>
 
-  <div class="container box-shadow box-policies fixed-bottom py-3">
-    <div class="col-12">
-      <a  [routerLink]="['/Faq']" [routerLinkActive]="['active']"  href="#">
+    <div class="col-lg-7 bg-red d-flex align-items-center">
+      <a [routerLink]="['/Faq']" [routerLinkActive]="['active']" href="#" class="mr-5">
         <strong> FAQS </strong>
       </a>
-      <a href="https://termsfeed.com/privacy-policy/d7b3e2e182f890c72fbcf256ba22a5ef">
+      <a href="https://termsfeed.com/privacy-policy/d7b3e2e182f890c72fbcf256ba22a5ef" class="mr-5">
         <strong> PRIVATE POLICY </strong>
       </a>
-      <a  [routerLink]="['/Contact']" [routerLinkActive]="['active']"  href="#">
+      <a [routerLink]="['/Contact']" [routerLinkActive]="['active']" href="#" class="mr-5">
         <strong> CONTACT </strong>
       </a>
       <a href="">
@@ -25,5 +25,4 @@
       </a>
     </div>
   </div>
-
 </footer>
