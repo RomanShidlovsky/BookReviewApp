@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit{
   }
 
   ngOnInit() {
-    this._bookService.getLastUpdatedBooks()
+    this._bookService.getLastUpdatedBooks(3)
       .subscribe(books => this.lastUpdatedBooks = books);
   }
 }

@@ -4,3 +4,7 @@ export const identityEndpoints = {
   login: `${gateway}/authentication/login`,
   register: `${gateway}/authentication/register`
 }
+
+export const bookEndpoints = {
+  pagedBooks: `${gateway}/books`
+}

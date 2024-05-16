@@ -11,6 +11,7 @@ import {client} from "../constants/client";
   providedIn: 'root'
 })
 export class AuthService {
+  tokenRefreshing = false;
 
   constructor(private http: HttpClient) { }
 
@@ -26,7 +27,7 @@ export class AuthService {
     body.set('client_id', client.id);
     body.set('client_secret', client.secret);
 
-    let options = {
+    const options = {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
     }
 
@@ -36,6 +37,39 @@ export class AuthService {
 
     if (tokens) {
       this.setSession(tokens);
+
+      return true;
+    }
+
+    return false;
+  }
+
+  async refreshToken(): Promise<boolean> {
+    const refreshToken = this.getRefreshToken();
+
+    if (!refreshToken) {
+      return false;
+    }
+
+    this.tokenRefreshing = true;
+
+    let body = new URLSearchParams();
+    body.set('refresh_token', refreshToken);
+    body.set('grant_type', 'refresh_token');
+    body.set('client_id', client.id);
+    body.set('client_secret', client.secret);
+
+    const options = {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    }
+
+    const tokens = await firstValueFrom(
+      this.http.post<tokensResponse>(identityEndpoints.login, body.toString(), options)
+    ).catch(() => {});
+
+    if (tokens) {
+      this.setSession(tokens);
+      this.tokenRefreshing = false;
 
       return true;
     }
