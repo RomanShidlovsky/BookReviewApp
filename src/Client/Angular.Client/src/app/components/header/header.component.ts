@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {RouterLink, RouterLinkActive} from "@angular/router";
 import {NgIf, NgOptimizedImage} from "@angular/common";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'app-header',
@@ -15,9 +16,17 @@ import {NgIf, NgOptimizedImage} from "@angular/common";
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
-  public isLogin: boolean;
+  isLogged: boolean;
+  constructor(private authService: AuthService) {
+    this.isLogged = authService.isLogged();
+  }
 
-  constructor() {
-    this.isLogin = false;
+  logOut() {
+    this.authService.logOut();
+    this.isLogged = false;
+  }
+
+  isLoggedIn() {
+    return this.authService.isLogged();
   }
 }
