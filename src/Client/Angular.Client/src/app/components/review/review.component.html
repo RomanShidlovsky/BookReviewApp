@@ -1,0 +1,39 @@
+<div class="container-fluid card my-3">
+  <div class="row w-100 my-3">
+    <div class="col-1">
+      <button class="rating_circle" [ngClass]="{
+      'bg-success': review.rating >= 4,
+      'bg-warning': review.rating < 4 && review.rating > 2,
+      'bg-danger' : review.rating < 2 }">
+        {{ review.rating }}
+      </button>
+    </div>
+    <div class="col-11 d-flex align-items-center">
+      <h1 class="m-0">
+        {{ review.user.userName }}
+      </h1>
+    </div>
+  </div>
+  <div class="card-body">
+    {{ review.text }}
+  </div>
+  <div class="row w-100">
+    <div class="col-2 my-3 d-flex justify-content-start">
+      <div class="pl-3">
+        <i (click)="like()" class="fa fa-thumbs-up mr-1" [ngClass]="{
+        'text-light': !liked,
+        'text-primary': liked,
+        'disabled': !isLogged()
+      }"></i> {{ review.likeUserIds.length }}
+      </div>
+      <div class="pl-3">
+        <i (click)="dislike()" class="fa fa-thumbs-down" [ngClass]="{
+        'text-light': !disliked,
+        'text-primary': disliked,
+        'disabled': !isLogged()
+      }"></i> {{ review.dislikeUserIds.length }}
+      </div>
+    </div>
+
+  </div>
+</div>
