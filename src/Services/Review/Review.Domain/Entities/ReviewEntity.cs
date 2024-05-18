@@ -12,9 +12,9 @@ public class ReviewEntity : IBaseEntity
     public int BookId { get; set; }
     public int UserId { get; set; }
     public int Rating { get; set; }
-    public string? Text { get; set; }
-    public int Likes { get; set; }
-    public int Dislikes { get; set; }
+    public string Text { get; set; } = null!;
+    public virtual List<int> LikeUserIds { get; set; } = [];
+    public virtual List<int> DislikeUserIds { get; set; } = [];
     public virtual List<Comment> Comments { get; set; } = [];
     [BsonIgnore] 
     public virtual Book Book { get; set; } = null!;

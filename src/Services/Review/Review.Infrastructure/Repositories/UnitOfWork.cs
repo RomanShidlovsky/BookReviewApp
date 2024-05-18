@@ -19,6 +19,8 @@ public class UnitOfWork(IMongoDbContext context, IOptions<ReviewDatabaseSettings
         new(new ReviewRepository(context.GetCollection<ReviewEntity>(options.Value.ReviewsCollectionName),
             context.GetCollection<User>(options.Value.UsersCollectionName),
             context.GetCollection<Book>(options.Value.BooksCollectionName),
+            context.GetCollection<Like>(options.Value.LikesCollectionName),
+            context.GetCollection<Dislike>(options.Value.DislikesCollectionName),
             cache));
     
     public IBookRepository BookRepository => _bookRepository.Value;

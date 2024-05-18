@@ -13,7 +13,8 @@ public class ReviewProfile : Profile
             .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
             .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => src.Rating))
             .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Text))
-            .ForMember(dest => dest.Likes, opt => opt.MapFrom(src => src.Likes))
-            .ForMember(dest => dest.Dislikes, opt => opt.MapFrom(src => src.Dislikes));
+            .ForMember(dest => dest.LikeUserIds, opt => opt.MapFrom(src => src.LikeUserIds))
+            .ForMember(dest => dest.DislikeUserIds, opt => opt.MapFrom(src => src.DislikeUserIds))
+            .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User));
     }
 }

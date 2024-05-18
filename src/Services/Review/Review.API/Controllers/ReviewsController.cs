@@ -8,6 +8,10 @@ using Review.Application.Features.BookFeatures.Commands.Update;
 using Review.Application.Features.ReviewFeatures.Commands.AddComment;
 using Review.Application.Features.ReviewFeatures.Commands.Create;
 using Review.Application.Features.ReviewFeatures.Commands.Delete;
+using Review.Application.Features.ReviewFeatures.Commands.Dislike;
+using Review.Application.Features.ReviewFeatures.Commands.Like;
+using Review.Application.Features.ReviewFeatures.Commands.Undislike;
+using Review.Application.Features.ReviewFeatures.Commands.Unlike;
 using Review.Application.Features.ReviewFeatures.Commands.Update;
 using Review.Application.Features.ReviewFeatures.Queries.GetAll;
 using Review.Application.Features.ReviewFeatures.Queries.GetBookReviews;
@@ -104,6 +108,58 @@ public class ReviewsController(IMediator _mediator, ILogger<ReviewsController> _
     public async Task<IActionResult> AddAuthorToBook([FromBody] AddCommentToReviewDto dto, CancellationToken cancellationToken)
     {
         var command = new AddCommentToReviewCommand(dto);
+        var result = await _mediator.Send(command, cancellationToken);
+        
+        return ApiResponse.GetObjectResult(result, _logger);
+    }
+    
+    [HttpPut("{id}/likes")]
+    [Authorize(Roles = $"{Roles.Client}, {Roles.Admin}, {Roles.Reviewer}")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
+    [ProducesResponseType(typeof(Error), (int)HttpStatusCode.BadRequest)]
+    public async Task<IActionResult> Like([FromBody] LikeReviewDto dto, CancellationToken cancellationToken)
+    {
+        var command = new LikeReviewCommand(dto);
+        var result = await _mediator.Send(command, cancellationToken);
+        
+        return ApiResponse.GetObjectResult(result, _logger);
+    }
+    
+    [HttpDelete("{id}/likes")]
+    [Authorize(Roles = $"{Roles.Client}, {Roles.Admin}, {Roles.Reviewer}")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
+    [ProducesResponseType(typeof(Error), (int)HttpStatusCode.BadRequest)]
+    public async Task<IActionResult> Unlike([FromBody] LikeReviewDto dto, CancellationToken cancellationToken)
+    {
+        var command = new UnlikeReviewCommand(dto);
+        var result = await _mediator.Send(command, cancellationToken);
+        
+        return ApiResponse.GetObjectResult(result, _logger);
+    }
+
+    [HttpPut("{id}/dislikes")]
+    [Authorize(Roles = $"{Roles.Client}, {Roles.Admin}, {Roles.Reviewer}")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
+    [ProducesResponseType(typeof(Error), (int)HttpStatusCode.BadRequest)]
+    public async Task<IActionResult> Dislike([FromBody] DislikeReviewDto dto, CancellationToken cancellationToken)
+    {
+        var command = new DislikeReviewCommand(dto);
+        var result = await _mediator.Send(command, cancellationToken);
+        
+        return ApiResponse.GetObjectResult(result, _logger);
+    }
+    
+    [HttpDelete("{id}/dislikes")]
+    [Authorize(Roles = $"{Roles.Client}, {Roles.Admin}, {Roles.Reviewer}")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
+    [ProducesResponseType(typeof(Error), (int)HttpStatusCode.BadRequest)]
+    public async Task<IActionResult> Undislike([FromBody] DislikeReviewDto dto, CancellationToken cancellationToken)
+    {
+        var command = new UndislikeCommand(dto);
         var result = await _mediator.Send(command, cancellationToken);
         
         return ApiResponse.GetObjectResult(result, _logger);

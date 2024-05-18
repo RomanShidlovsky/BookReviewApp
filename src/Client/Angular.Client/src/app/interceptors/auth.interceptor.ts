@@ -28,7 +28,7 @@ export class AuthInterceptor implements HttpInterceptor {
               this.goToSignIn();
             }
           } else if (error.status == 403) {
-            console.log('Not permitted to perform the request');
+            console.log('Forbidden');
           }
         }
 

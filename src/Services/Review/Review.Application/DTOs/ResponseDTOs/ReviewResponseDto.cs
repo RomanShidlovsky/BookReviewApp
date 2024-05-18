@@ -8,8 +8,8 @@ public sealed record ReviewResponseDto(
     int UserId,
     int Rating,
     string? Text,
-    int? Likes,
-    int? Dislikes,
+    IEnumerable<int> LikeUserIds,
+    IEnumerable<int> DislikeUserIds,
     IEnumerable<Comment>? Comments,
     UserResponseDto User,
     BookResponseDto Book);

@@ -11,17 +11,17 @@ public class ReviewSeedInitializer(IReviewRepository _reviewRepository) : ISeedI
         {
             BookId = 1,
             UserId = 3,
-            Likes = 0,
-            Dislikes = 0,
-            Rating = 8,
+            LikeUserIds = [],
+            DislikeUserIds = [],
+            Rating = 4,
             Text = "Great book!"
         },
         new ReviewEntity
         {
             BookId = 2,
             UserId = 3,
-            Likes = 0,
-            Dislikes = 0,
+            LikeUserIds = [],
+            DislikeUserIds = [],
             Rating = 9,
             Text = "Awesome"
         }

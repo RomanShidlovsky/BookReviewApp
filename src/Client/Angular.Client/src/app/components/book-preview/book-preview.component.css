@@ -24,21 +24,6 @@
   box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
 }
 
-.rating_circle {
-  width: 50px;
-  height: 50px;
-  border-radius: 25px;
-  border: 1px none;
-  font-size: 15px;
-  margin: 5px;
-}
-
-.rating-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 img {
   height: 70%;
 }

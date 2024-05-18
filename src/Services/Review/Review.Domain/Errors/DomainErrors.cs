@@ -19,6 +19,16 @@ public class DomainErrors
             "Review.NotFoundById",
             "Review with specified id not found.",
             404);
+
+        public static readonly Error AlreadyLiked = new(
+            "Review.AlreadyLiked",
+            "Review already liked.",
+            404);
+        
+        public static readonly Error AlreadyDisliked = new(
+            "Review.AlreadyDisliked",
+            "Review already disliked.",
+            404);
     }
 
     public static class User

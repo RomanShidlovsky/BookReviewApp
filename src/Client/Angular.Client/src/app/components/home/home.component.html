@@ -2,7 +2,7 @@
   <div class="container-fluid h-100">
     <div class="row h-100">
       <div class="col-lg-5 h-100 bg-main p-0">
-        <div class="logo-container">
+        <div class="logo-container h-100 d-flex flex-column justify-content-center align-items-center">
           <img src="./assets/img/logo.png" class="logo-img" alt="logo">
           <h1 class="strong-title">
             Every burnt book enlightens the world.
@@ -37,7 +37,9 @@
 
               <div class="d-flex col justify-content-around">
                 <div *ngFor="let book of lastUpdatedBooks">
-                  <app-book-preview [book]="book"></app-book-preview>
+                  <a [routerLink]="['/book', book.id]" [routerLinkActive]="['active']">
+                    <app-book-preview [book]="book"></app-book-preview>
+                  </a>
                 </div>
               </div>
             </div>

@@ -6,5 +6,14 @@ export const identityEndpoints = {
 }
 
 export const bookEndpoints = {
-  pagedBooks: `${gateway}/books`
+  books: `${gateway}/books`
+}
+
+export const reviewEndpoints = {
+  likes(reviewId: string) {
+    return `${gateway}/reviews/${reviewId}/likes`;
+  },
+  dislikes(reviewId: string) {
+    return `${gateway}/reviews/${reviewId}/dislikes`;
+  }
 }

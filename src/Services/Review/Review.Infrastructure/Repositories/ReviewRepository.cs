@@ -11,6 +11,8 @@ public class ReviewRepository(
     IMongoCollection<ReviewEntity> _reviewsCollection,
     IMongoCollection<User> _usersCollection,
     IMongoCollection<Book> _booksCollection,
+    IMongoCollection<Like> _likesCollection,
+    IMongoCollection<Dislike> _dislikesCollection,
     IDistributedCache _cache)
     : BaseRepository<ReviewEntity>(_reviewsCollection), IReviewRepository
 {
@@ -25,7 +27,7 @@ public class ReviewRepository(
 
         return reviews;
     }
-    
+
     public override async Task<ReviewEntity?> GetByIdAsync(string id, CancellationToken cancellationToken)
     {
         var cacheKey = BaseCacheKey + id;
@@ -103,8 +105,58 @@ public class ReviewRepository(
 
             await _cache.SetAsync(cacheKey, reviewsCache, options, cancellationToken);
         }
-        
+
         return reviews;
+    }
+
+    public async Task Like(string reviewId, int userId, CancellationToken cancellationToken)
+    {
+        var review = await GetByIdAsync(reviewId, cancellationToken);
+
+        review.LikeUserIds.Add(userId);
+
+        await UpdateAsync(review, cancellationToken);
+    }
+    
+    public async Task Unlike(string reviewId, int userId, CancellationToken cancellationToken)
+    {
+        var review = await GetByIdAsync(reviewId, cancellationToken);
+
+        review.LikeUserIds.Remove(userId);
+        
+        await UpdateAsync(review, cancellationToken);
+    }
+    
+    public async Task Dislike(string reviewId, int userId, CancellationToken cancellationToken)
+    {
+        var review = await GetByIdAsync(reviewId, cancellationToken);
+
+        review.DislikeUserIds.Add(userId);
+
+        await UpdateAsync(review, cancellationToken);
+    }
+    
+    public async Task Undislike(string reviewId, int userId, CancellationToken cancellationToken)
+    {
+        var review = await GetByIdAsync(reviewId, cancellationToken);
+
+        review.DislikeUserIds.Remove(userId);
+        
+        await UpdateAsync(review, cancellationToken);
+    }
+
+    public async Task<bool> LikeExists(string reviewId, int userId, CancellationToken cancellationToken)
+    {
+        var review = await GetByIdAsync(reviewId, cancellationToken);
+
+        return review.LikeUserIds.Contains(userId);
+    }
+    
+    public async Task<bool> DislikeExists(string reviewId, int userId, CancellationToken cancellationToken)
+    {
+        var review = await GetByIdAsync(reviewId, cancellationToken);
+
+        return review.DislikeUserIds.Contains(userId);
     }
 
     public async Task AddCommentToReviewAsync(string reviewId, Comment comment, CancellationToken cancellationToken)

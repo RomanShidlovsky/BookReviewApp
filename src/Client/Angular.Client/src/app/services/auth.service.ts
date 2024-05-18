@@ -6,6 +6,7 @@ import signIn from "../models/signIn";
 import {firstValueFrom} from "rxjs";
 import tokensResponse from "../models/tokensResoponse";
 import {client} from "../constants/client";
+import {jwtDecode} from "jwt-decode";
 
 @Injectable({
   providedIn: 'root'
@@ -99,16 +100,33 @@ export class AuthService {
     const expiration = this.getExpiresIn();
 
     if (expiration) {
-      const expiresIn = JSON.parse(expiration);
-      const currentTime = Date.now();
-
-      console.log(`current: ${new Date(currentTime)}`);
-      console.log(`exp: ${expiresIn}`);
+      const expiresIn = new Date(JSON.parse(expiration));
+      const currentTime = new Date(Date.now());
 
       return currentTime < expiresIn;
     }
 
     return false;
+  }
+
+  getUserId(){
+    if (!this.isLogged()) {
+      return null;
+    }
+
+    const accessToken = this.getAccessToken();
+
+    if (accessToken) {
+      const payload = jwtDecode(accessToken);
+
+      if (payload.sub) {
+        return parseInt(payload.sub);
+      } else {
+        return null;
+      }
+    }
+
+    return null;
   }
 
   setSession(tokens: tokensResponse) {

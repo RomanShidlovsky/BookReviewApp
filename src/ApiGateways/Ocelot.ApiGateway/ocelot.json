@@ -255,7 +255,41 @@
     {
       "UpstreamPathTemplate": "/reviews/{id}",
       "UpstreamHttpMethod": ["Delete", "Put" ],
-      "DownstreamPathTemplate": "/api/reviews",
+      "DownstreamPathTemplate": "/api/reviews/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "review-service",
+          "Port": 443
+        }
+      ],
+      "RouteClaimsRequirement": {
+        "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Client, Admin, Reviewer"
+      },
+      "SwaggerKey": "reviews",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/reviews/{id}/likes",
+      "UpstreamHttpMethod": ["Delete", "Put" ],
+      "DownstreamPathTemplate": "/api/reviews/{id}/likes",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "review-service",
+          "Port": 443
+        }
+      ],
+      "RouteClaimsRequirement": {
+        "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Client, Admin, Reviewer"
+      },
+      "SwaggerKey": "reviews",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/reviews/{id}/dislikes",
+      "UpstreamHttpMethod": ["Delete", "Put" ],
+      "DownstreamPathTemplate": "/api/reviews/{id}/dislikes",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
