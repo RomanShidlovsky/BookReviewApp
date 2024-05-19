@@ -10,6 +10,7 @@ public class Book : IBaseEntity
     public int EditionCount { get; set; }
     public int PublicationYear { get; set; }
     public double AverageRating { get; set; }
+    public double AverageCriticRating { get; set; }
     public string? ImageUrl { get; set; }
     public string? OpenLibraryKey { get; set; }
     public virtual List<Subject> Subjects { get; set; } = [];

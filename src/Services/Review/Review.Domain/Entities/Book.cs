@@ -12,6 +12,7 @@ public class Book : IBaseEntity
     public int BookId { get; set; }
     public string Title { get; set; } = null!;
     public double AverageRating { get; set; }
+    public double AverageCriticRating { get; set; }
     public string? ImageUrl { get; set; }
     public virtual List<ReviewEntity> Reviews { get; set; } = [];
 }

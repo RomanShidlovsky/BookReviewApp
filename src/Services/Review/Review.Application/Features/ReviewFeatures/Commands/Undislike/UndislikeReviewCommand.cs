@@ -3,4 +3,4 @@ using Review.Application.Interfaces.Commands;
 
 namespace Review.Application.Features.ReviewFeatures.Commands.Undislike;
 
-public sealed record UndislikeCommand(DislikeReviewDto Dto) : ICommand;
+public sealed record UndislikeReviewCommand(DislikeReviewDto Dto) : ICommand;

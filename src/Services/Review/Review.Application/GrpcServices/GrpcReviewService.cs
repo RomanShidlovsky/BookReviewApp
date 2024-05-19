@@ -16,12 +16,14 @@ public class GrpcReviewService(IUnitOfWork _unitOfWork, IMapper _mapper, ILogger
         _logger.LogInformation("GrpcReviewService: getting review of book with id = {id}", request.BookId);
         
         var reviews = await _unitOfWork.ReviewRepository.GetBookReviewsAsync(request.BookId, context.CancellationToken);
+        var criticReviews = await _unitOfWork.CriticReviewRepository.GetBookReviewsAsync(request.BookId, context.CancellationToken);
 
         _logger.LogInformation("GrpcReviewService: sending review of book with id = {id}", request.BookId);
         
         return new GetBookReviewsResponse
         {
-            Reviews = { _mapper.Map<List<Review>>(reviews) }
+            Reviews = { _mapper.Map<List<Review>>(reviews) },
+            CriticReviews = {  _mapper.Map<List<Review>>(criticReviews) }
         };
     }
 }

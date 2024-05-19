@@ -27,6 +27,7 @@ message GetBookReviewsRequest {
 
 message GetBookReviewsResponse {
   repeated Review reviews = 1;
+  repeated Review criticReviews = 2;
 }
 
 service ReviewService {

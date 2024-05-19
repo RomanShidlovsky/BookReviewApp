@@ -11,8 +11,6 @@ public class ReviewRepository(
     IMongoCollection<ReviewEntity> _reviewsCollection,
     IMongoCollection<User> _usersCollection,
     IMongoCollection<Book> _booksCollection,
-    IMongoCollection<Like> _likesCollection,
-    IMongoCollection<Dislike> _dislikesCollection,
     IDistributedCache _cache)
     : BaseRepository<ReviewEntity>(_reviewsCollection), IReviewRepository
 {

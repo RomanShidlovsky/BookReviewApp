@@ -12,10 +12,12 @@ public record BookWithReviewsResponseDto(
     int EditionCount,
     int PublicationYear,
     double AverageRating,
+    double AverageCriticRating,
     string? ImageUrl,
     IEnumerable<AuthorResponseDto> Authors,
     IEnumerable<LanguageResponseDto> Languages,
     IEnumerable<SubjectResponseDto> Subjects)
 {
     public IEnumerable<ReviewResponseDto> Reviews { get; set; }
+    public IEnumerable<ReviewResponseDto> CriticReviews { get; set; }
 };

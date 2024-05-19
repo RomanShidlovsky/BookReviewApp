@@ -1,15 +1,16 @@
-﻿using Review.Application.Interfaces.Commands;
+﻿using Review.Application.Features.ReviewFeatures.Commands.Undislike;
+using Review.Application.Interfaces.Commands;
 using Review.Domain.Errors;
 using Review.Infrastructure.Repositories;
 using Shared.Wrappers;
 
-namespace Review.Application.Features.ReviewFeatures.Commands.Undislike;
+namespace Review.Application.Features.CriticReviewFeatures.Commands.Undislike;
 
-public class UndislikeCommandHandler(IUnitOfWork _unitOfWork) : ICommandHandler<UndislikeCommand>
+public class UndislikeCriticReviewCommandHandler(IUnitOfWork _unitOfWork) : ICommandHandler<UndislikeCriticReviewCommand>
 {
-    public async Task<Response> Handle(UndislikeCommand request, CancellationToken cancellationToken)
+    public async Task<Response> Handle(UndislikeCriticReviewCommand request, CancellationToken cancellationToken)
     {
-        var repository = _unitOfWork.ReviewRepository;
+        var repository = _unitOfWork.CriticReviewRepository;
         var dto = request.Dto;
 
         var review = await repository.GetByIdAsync(dto.ReviewId, cancellationToken);
