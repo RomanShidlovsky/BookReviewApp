@@ -1,6 +1,6 @@
 <div class="container-fluid card my-3">
   <div class="row w-100 my-3">
-    <div class="col-1">
+    <div class="col-3">
       <button class="rating_circle" [ngClass]="{
       'bg-success': review.rating >= 4,
       'bg-warning': review.rating < 4 && review.rating > 2,
@@ -8,7 +8,7 @@
         {{ review.rating }}
       </button>
     </div>
-    <div class="col-11 d-flex align-items-center">
+    <div class="col-9 d-flex align-items-center">
       <h1 class="m-0">
         {{ review.user.userName }}
       </h1>

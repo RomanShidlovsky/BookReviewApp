@@ -13,9 +13,17 @@
         </div>
       </div>
 
-      <div class="col-lg-7 d-flex flex-column justify-content-start" style="height: 100%">
-        <app-review-section [title]="'Critic reviews'" [book]="book" ></app-review-section>
+      <div class="col-lg-7 container">
+        <div class="row">
+          <div class="col-lg-6 d-flex flex-column justify-content-start" style="height: 95%">
+            <app-review-section [title]="'User reviews'" [book]="book" class="pl-2"></app-review-section>
+          </div>
+          <div class="col-lg-6 d-flex flex-column justify-content-start" style="height: 95%">
+            <app-critic-review-section [title]="'Critic reviews'" [book]="book"></app-critic-review-section>
+          </div>
+        </div>
       </div>
+
     </div>
   </div>
 </section>

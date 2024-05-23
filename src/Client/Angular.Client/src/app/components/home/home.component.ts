@@ -1,9 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {Book} from "../../models/book";
-import {BookService} from "../../services/book.service";
+
 import {NgForOf} from "@angular/common";
 import {BookPreviewComponent} from "../book-preview/book-preview.component";
 import {RouterLink, RouterLinkActive} from "@angular/router";
+import {BookResponseDto} from "../../models/book/bookResponseDto";
+import {AuthorsService} from "../../api/authors.service";
+import {BooksService} from "../../api/books.service";
 
 @Component({
   selector: 'app-home',
@@ -18,13 +20,13 @@ import {RouterLink, RouterLinkActive} from "@angular/router";
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {
-  lastUpdatedBooks: Book[] = [];
+  lastUpdatedBooks: BookResponseDto[] = [];
 
-  constructor(private _bookService: BookService) {
+  constructor(private _booksService: BooksService) {
   }
 
   ngOnInit() {
-    this._bookService.getLastUpdatedBooks(3)
+    this._booksService.apiBooksGet('', '', 1, 3)
       .subscribe({
         next: value => {
           this.lastUpdatedBooks = value;

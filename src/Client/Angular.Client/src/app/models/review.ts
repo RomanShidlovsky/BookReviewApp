@@ -11,3 +11,10 @@ export interface Review {
   createAt: Date;
   user: User;
 }
+
+export interface CreateReviewModel {
+  bookId: number;
+  userId: number;
+  text: string;
+  rating: number;
+}

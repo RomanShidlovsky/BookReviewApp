@@ -1,3 +1,8 @@
-.rating_circle {
-  border-radius: 5px;
+.reviews {
+  height: 500px;
+  overflow: auto;
+}
+
+textarea {
+  resize: none;
 }

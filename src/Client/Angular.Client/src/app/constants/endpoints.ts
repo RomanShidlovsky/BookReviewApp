@@ -15,5 +15,17 @@ export const reviewEndpoints = {
   },
   dislikes(reviewId: string) {
     return `${gateway}/reviews/${reviewId}/dislikes`;
-  }
+  },
+  reviews: `${gateway}/reviews`
 }
+
+export const criticReviewEndpoints = {
+  likes(reviewId: string) {
+    return `${gateway}/criticreviews/${reviewId}/likes`;
+  },
+  dislikes(reviewId: string) {
+    return `${gateway}/criticreviews/${reviewId}/dislikes`;
+  },
+  reviews: `${gateway}/criticreviews`
+}
+

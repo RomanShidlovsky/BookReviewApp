@@ -3,6 +3,7 @@ import {Review} from "../../models/review";
 import {NgClass, NgForOf} from "@angular/common";
 import {AuthService} from "../../services/auth.service";
 import {ReviewService} from "../../services/review.service";
+import {CriticReviewService} from "../../services/critic-review.service";
 
 @Component({
   selector: 'app-review',
@@ -15,11 +16,15 @@ import {ReviewService} from "../../services/review.service";
   styleUrl: './review.component.css'
 })
 export class ReviewComponent implements OnInit{
-  @Input() review!: Review
+  @Input() review!: Review;
+  @Input() isCritic!: boolean;
   liked: boolean = false;
   disliked: boolean = false;
 
-  constructor(private _authService: AuthService, private _reviewService: ReviewService) {}
+  constructor(
+    private _authService: AuthService,
+    private _reviewService: ReviewService,
+    private _criticReviewService: CriticReviewService) {}
 
   ngOnInit(): void {
     const userId = this._authService.getUserId();
@@ -37,8 +42,12 @@ export class ReviewComponent implements OnInit{
       return;
     }
 
+    const reviewService = this.isCritic
+      ? this._criticReviewService
+      : this._reviewService;
+
     if (this.liked) {
-      const result = await this._reviewService.unlike(this.review.id, userId);
+      const result = await reviewService.unlike(this.review.id, userId);
 
       result.subscribe({
         next: () => {
@@ -50,7 +59,7 @@ export class ReviewComponent implements OnInit{
         }
       });
     } else {
-      const result = await this._reviewService.like(this.review.id, userId);
+      const result = await reviewService.like(this.review.id, userId);
 
       result.subscribe({
         next: async () => {
@@ -58,7 +67,7 @@ export class ReviewComponent implements OnInit{
           this.review.likeUserIds.push(userId);
 
           if (this.disliked) {
-            const dislikeResult = await this._reviewService.undislike(this.review.id, userId);
+            const dislikeResult = await reviewService.undislike(this.review.id, userId);
 
             dislikeResult.subscribe({
               next: () => {
@@ -85,8 +94,12 @@ export class ReviewComponent implements OnInit{
       return;
     }
 
+    const reviewService = this.isCritic
+      ? this._criticReviewService
+      : this._reviewService;
+
     if (this.disliked) {
-      const result = await this._reviewService.undislike(this.review.id, userId);
+      const result = await reviewService.undislike(this.review.id, userId);
 
       result.subscribe({
         next: () => {
@@ -98,7 +111,7 @@ export class ReviewComponent implements OnInit{
         }
       });
     } else {
-      const result = await this._reviewService.dislike(this.review.id, userId);
+      const result = await reviewService.dislike(this.review.id, userId);
 
       result.subscribe({
         next: async () => {
@@ -106,7 +119,7 @@ export class ReviewComponent implements OnInit{
           this.review.dislikeUserIds.push(userId);
 
           if (this.liked) {
-            const likedResult = await this._reviewService.unlike(this.review.id, userId);
+            const likedResult = await reviewService.unlike(this.review.id, userId);
 
             likedResult.subscribe({
               next: () => {
