@@ -202,9 +202,37 @@
       "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
+      "UpstreamPathTemplate": "/criticreviews",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/criticreviews",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "review-service",
+          "Port": 443
+        }
+      ],
+      "SwaggerKey": "reviews",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
       "UpstreamPathTemplate": "/reviews/book/{bookId}",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/reviews/book/{bookId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "review-service",
+          "Port": 443
+        }
+      ],
+      "SwaggerKey": "reviews",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/criticreviews/book/{bookId}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/criticreviews/book/{bookId}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -253,6 +281,23 @@
       "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
+      "UpstreamPathTemplate": "/criticreviews",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamPathTemplate": "/api/criticreviews",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "review-service",
+          "Port": 443
+        }
+      ],
+      "RouteClaimsRequirement": {
+        "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Reviewer"
+      },
+      "SwaggerKey": "reviews",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
       "UpstreamPathTemplate": "/reviews/{id}",
       "UpstreamHttpMethod": ["Delete", "Put" ],
       "DownstreamPathTemplate": "/api/reviews/{id}",
@@ -265,6 +310,23 @@
       ],
       "RouteClaimsRequirement": {
         "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Client, Admin, Reviewer"
+      },
+      "SwaggerKey": "reviews",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/criticreviews/{id}",
+      "UpstreamHttpMethod": ["Delete", "Put" ],
+      "DownstreamPathTemplate": "/api/criticreviews/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "review-service",
+          "Port": 443
+        }
+      ],
+      "RouteClaimsRequirement": {
+        "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Admin, Reviewer"
       },
       "SwaggerKey": "reviews",
       "DangerousAcceptAnyServerCertificateValidator": true
@@ -290,6 +352,40 @@
       "UpstreamPathTemplate": "/reviews/{id}/dislikes",
       "UpstreamHttpMethod": ["Delete", "Put" ],
       "DownstreamPathTemplate": "/api/reviews/{id}/dislikes",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "review-service",
+          "Port": 443
+        }
+      ],
+      "RouteClaimsRequirement": {
+        "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Client, Admin, Reviewer"
+      },
+      "SwaggerKey": "reviews",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/criticreviews/{id}/likes",
+      "UpstreamHttpMethod": ["Delete", "Put" ],
+      "DownstreamPathTemplate": "/api/criticreviews/{id}/likes",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "review-service",
+          "Port": 443
+        }
+      ],
+      "RouteClaimsRequirement": {
+        "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Client, Admin, Reviewer"
+      },
+      "SwaggerKey": "reviews",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/criticreviews/{id}/dislikes",
+      "UpstreamHttpMethod": ["Delete", "Put" ],
+      "DownstreamPathTemplate": "/api/criticreviews/{id}/dislikes",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
