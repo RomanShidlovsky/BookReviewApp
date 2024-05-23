@@ -118,6 +118,24 @@ public class BookRepository(BookContext context, IDistributedCache _cache, ILogg
         return book;
     }
 
+    public async Task UpdateRatingAsync(int bookId, double rating, CancellationToken cancellationToken)
+    {
+        var book = await context.Set<BookEntity>()
+            .FirstAsync(book => book.Id == bookId, cancellationToken);
+
+        book.AverageRating = rating;
+        Update(book);
+    }
+
+    public async Task UpdateCriticRatingAsync(int bookId, double rating, CancellationToken cancellationToken)
+    {
+        var book = await context.Set<BookEntity>()
+            .FirstAsync(book => book.Id == bookId, cancellationToken);
+
+        book.AverageCriticRating = rating;
+        Update(book);
+    }
+
     public override void Create(BookEntity entity)
     {
         base.Create(entity);

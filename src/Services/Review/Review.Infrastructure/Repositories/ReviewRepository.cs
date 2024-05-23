@@ -11,11 +11,12 @@ public class ReviewRepository(
     IMongoCollection<ReviewEntity> _reviewsCollection,
     IMongoCollection<User> _usersCollection,
     IMongoCollection<Book> _booksCollection,
+    bool isCritic,
     IDistributedCache _cache)
     : BaseRepository<ReviewEntity>(_reviewsCollection), IReviewRepository
 {
-    private const string BaseCacheKey = "Review";
-    private const string BookReviewsKey = "BookReviews";
+    private readonly string BaseCacheKey = isCritic? "CriticReview" : "Review";
+    private readonly string BookReviewsKey = isCritic? "CriticBookReviews" :"BookReviews";
 
     public override async Task<List<ReviewEntity>> GetAllAsync(CancellationToken cancellationToken)
     {
@@ -65,6 +66,8 @@ public class ReviewRepository(
     public override async Task CreateAsync(ReviewEntity entity, CancellationToken cancellationToken)
     {
         await base.CreateAsync(entity, cancellationToken);
+        
+        await LoadRelativeData(entity, cancellationToken);
 
         await RemoveCacheAsync(entity.Id, entity.BookId, cancellationToken);
     }

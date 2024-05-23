@@ -8,26 +8,24 @@ using Shared.Wrappers;
 
 namespace Book.Application.Features.BookFeatures.Commands.UpdateRating;
 
-public class UpdateBookRatingCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper)
-    : IUpdateCommandHandler<UpdateBookRatingCommand, BookResponseDto>
+public class UpdateBookRatingCommandHandler(IUnitOfWork _unitOfWork)
+    : ICommandHandler<UpdateBookRatingCommand>
 {
-    public async Task<Response<BookResponseDto>> Handle(UpdateBookRatingCommand request, CancellationToken cancellationToken)
+    public async Task<Response> Handle(UpdateBookRatingCommand request, CancellationToken cancellationToken)
     {
         var repository = _unitOfWork.GetRepository<IBookRepository>();
         var dto = request.Dto;
 
-        var book = await repository.GetByIdAsync(dto.Id, cancellationToken);
+        var bookExists = await repository.ExistsAsync(dto.Id, cancellationToken);
 
-        if (book is null)
+        if (!bookExists)
         {
             return Response.Failure<BookResponseDto>(DomainErrors.Book.BookNotFoundById);
         }
-
-        book.AverageRating = dto.Rating;
         
-        repository.Update(book);
+        await repository.UpdateRatingAsync(dto.Id, dto.Rating, cancellationToken);
         await _unitOfWork.SaveAsync(cancellationToken);
         
-        return _mapper.Map<BookResponseDto>(book);
+        return Response.Success();
     }
 }

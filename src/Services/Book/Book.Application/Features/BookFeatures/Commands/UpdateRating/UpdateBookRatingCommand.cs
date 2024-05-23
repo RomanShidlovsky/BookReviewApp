@@ -4,4 +4,4 @@ using RabbitMQ.EventBus.Interfaces.BookMessages;
 
 namespace Book.Application.Features.BookFeatures.Commands.UpdateRating;
 
-public sealed record UpdateBookRatingCommand(IBookRatingUpdated Dto) : IUpdateCommand<BookResponseDto>;
+public sealed record UpdateBookRatingCommand(IBookRatingUpdated Dto) : ICommand;
