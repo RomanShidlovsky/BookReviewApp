@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Book, BookWithReviews} from "../models/book";
 import {bookEndpoints} from "../constants/endpoints";
+import {BookResponseDto, BookWithReviewsResponseDto} from "../models/book/bookResponseDto";
 
 @Injectable({
   providedIn: 'root'
@@ -10,11 +10,11 @@ import {bookEndpoints} from "../constants/endpoints";
 export class BookService {
   constructor(private httpClient: HttpClient) {}
 
-  getLastUpdatedBooks(count: number): Observable<Book[]> {
-    return this.httpClient.get<Book[]>(bookEndpoints.books + `?pageNumber=1&pageSize=${count}`);
+  getLastUpdatedBooks(count: number): Observable<BookResponseDto[]> {
+    return this.httpClient.get<BookResponseDto[]>(bookEndpoints.books + `?pageNumber=1&pageSize=${count}`);
   }
 
-  getBookById(id: number): Observable<BookWithReviews> {
-    return this.httpClient.get<BookWithReviews>(bookEndpoints.books + `/${id}`);
+  getBookById(id: number): Observable<BookWithReviewsResponseDto> {
+    return this.httpClient.get<BookWithReviewsResponseDto>(bookEndpoints.books + `/${id}`);
   }
 }

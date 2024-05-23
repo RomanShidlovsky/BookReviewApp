@@ -1,13 +1,21 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {reviewEndpoints} from "../constants/endpoints";
+import {CreateReviewModel, Review} from "../models/review";
+import * as http from "node:http";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReviewService {
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {
+  }
+
+  async post(review: CreateReviewModel) {
+    return this.httpClient.post<Review>(reviewEndpoints.reviews, review);
+  }
+
 
   async like(reviewId: string, userId: number) {
     return this.httpClient.put(reviewEndpoints.likes(reviewId), {
@@ -27,7 +35,7 @@ export class ReviewService {
       },
     };
 
-    return this.httpClient.delete(reviewEndpoints.likes(reviewId),  options);
+    return this.httpClient.delete(reviewEndpoints.likes(reviewId), options);
   }
 
   async dislike(reviewId: string, userId: number) {
@@ -48,6 +56,6 @@ export class ReviewService {
       },
     };
 
-    return this.httpClient.delete(reviewEndpoints.dislikes(reviewId),  options);
+    return this.httpClient.delete(reviewEndpoints.dislikes(reviewId), options);
   }
 }

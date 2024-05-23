@@ -7,12 +7,14 @@ import {firstValueFrom} from "rxjs";
 import tokensResponse from "../models/tokensResoponse";
 import {client} from "../constants/client";
 import {jwtDecode} from "jwt-decode";
+import {CustomJwtPayload} from '../models/custom-jwt-payload'
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   tokenRefreshing = false;
+  rolesPropertyName = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
 
   constructor(private http: HttpClient) { }
 
@@ -121,6 +123,28 @@ export class AuthService {
 
       if (payload.sub) {
         return parseInt(payload.sub);
+      } else {
+        return null;
+      }
+    }
+
+    return null;
+  }
+
+  getUserRoles(){
+    if (!this.isLogged()) {
+      return null;
+    }
+
+    const accessToken = this.getAccessToken();
+
+    if (accessToken) {
+      const payload = jwtDecode<CustomJwtPayload>(accessToken);
+
+      const roles = payload[this.rolesPropertyName];
+
+      if (roles) {
+        return roles;
       } else {
         return null;
       }
