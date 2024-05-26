@@ -1,0 +1,18 @@
+.card {
+  height: 200px;
+}
+
+.img-fluid {
+  height: 200px;
+}
+
+svg:hover {
+  fill: maroon;
+}
+
+.modal-dialog {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}

@@ -3,6 +3,7 @@ import {HomeComponent} from "./components/home/home.component";
 import {RegisterComponent} from "./components/register/register.component";
 import {LoginComponent} from "./components/login/login.component";
 import {BookComponent} from "./components/book/book.component";
+import {AdminDashboardComponent} from "./components/admin-dashboard/admin-dashboard.component";
 
 
 export const routes: Routes = [
@@ -10,5 +11,6 @@ export const routes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'login', component: LoginComponent},
-  {path: 'book/:id', component: BookComponent}
+  {path: 'book/:id', component: BookComponent},
+  {path: 'admin-dashboard', component: AdminDashboardComponent}
 ];

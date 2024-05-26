@@ -1,0 +1,17 @@
+li {
+  list-style-type: none;
+  width: 100%;
+  color: white;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+li:hover {
+  background-color: #202020;
+}
+
+.sidebar {
+  background-color: #343434;
+}
