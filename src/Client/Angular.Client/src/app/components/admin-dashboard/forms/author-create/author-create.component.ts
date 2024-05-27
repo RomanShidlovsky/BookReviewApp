@@ -75,6 +75,12 @@ export class AuthorCreateComponent {
     }
 
     this.authorsService.apiAuthorsPost(createAuthorDto).subscribe({
+      next: async () => {
+        this.formValid = true;
+        this.message = 'Created';
+
+        await this.router.navigate(['/admin-dashboard']);
+      },
       error: err => {
         this.message = err.message;
         this.formValid = false;
@@ -82,10 +88,5 @@ export class AuthorCreateComponent {
         return;
       }
     });
-
-    this.formValid = true;
-    this.message = 'Created';
-
-    await this.router.navigate(['/admin-dashboard']);
   }
 }

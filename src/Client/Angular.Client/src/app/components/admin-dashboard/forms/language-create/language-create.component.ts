@@ -41,6 +41,12 @@ export class LanguageCreateComponent {
     }
 
     this.languagesService.apiLanguagesPost(createLanguageDto).subscribe({
+      next: async () => {
+        this.formValid = true;
+        this.message = 'Created';
+
+        await this.router.navigate(['/admin-dashboard']);
+      },
       error: err => {
         this.message = err.message;
         this.formValid = false;
@@ -48,10 +54,5 @@ export class LanguageCreateComponent {
         return;
       }
     });
-
-    this.formValid = true;
-    this.message = 'Created';
-
-    await this.router.navigate(['/admin-dashboard']);
   }
 }

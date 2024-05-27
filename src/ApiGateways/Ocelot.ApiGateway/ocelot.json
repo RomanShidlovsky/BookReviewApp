@@ -189,62 +189,6 @@
     },
     {
       "UpstreamPathTemplate": "/books",
-      "UpstreamHttpMethod": [ "Get" ],
-      "DownstreamPathTemplate": "/api/books",
-      "DownstreamScheme": "https",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "book-service",
-          "Port": 443
-        }
-      ],
-      "SwaggerKey": "books",
-      "DangerousAcceptAnyServerCertificateValidator": true
-    },
-    {
-      "UpstreamPathTemplate": "/authors",
-      "UpstreamHttpMethod": [ "Get" ],
-      "DownstreamPathTemplate": "/api/authors",
-      "DownstreamScheme": "https",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "book-service",
-          "Port": 443
-        }
-      ],
-      "SwaggerKey": "books",
-      "DangerousAcceptAnyServerCertificateValidator": true
-    },
-    {
-      "UpstreamPathTemplate": "/subjects",
-      "UpstreamHttpMethod": [ "Get" ],
-      "DownstreamPathTemplate": "/api/subjects",
-      "DownstreamScheme": "https",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "book-service",
-          "Port": 443
-        }
-      ],
-      "SwaggerKey": "books",
-      "DangerousAcceptAnyServerCertificateValidator": true
-    },
-    {
-      "UpstreamPathTemplate": "/languages",
-      "UpstreamHttpMethod": [ "Get" ],
-      "DownstreamPathTemplate": "/api/languages",
-      "DownstreamScheme": "https",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "book-service",
-          "Port": 443
-        }
-      ],
-      "SwaggerKey": "books",
-      "DangerousAcceptAnyServerCertificateValidator": true
-    },
-    {
-      "UpstreamPathTemplate": "/books",
       "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/books",
       "DownstreamScheme": "https",
