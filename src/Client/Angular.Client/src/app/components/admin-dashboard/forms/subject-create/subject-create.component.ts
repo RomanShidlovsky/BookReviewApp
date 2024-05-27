@@ -47,7 +47,7 @@ export class SubjectCreateComponent {
         await this.router.navigate(['/admin-dashboard']);
       },
       error: err => {
-        this.message = err.message;
+        this.message = err.error.message;
         this.formValid = false;
 
         return;
