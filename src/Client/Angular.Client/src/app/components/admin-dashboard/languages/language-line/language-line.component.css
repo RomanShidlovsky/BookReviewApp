@@ -1,0 +1,12 @@
+.card {
+  height: 100px;
+  width: 95%;
+}
+
+.img-fluid {
+  height: 300px;
+}
+
+svg:hover {
+  fill: maroon;
+}

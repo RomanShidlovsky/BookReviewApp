@@ -9,10 +9,22 @@
       <div class="card-body">
         <h5 class="card-title">{{ book.title }}</h5>
         <p class="card-text">
+          Id: {{ book.id }}
+        </p>
+        <p class="card-text">
           Edition count: {{ book.editionCount }}
         </p>
         <p class="card-text">
           Publication year: {{ book.publicationYear }}
+        </p>
+        <p class="card-text">
+          Authors: {{ getAuthorsNames() }}
+        </p>
+        <p class="card-text">
+          Languages: {{ getLanguagesNames() }}
+        </p>
+        <p class="card-text">
+          Subjects: {{ getSubjectsNames() }}
         </p>
       </div>
     </a>

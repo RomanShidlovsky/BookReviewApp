@@ -7,6 +7,7 @@ export const adminRoleGuard: CanActivateFn = (route, state) => {
 
   if (authService.isLogged()) {
     const roles = authService.getUserRoles();
+    console.log(roles);
 
     if (roles.isArray()) {
       return roles.includes('Admin');

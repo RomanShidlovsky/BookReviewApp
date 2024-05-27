@@ -1,7 +1,8 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {BookResponseDto} from "../../../models/book/bookResponseDto";
 import {RouterLink} from "@angular/router";
-import {BooksService} from "../../../api/books.service";
+import {BookResponseDto} from "../../../../models/book/bookResponseDto";
+import {BooksService} from "../../../../api/books.service";
+
 
 
 @Component({
@@ -16,8 +17,6 @@ import {BooksService} from "../../../api/books.service";
 export class BookLineComponent {
   @Input() book!: BookResponseDto;
   @Output() onBookDeleted = new EventEmitter<number>();
-  protected readonly alert = alert;
-  protected readonly console = console;
 
   constructor(private booksService: BooksService) {
   }
@@ -38,5 +37,17 @@ export class BookLineComponent {
         }
       }
     });
+  }
+
+  getAuthorsNames() {
+    return this.book.authors.map(a => a.fullName).join(', ');
+  }
+
+  getLanguagesNames() {
+    return this.book.languages.map(l => l.name).join(', ');
+  }
+
+  getSubjectsNames() {
+    return this.book.subjects.map(s => s.name).join(', ');
   }
 }

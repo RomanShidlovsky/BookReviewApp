@@ -1,1 +1,3 @@
-<p>authors works!</p>
+<div class="item-box">
+  <app-author-line *ngFor="let author of authors" [author]="author" (onAuthorDeleted)="onAuthorDeleted($event)"></app-author-line>
+</div>

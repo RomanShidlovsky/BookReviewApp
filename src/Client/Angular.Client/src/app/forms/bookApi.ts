@@ -43,10 +43,10 @@ export const bookResponseDtoForm = new FormGroup({
 
 export const createAuthorDtoForm = new FormGroup({
   openLibraryKey: new FormControl(null, []),
-  firstName: new FormControl(null, []),
-  lastName: new FormControl(null, []),
-  fullName: new FormControl(null, []),
-  birthDate: new FormControl(null, []),
+  firstName: new FormControl(null, [Validators.required]),
+  lastName: new FormControl(null, [Validators.required]),
+  fullName: new FormControl(null, [Validators.required]),
+  birthDate: new FormControl(null, [Validators.required]),
   deathDate: new FormControl(null, []),
   biography: new FormControl(null, []),
   imageUrl: new FormControl(null, [])
@@ -61,11 +61,11 @@ export const createBookDtoForm = new FormGroup({
 });
 
 export const createLanguageDtoForm = new FormGroup({
-  name: new FormControl(null, [])
+  name: new FormControl(null, [Validators.required, Validators.minLength(2)])
 });
 
 export const createSubjectDtoForm = new FormGroup({
-  name: new FormControl(null, [])
+  name: new FormControl(null, [Validators.required, Validators.minLength(2)])
 });
 
 export const errorForm = new FormGroup({

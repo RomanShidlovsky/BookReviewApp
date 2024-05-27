@@ -40,4 +40,8 @@ export class BookComponent implements OnInit {
         }
       });
   }
+
+  getAuthorsNames() {
+    return this.book.authors.map(a => a.fullName).join(', ');
+  }
 }

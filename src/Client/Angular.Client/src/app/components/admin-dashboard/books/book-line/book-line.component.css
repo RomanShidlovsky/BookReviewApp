@@ -1,9 +1,10 @@
 .card {
-  height: 200px;
+  height: 300px;
+  width: 95%;
 }
 
 .img-fluid {
-  height: 200px;
+  height: 300px;
 }
 
 svg:hover {

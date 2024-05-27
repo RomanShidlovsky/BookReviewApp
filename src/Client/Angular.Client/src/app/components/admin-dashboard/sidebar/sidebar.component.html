@@ -1,8 +1,31 @@
 <div class="sidebar h-100">
   <ul class="p-0">
-    <li (click)="selectSection('books')">Books</li>
-    <li (click)="selectSection('authors')">Authors</li>
-    <li (click)="selectSection('languages')">Languages</li>
-    <li (click)="selectSection('subjects')">Subjects</li>
+    <li>
+      <span (click)="selectSection('books')">Books</span>
+    </li>
+    <li (click)="selectSection('authors')">
+      <span>Authors</span>
+      <a [routerLink]="['author-create']">
+        <div class="add-button">
+          +
+        </div>
+      </a>
+    </li>
+    <li (click)="selectSection('languages')">
+      <span>Languages</span>
+      <a [routerLink]="['language-create']">
+        <div class="add-button">
+          +
+        </div>
+      </a>
+    </li>
+    <li (click)="selectSection('subjects')">
+      <span>Subjects</span>
+      <a [routerLink]="['subject-create']">
+        <div class="add-button">
+          +
+        </div>
+      </a>
+    </li>
   </ul>
 </div>

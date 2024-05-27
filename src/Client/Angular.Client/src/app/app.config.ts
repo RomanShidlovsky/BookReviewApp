@@ -5,6 +5,9 @@ import {routes} from './app.routes';
 import {provideClientHydration} from '@angular/platform-browser';
 import {HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi} from "@angular/common/http";
 import {AuthInterceptor} from "./interceptors/auth.interceptor";
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {provideNativeDateAdapter} from "@angular/material/core";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,6 +20,8 @@ export const appConfig: ApplicationConfig = {
     },
     provideHttpClient(
       withInterceptorsFromDi()
-    )
+    ),
+    provideAnimationsAsync(),
+    provideNativeDateAdapter()
   ]
 };

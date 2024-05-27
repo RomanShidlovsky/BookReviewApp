@@ -1,5 +1,5 @@
 <div class="content">
-  <h2>{{ section | uppercase }}</h2>
+  <h2>{{ section }}</h2>
   <div [ngSwitch]="section">
     <app-books *ngSwitchCase="'books'"></app-books>
     <app-authors *ngSwitchCase="'authors'"></app-authors>

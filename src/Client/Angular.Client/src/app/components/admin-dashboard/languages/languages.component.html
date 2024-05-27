@@ -1,1 +1,3 @@
-<p>languages works!</p>
+<div class="item-box">
+  <app-language-line *ngFor="let language of languages" [language] = "language" (onLanguageDeleted)="onLanguageDeleted($event)"></app-language-line>
+</div>
