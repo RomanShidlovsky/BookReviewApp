@@ -13,16 +13,14 @@ public class BookProfile : Profile
             .ForMember(dest => dest.OpenLibraryKey, opt => opt.MapFrom(src => src.OpenLibraryKey))
             .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
             .ForMember(dest => dest.EditionCount, opt => opt.MapFrom(src => src.EditionCount))
-            .ForMember(dest => dest.PublicationYear, opt => opt.MapFrom(src => src.PublicationYear))
-            .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.ImageUrl));
+            .ForMember(dest => dest.PublicationYear, opt => opt.MapFrom(src => src.PublicationYear));
         
         CreateMap<UpdateBookDto, BookEntity>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.OpenLibraryKey, opt => opt.MapFrom(src => src.OpenLibraryKey))
             .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
             .ForMember(dest => dest.EditionCount, opt => opt.MapFrom(src => src.EditionCount))
-            .ForMember(dest => dest.PublicationYear, opt => opt.MapFrom(src => src.PublicationYear))
-            .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.ImageUrl));
+            .ForMember(dest => dest.PublicationYear, opt => opt.MapFrom(src => src.PublicationYear));
 
         CreateMap<BookEntity, BookResponseDto>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))

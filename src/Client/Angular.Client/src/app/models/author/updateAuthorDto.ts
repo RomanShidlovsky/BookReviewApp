@@ -7,5 +7,4 @@ export interface UpdateAuthorDto {
     birthDate: string;
     deathDate: string | null;
     biography: string | null;
-    imageUrl: string | null;
 }

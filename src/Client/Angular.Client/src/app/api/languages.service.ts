@@ -150,10 +150,10 @@ export class LanguagesService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiLanguagesIdPut(id: string, body?: UpdateLanguageDto, observe?: 'body', reportProgress?: boolean): Observable<LanguageResponseDto>;
-    public apiLanguagesIdPut(id: string, body?: UpdateLanguageDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<LanguageResponseDto>>;
-    public apiLanguagesIdPut(id: string, body?: UpdateLanguageDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<LanguageResponseDto>>;
-    public apiLanguagesIdPut(id: string, body?: UpdateLanguageDto, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public apiLanguagesIdPut(id: number, body?: UpdateLanguageDto, observe?: 'body', reportProgress?: boolean): Observable<LanguageResponseDto>;
+    public apiLanguagesIdPut(id: number, body?: UpdateLanguageDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<LanguageResponseDto>>;
+    public apiLanguagesIdPut(id: number, body?: UpdateLanguageDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<LanguageResponseDto>>;
+    public apiLanguagesIdPut(id: number, body?: UpdateLanguageDto, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling apiLanguagesIdPut.');

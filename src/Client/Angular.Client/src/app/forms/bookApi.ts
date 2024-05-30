@@ -53,11 +53,13 @@ export const createAuthorDtoForm = new FormGroup({
 });
 
 export const createBookDtoForm = new FormGroup({
-  openLibraryKey: new FormControl(null, []),
-  title: new FormControl(null, []),
-  editionCount: new FormControl(null, []),
-  publicationYear: new FormControl(null, []),
-  imageUrl: new FormControl(null, [])
+  openLibraryKey: new FormControl('', []),
+  title: new FormControl(null, [Validators.required]),
+  editionCount: new FormControl(null, [Validators.required]),
+  publicationYear: new FormControl(2000, [Validators.required]),
+  selectedLanguages: new FormControl([], []),
+  selectedSubjects: new FormControl([], []),
+  selectedAuthors: new FormControl([], [])
 });
 
 export const createLanguageDtoForm = new FormGroup({
@@ -100,32 +102,32 @@ export const subjectResponseDtoForm = new FormGroup({
 });
 
 export const updateAuthorDtoForm = new FormGroup({
-  id: new FormControl(null, []),
+  id: new FormControl(null, [Validators.required]),
   openLibraryKey: new FormControl(null, []),
-  firstName: new FormControl(null, []),
-  lastName: new FormControl(null, []),
-  fullName: new FormControl(null, []),
-  birthDate: new FormControl(null, []),
+  firstName: new FormControl(null, [Validators.required]),
+  lastName: new FormControl(null, [Validators.required]),
+  fullName: new FormControl(null, [Validators.required]),
+  birthDate: new FormControl(null, [Validators.required]),
   deathDate: new FormControl(null, []),
   biography: new FormControl(null, []),
   imageUrl: new FormControl(null, [])
 });
 
 export const updateBookDtoForm = new FormGroup({
-  id: new FormControl(null, []),
+  id: new FormControl(null, [Validators.required]),
   openLibraryKey: new FormControl(null, []),
-  title: new FormControl(null, []),
-  editionCount: new FormControl(null, []),
-  publicationYear: new FormControl(null, []),
+  title: new FormControl(null, [Validators.required]),
+  editionCount: new FormControl(null, [Validators.required]),
+  publicationYear: new FormControl(null, [Validators.required]),
   imageUrl: new FormControl(null, [])
 });
 
 export const updateLanguageDtoForm = new FormGroup({
-  id: new FormControl(null, []),
-  name: new FormControl(null, [])
+  id: new FormControl(null, [Validators.required]),
+  name: new FormControl(null, [Validators.required])
 });
 
 export const updateSubjectDtoForm = new FormGroup({
-  id: new FormControl(null, []),
-  name: new FormControl(null, [])
+  id: new FormControl(null, [Validators.required]),
+  name: new FormControl(null, [Validators.required])
 });

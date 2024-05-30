@@ -3,7 +3,6 @@
   border-radius: 5px;
   box-shadow: 0 0 30px #f7f7f7;
 }
-
 label{
   color: #fff;
   font-weight: 700;
@@ -11,18 +10,15 @@ label{
 .user-image{
   height: 70px;
 }
-
 .auth-avatar{
   text-align: center;
   margin-top: -50px;
 }
-
 .auth{
   margin-top: 35px;
   border: none;
   border-radius: 6px;
 }
-
 .signup-btn {
   color: #fff;
 }
@@ -61,3 +57,6 @@ strong {
   font-size: 1em;
 }
 
+textarea {
+  resize: none;
+}

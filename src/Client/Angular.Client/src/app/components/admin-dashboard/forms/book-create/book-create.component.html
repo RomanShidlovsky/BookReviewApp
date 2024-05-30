@@ -1,0 +1,81 @@
+<section class="h-100 p-0 m-0">
+  <div class="container-fluid h-100">
+    <div class="row h-100">
+      <div class="col-lg-5 h-100 bg-main p-0">
+        <div class="logo-container h-100 d-flex flex-column justify-content-center align-items-center">
+          <img src="./assets/img/logo.png" class="logo-img" alt="logo">
+          <h1 class="strong-title">
+            Every burnt book enlightens the world.
+          </h1>
+        </div>
+      </div>
+
+      <div class="col-lg-7 d-flex flex-column justify-content-start align-items-center" style="height: 100%">
+        <div class="container row">
+          <div class="col-md-8 offset-md-2">
+            <div class="error-message">
+              <span> {{ this.message }}</span>
+            </div>
+            <div class="card auth">
+              <div class="card-body auth-card">
+                <form [formGroup]="form" (submit)="create(file.files)">
+                  <div class="mb-2">
+                    <label for="title">Title: </label>
+                    <input type="text" id="title" class="form-control" placeholder="title"
+                           formControlName="title"/>
+                  </div>
+                  <div class="mb-2">
+                    <label for="editionCount">Edition Count: </label>
+                    <input type="number" id="editionCount" class="form-control" placeholder="edition count"
+                           formControlName="editionCount"/>
+                  </div>
+                  <div class="mb-2">
+                    <label for="publicationYear">Publication Year: </label>
+                    <input type="number" id="publicationYear" class="form-control" placeholder="publication year"
+                           formControlName="publicationYear"/>
+                  </div>
+
+                  <div class="mb-2">
+                    <label class="form-label" for="customFile">Book Cover Image:</label>
+                    <input #file type="file" class="form-control pb-2" id="customFile" accept="image/*"/>
+                  </div>
+
+                  <div class="mb-2">
+                    <ng-multiselect-dropdown
+                      [settings]="dropdownWithNameSettings"
+                      [data]="languages"
+                      formControlName="selectedLanguages"
+                      placeholder="Select Languages">
+                    </ng-multiselect-dropdown>
+                  </div>
+
+                  <div class="mb-2">
+                    <ng-multiselect-dropdown
+                      [settings]="dropdownWithNameSettings"
+                      [data]="subjects"
+                      formControlName="selectedSubjects"
+                      placeholder="Select Subjects">
+                    </ng-multiselect-dropdown>
+                  </div>
+
+                  <div>
+                    <ng-multiselect-dropdown
+                      [settings]="dropdownWithFullNameSettings"
+                      [data]="authors"
+                      formControlName="selectedAuthors"
+                      placeholder="Select Authors">
+                    </ng-multiselect-dropdown>
+                  </div>
+
+                  <div class="text-center">
+                    <input type="submit" class="btn signup-btn bg-red" value="Create">
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

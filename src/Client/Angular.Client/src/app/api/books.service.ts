@@ -18,539 +18,542 @@ import {CreateBookDto} from "../models/book/createBookDto";
 })
 export class BooksService {
 
-    protected basePath = gateway;
-    public defaultHeaders = new HttpHeaders();
+  protected basePath = gateway;
+  public defaultHeaders = new HttpHeaders();
 
-    constructor(protected httpClient: HttpClient) {
+  constructor(protected httpClient: HttpClient) {
+  }
+
+  /**
+   * @param consumes string[] mime-types
+   * @return true: consumes contains 'multipart/form-data', false: otherwise
+   */
+  private canConsumeForm(consumes: string[]): boolean {
+    const form = 'multipart/form-data';
+    for (const consume of consumes) {
+      if (form === consume) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+
+  /**
+   *
+   *
+   * @param filterQueryString
+   * @param orderByQueryString
+   * @param pageNumber
+   * @param pageSize
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public apiBooksGet(filterQueryString?: string, orderByQueryString?: string, pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<Array<BookResponseDto>>;
+  public apiBooksGet(filterQueryString?: string, orderByQueryString?: string, pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<BookResponseDto>>>;
+  public apiBooksGet(filterQueryString?: string, orderByQueryString?: string, pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<BookResponseDto>>>;
+  public apiBooksGet(filterQueryString?: string, orderByQueryString?: string, pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
+
+    let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+    if (filterQueryString !== undefined && filterQueryString !== null) {
+      queryParameters = queryParameters.set('filterQueryString', <any>filterQueryString);
+    }
+    if (orderByQueryString !== undefined && orderByQueryString !== null) {
+      queryParameters = queryParameters.set('orderByQueryString', <any>orderByQueryString);
+    }
+    if (pageNumber !== undefined && pageNumber !== null) {
+      queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
+    }
+    if (pageSize !== undefined && pageSize !== null) {
+      queryParameters = queryParameters.set('pageSize', <any>pageSize);
     }
 
-    /**
-     * @param consumes string[] mime-types
-     * @return true: consumes contains 'multipart/form-data', false: otherwise
-     */
-    private canConsumeForm(consumes: string[]): boolean {
-        const form = 'multipart/form-data';
-        for (const consume of consumes) {
-            if (form === consume) {
-                return true;
-            }
-        }
-        return false;
+    let headers = this.defaultHeaders;
+
+    // to determine the Accept header
+    let httpHeaderAccepts: string[] = [
+      'text/plain',
+      'application/json',
+      'text/json'
+    ];
+
+    // to determine the Content-Type header
+    const consumes: string[] = [];
+
+    return this.httpClient.request<Array<BookResponseDto>>('get', `${this.basePath}/books`,
+      {
+        params: queryParameters,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
+  }
+
+  /**
+   *
+   *
+   * @param id
+   * @param body
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public apiBooksIdAuthorsDelete(id: string, body?: RemoveAuthorFromBookDto, observe?: 'body', reportProgress?: boolean): Observable<any>;
+  public apiBooksIdAuthorsDelete(id: string, body?: RemoveAuthorFromBookDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+  public apiBooksIdAuthorsDelete(id: string, body?: RemoveAuthorFromBookDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+  public apiBooksIdAuthorsDelete(id: string, body?: RemoveAuthorFromBookDto, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
+
+    if (id === null || id === undefined) {
+      throw new Error('Required parameter id was null or undefined when calling apiBooksIdAuthorsDelete.');
     }
 
 
-    /**
-     *
-     *
-     * @param filterQueryString
-     * @param orderByQueryString
-     * @param pageNumber
-     * @param pageSize
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public apiBooksGet(filterQueryString?: string, orderByQueryString?: string, pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<Array<BookResponseDto>>;
-    public apiBooksGet(filterQueryString?: string, orderByQueryString?: string, pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<BookResponseDto>>>;
-    public apiBooksGet(filterQueryString?: string, orderByQueryString?: string, pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<BookResponseDto>>>;
-    public apiBooksGet(filterQueryString?: string, orderByQueryString?: string, pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    let headers = this.defaultHeaders;
 
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (filterQueryString !== undefined && filterQueryString !== null) {
-            queryParameters = queryParameters.set('filterQueryString', <any>filterQueryString);
-        }
-        if (orderByQueryString !== undefined && orderByQueryString !== null) {
-            queryParameters = queryParameters.set('orderByQueryString', <any>orderByQueryString);
-        }
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
-        }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
-        }
+    // to determine the Accept header
+    let httpHeaderAccepts: string[] = [
+      'text/plain',
+      'application/json',
+      'text/json'
+    ];
 
-        let headers = this.defaultHeaders;
+    // to determine the Content-Type header
+    const consumes: string[] = [
+      'application/json',
+      'text/json',
+      'application/_*+json'
+    ];
 
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
-            'text/plain',
-            'application/json',
-            'text/json'
-        ];
+    return this.httpClient.request<any>('delete', `${this.basePath}/books/${encodeURIComponent(String(id))}/authors`,
+      {
+        body: body,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
+  }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
+  /**
+   *
+   *
+   * @param id
+   * @param body
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public apiBooksIdAuthorsPut(id: number, body?: AddAuthorToBookDto, observe?: 'body', reportProgress?: boolean): Observable<any>;
+  public apiBooksIdAuthorsPut(id: number, body?: AddAuthorToBookDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+  public apiBooksIdAuthorsPut(id: number, body?: AddAuthorToBookDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+  public apiBooksIdAuthorsPut(id: number, body?: AddAuthorToBookDto, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
 
-        return this.httpClient.request<Array<BookResponseDto>>('get',`${this.basePath}/books`,
-            {
-                params: queryParameters,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
+    if (id === null || id === undefined) {
+      throw new Error('Required parameter id was null or undefined when calling apiBooksIdAuthorsPut.');
     }
 
-    /**
-     *
-     *
-     * @param id
-     * @param body
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public apiBooksIdAuthorsDelete(id: string, body?: RemoveAuthorFromBookDto, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public apiBooksIdAuthorsDelete(id: string, body?: RemoveAuthorFromBookDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public apiBooksIdAuthorsDelete(id: string, body?: RemoveAuthorFromBookDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public apiBooksIdAuthorsDelete(id: string, body?: RemoveAuthorFromBookDto, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    let headers = this.defaultHeaders;
 
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling apiBooksIdAuthorsDelete.');
-        }
+    // to determine the Accept header
+    let httpHeaderAccepts: string[] = [
+      'text/plain',
+      'application/json',
+      'text/json'
+    ];
 
 
-        let headers = this.defaultHeaders;
+    // to determine the Content-Type header
+    const consumes: string[] = [
+      'application/json',
+      'text/json',
+      'application/_*+json'
+    ];
 
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
-            'text/plain',
-            'application/json',
-            'text/json'
-        ];
+    return this.httpClient.request<any>('put', `${this.basePath}/books/${encodeURIComponent(String(id))}/authors`,
+      {
+        body: body,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
+  }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json',
-            'text/json',
-            'application/_*+json'
-        ];
+  /**
+   *
+   *
+   * @param id
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public apiBooksIdDelete(id: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+  public apiBooksIdDelete(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+  public apiBooksIdDelete(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+  public apiBooksIdDelete(id: number, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
 
-        return this.httpClient.request<any>('delete',`${this.basePath}/books/${encodeURIComponent(String(id))}/authors`,
-            {
-                body: body,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
+    if (id === null || id === undefined) {
+      throw new Error('Required parameter id was null or undefined when calling apiBooksIdDelete.');
     }
 
-    /**
-     *
-     *
-     * @param id
-     * @param body
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public apiBooksIdAuthorsPut(id: string, body?: AddAuthorToBookDto, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public apiBooksIdAuthorsPut(id: string, body?: AddAuthorToBookDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public apiBooksIdAuthorsPut(id: string, body?: AddAuthorToBookDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public apiBooksIdAuthorsPut(id: string, body?: AddAuthorToBookDto, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    let headers = this.defaultHeaders;
 
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling apiBooksIdAuthorsPut.');
-        }
+    // to determine the Accept header
+    let httpHeaderAccepts: string[] = [
+      'text/plain',
+      'application/json',
+      'text/json'
+    ];
 
+    // to determine the Content-Type header
+    const consumes: string[] = [];
 
-        let headers = this.defaultHeaders;
+    return this.httpClient.request<any>('delete', `${this.basePath}/books/${encodeURIComponent(String(id))}`,
+      {
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
+  }
 
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
-            'text/plain',
-            'application/json',
-            'text/json'
-        ];
+  /**
+   *
+   *
+   * @param id
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public apiBooksIdGet(id: number, observe?: 'body', reportProgress?: boolean): Observable<BookWithReviewsResponseDto>;
+  public apiBooksIdGet(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<BookWithReviewsResponseDto>>;
+  public apiBooksIdGet(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<BookWithReviewsResponseDto>>;
+  public apiBooksIdGet(id: number, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
 
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json',
-            'text/json',
-            'application/_*+json'
-        ];
-
-        return this.httpClient.request<any>('put',`${this.basePath}/books/${encodeURIComponent(String(id))}/authors`,
-            {
-                body: body,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
+    if (id === null || id === undefined) {
+      throw new Error('Required parameter id was null or undefined when calling apiBooksIdGet.');
     }
 
-    /**
-     *
-     *
-     * @param id
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public apiBooksIdDelete(id: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public apiBooksIdDelete(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public apiBooksIdDelete(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public apiBooksIdDelete(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    let headers = this.defaultHeaders;
 
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling apiBooksIdDelete.');
-        }
+    // to determine the Accept header
+    let httpHeaderAccepts: string[] = [
+      'text/plain',
+      'application/json',
+      'text/json'
+    ];
 
-        let headers = this.defaultHeaders;
+    // to determine the Content-Type header
+    const consumes: string[] = [];
 
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
-            'text/plain',
-            'application/json',
-            'text/json'
-        ];
+    return this.httpClient.request<BookResponseDto>('get', `${this.basePath}/books/${encodeURIComponent(String(id))}`,
+      {
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
+  }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
+  /**
+   *
+   *
+   * @param id
+   * @param body
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public apiBooksIdLanguagesDelete(id: string, body?: RemoveLanguageFromBookDto, observe?: 'body', reportProgress?: boolean): Observable<any>;
+  public apiBooksIdLanguagesDelete(id: string, body?: RemoveLanguageFromBookDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+  public apiBooksIdLanguagesDelete(id: string, body?: RemoveLanguageFromBookDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+  public apiBooksIdLanguagesDelete(id: string, body?: RemoveLanguageFromBookDto, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
 
-        return this.httpClient.request<any>('delete',`${this.basePath}/books/${encodeURIComponent(String(id))}`,
-            {
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
+    if (id === null || id === undefined) {
+      throw new Error('Required parameter id was null or undefined when calling apiBooksIdLanguagesDelete.');
     }
 
-    /**
-     *
-     *
-     * @param id
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public apiBooksIdGet(id: number, observe?: 'body', reportProgress?: boolean): Observable<BookWithReviewsResponseDto>;
-    public apiBooksIdGet(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<BookWithReviewsResponseDto>>;
-    public apiBooksIdGet(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<BookWithReviewsResponseDto>>;
-    public apiBooksIdGet(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling apiBooksIdGet.');
-        }
+    let headers = this.defaultHeaders;
 
-        let headers = this.defaultHeaders;
+    // to determine the Accept header
+    let httpHeaderAccepts: string[] = [
+      'text/plain',
+      'application/json',
+      'text/json'
+    ];
 
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
-            'text/plain',
-            'application/json',
-            'text/json'
-        ];
+    // to determine the Content-Type header
+    const consumes: string[] = [
+      'application/json',
+      'text/json',
+      'application/_*+json'
+    ];
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
+    return this.httpClient.request<any>('delete', `${this.basePath}/books/${encodeURIComponent(String(id))}/languages`,
+      {
+        body: body,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
+  }
 
-        return this.httpClient.request<BookResponseDto>('get',`${this.basePath}/books/${encodeURIComponent(String(id))}`,
-            {
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
+  /**
+   *
+   *
+   * @param id
+   * @param body
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public apiBooksIdLanguagesPut(id: number, body?: AddLanguageToBookDto, observe?: 'body', reportProgress?: boolean): Observable<any>;
+  public apiBooksIdLanguagesPut(id: number, body?: AddLanguageToBookDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+  public apiBooksIdLanguagesPut(id: number, body?: AddLanguageToBookDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+  public apiBooksIdLanguagesPut(id: number, body?: AddLanguageToBookDto, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
+
+    if (id === null || id === undefined) {
+      throw new Error('Required parameter id was null or undefined when calling apiBooksIdLanguagesPut.');
     }
 
-    /**
-     *
-     *
-     * @param id
-     * @param body
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public apiBooksIdLanguagesDelete(id: string, body?: RemoveLanguageFromBookDto, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public apiBooksIdLanguagesDelete(id: string, body?: RemoveLanguageFromBookDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public apiBooksIdLanguagesDelete(id: string, body?: RemoveLanguageFromBookDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public apiBooksIdLanguagesDelete(id: string, body?: RemoveLanguageFromBookDto, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling apiBooksIdLanguagesDelete.');
-        }
+    let headers = this.defaultHeaders;
 
+    // to determine the Accept header
+    let httpHeaderAccepts: string[] = [
+      'text/plain',
+      'application/json',
+      'text/json'
+    ];
 
-        let headers = this.defaultHeaders;
+    // to determine the Content-Type header
+    const consumes: string[] = [
+      'application/json',
+      'text/json',
+      'application/_*+json'
+    ];
 
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
-            'text/plain',
-            'application/json',
-            'text/json'
-        ];
+    return this.httpClient.request<any>('put', `${this.basePath}/books/${encodeURIComponent(String(id))}/languages`,
+      {
+        body: body,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
+  }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json',
-            'text/json',
-            'application/_*+json'
-        ];
+  /**
+   *
+   *
+   * @param id
+   * @param body
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public apiBooksIdPut(id: string, body?: UpdateBookDto, observe?: 'body', reportProgress?: boolean): Observable<BookResponseDto>;
+  public apiBooksIdPut(id: string, body?: UpdateBookDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<BookResponseDto>>;
+  public apiBooksIdPut(id: string, body?: UpdateBookDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<BookResponseDto>>;
+  public apiBooksIdPut(id: string, body?: UpdateBookDto, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
 
-        return this.httpClient.request<any>('delete',`${this.basePath}/books/${encodeURIComponent(String(id))}/languages`,
-            {
-                body: body,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
+    if (id === null || id === undefined) {
+      throw new Error('Required parameter id was null or undefined when calling apiBooksIdPut.');
     }
 
-    /**
-     *
-     *
-     * @param id
-     * @param body
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public apiBooksIdLanguagesPut(id: string, body?: AddLanguageToBookDto, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public apiBooksIdLanguagesPut(id: string, body?: AddLanguageToBookDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public apiBooksIdLanguagesPut(id: string, body?: AddLanguageToBookDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public apiBooksIdLanguagesPut(id: string, body?: AddLanguageToBookDto, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling apiBooksIdLanguagesPut.');
-        }
+    let headers = this.defaultHeaders;
 
+    // to determine the Accept header
+    let httpHeaderAccepts: string[] = [
+      'text/plain',
+      'application/json',
+      'text/json'
+    ];
 
-        let headers = this.defaultHeaders;
+    // to determine the Content-Type header
+    const consumes: string[] = [
+      'application/json',
+      'text/json',
+      'application/_*+json'
+    ];
 
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
-            'text/plain',
-            'application/json',
-            'text/json'
-        ];
+    return this.httpClient.request<BookResponseDto>('put', `${this.basePath}/books/${encodeURIComponent(String(id))}`,
+      {
+        body: body,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
+  }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json',
-            'text/json',
-            'application/_*+json'
-        ];
+  /**
+   *
+   *
+   * @param id
+   * @param body
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public apiBooksIdSubjectsDelete(id: string, body?: RemoveSubjectFromBookDto, observe?: 'body', reportProgress?: boolean): Observable<any>;
+  public apiBooksIdSubjectsDelete(id: string, body?: RemoveSubjectFromBookDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+  public apiBooksIdSubjectsDelete(id: string, body?: RemoveSubjectFromBookDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+  public apiBooksIdSubjectsDelete(id: string, body?: RemoveSubjectFromBookDto, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
 
-        return this.httpClient.request<any>('put',`${this.basePath}/books/${encodeURIComponent(String(id))}/languages`,
-            {
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
+    if (id === null || id === undefined) {
+      throw new Error('Required parameter id was null or undefined when calling apiBooksIdSubjectsDelete.');
     }
 
-    /**
-     *
-     *
-     * @param id
-     * @param body
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public apiBooksIdPut(id: string, body?: UpdateBookDto, observe?: 'body', reportProgress?: boolean): Observable<BookResponseDto>;
-    public apiBooksIdPut(id: string, body?: UpdateBookDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<BookResponseDto>>;
-    public apiBooksIdPut(id: string, body?: UpdateBookDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<BookResponseDto>>;
-    public apiBooksIdPut(id: string, body?: UpdateBookDto, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling apiBooksIdPut.');
-        }
+    let headers = this.defaultHeaders;
 
 
-        let headers = this.defaultHeaders;
+    // to determine the Accept header
+    let httpHeaderAccepts: string[] = [
+      'text/plain',
+      'application/json',
+      'text/json'
+    ];
 
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
-            'text/plain',
-            'application/json',
-            'text/json'
-        ];
+    // to determine the Content-Type header
+    const consumes: string[] = [
+      'application/json',
+      'text/json',
+      'application/_*+json'
+    ];
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json',
-            'text/json',
-            'application/_*+json'
-        ];
+    return this.httpClient.request<any>('delete', `${this.basePath}/books/${encodeURIComponent(String(id))}/subjects`,
+      {
+        body: body,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
+  }
 
-        return this.httpClient.request<BookResponseDto>('put',`${this.basePath}/books/${encodeURIComponent(String(id))}`,
-            {
-                body: body,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
+  /**
+   *
+   *
+   * @param id
+   * @param body
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public apiBooksIdSubjectsPut(id: number, body?: AddSubjectToBookDto, observe?: 'body', reportProgress?: boolean): Observable<any>;
+  public apiBooksIdSubjectsPut(id: number, body?: AddSubjectToBookDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+  public apiBooksIdSubjectsPut(id: number, body?: AddSubjectToBookDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+  public apiBooksIdSubjectsPut(id: number, body?: AddSubjectToBookDto, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
+
+    if (id === null || id === undefined) {
+      throw new Error('Required parameter id was null or undefined when calling apiBooksIdSubjectsPut.');
     }
 
-    /**
-     *
-     *
-     * @param id
-     * @param body
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public apiBooksIdSubjectsDelete(id: string, body?: RemoveSubjectFromBookDto, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public apiBooksIdSubjectsDelete(id: string, body?: RemoveSubjectFromBookDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public apiBooksIdSubjectsDelete(id: string, body?: RemoveSubjectFromBookDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public apiBooksIdSubjectsDelete(id: string, body?: RemoveSubjectFromBookDto, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    let headers = this.defaultHeaders;
 
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling apiBooksIdSubjectsDelete.');
-        }
+    // to determine the Accept header
+    let httpHeaderAccepts: string[] = [
+      'text/plain',
+      'application/json',
+      'text/json'
+    ];
 
+    // to determine the Content-Type header
+    const consumes: string[] = [
+      'application/json',
+      'text/json',
+      'application/_*+json'
+    ];
 
-        let headers = this.defaultHeaders;
+    return this.httpClient.request<any>('put', `${this.basePath}/books/${encodeURIComponent(String(id))}/subjects`,
+      {
+        body: body,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
+  }
 
+  /**
+   *
+   *
+   * @param key
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public apiBooksKeyGet(key: string, observe?: 'body', reportProgress?: boolean): Observable<BookResponseDto>;
+  public apiBooksKeyGet(key: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<BookResponseDto>>;
+  public apiBooksKeyGet(key: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<BookResponseDto>>;
+  public apiBooksKeyGet(key: string, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
 
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
-            'text/plain',
-            'application/json',
-            'text/json'
-        ];
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json',
-            'text/json',
-            'application/_*+json'
-        ];
-
-        return this.httpClient.request<any>('delete',`${this.basePath}/books/${encodeURIComponent(String(id))}/subjects`,
-            {
-                body: body,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
+    if (key === null || key === undefined) {
+      throw new Error('Required parameter key was null or undefined when calling apiBooksKeyGet.');
     }
 
-    /**
-     *
-     *
-     * @param id
-     * @param body
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public apiBooksIdSubjectsPut(id: string, body?: AddSubjectToBookDto, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public apiBooksIdSubjectsPut(id: string, body?: AddSubjectToBookDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public apiBooksIdSubjectsPut(id: string, body?: AddSubjectToBookDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public apiBooksIdSubjectsPut(id: string, body?: AddSubjectToBookDto, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    let headers = this.defaultHeaders;
 
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling apiBooksIdSubjectsPut.');
-        }
+    // to determine the Accept header
+    let httpHeaderAccepts: string[] = [
+      'text/plain',
+      'application/json',
+      'text/json'
+    ];
 
+    // to determine the Content-Type header
+    const consumes: string[] = [];
 
-        let headers = this.defaultHeaders;
+    return this.httpClient.request<BookResponseDto>('get', `${this.basePath}/books/${encodeURIComponent(String(key))}`,
+      {
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
+  }
 
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
-            'text/plain',
-            'application/json',
-            'text/json'
-        ];
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json',
-            'text/json',
-            'application/_*+json'
-        ];
-
-        return this.httpClient.request<any>('put',`${this.basePath}/books/${encodeURIComponent(String(id))}/subjects`,
-            {
-                body: body,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     *
-     *
-     * @param key
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public apiBooksKeyGet(key: string, observe?: 'body', reportProgress?: boolean): Observable<BookResponseDto>;
-    public apiBooksKeyGet(key: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<BookResponseDto>>;
-    public apiBooksKeyGet(key: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<BookResponseDto>>;
-    public apiBooksKeyGet(key: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        if (key === null || key === undefined) {
-            throw new Error('Required parameter key was null or undefined when calling apiBooksKeyGet.');
-        }
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
-            'text/plain',
-            'application/json',
-            'text/json'
-        ];
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-
-        return this.httpClient.request<BookResponseDto>('get',`${this.basePath}/books/${encodeURIComponent(String(key))}`,
-            {
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     *
-     *
-     * @param body
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public apiBooksPost(body?: CreateBookDto, observe?: 'body', reportProgress?: boolean): Observable<BookResponseDto>;
-    public apiBooksPost(body?: CreateBookDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<BookResponseDto>>;
-    public apiBooksPost(body?: CreateBookDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<BookResponseDto>>;
-    public apiBooksPost(body?: CreateBookDto, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+  /**
+   *
+   *
+   * @param body
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public apiBooksPost(body?: CreateBookDto, observe?: 'body', reportProgress?: boolean): Observable<BookResponseDto>;
+  public apiBooksPost(body?: CreateBookDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<BookResponseDto>>;
+  public apiBooksPost(body?: CreateBookDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<BookResponseDto>>;
+  public apiBooksPost(body?: CreateBookDto, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
 
 
-        let headers = this.defaultHeaders;
+    let headers = this.defaultHeaders;
 
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
-            'text/plain',
-            'application/json',
-            'text/json'
-        ];
+    // to determine the Accept header
+    let httpHeaderAccepts: string[] = [
+      'text/plain',
+      'application/json',
+      'text/json'
+    ];
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json',
-            'text/json',
-            'application/_*+json'
-        ];
+    // to determine the Content-Type header
+    const consumes: string[] = [
+      'application/json',
+      'text/json',
+      'application/_*+json'
+    ];
 
-        return this.httpClient.request<BookResponseDto>('post',`${this.basePath}/books`,
-            {
-                body: body,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
+    return this.httpClient.request<BookResponseDto>('post', `${this.basePath}/books`,
+      {
+        body: body,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
+  }
 
+  public uploadFile(id: number, file: File) {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+
+    return this.httpClient.post(
+      `https://localhost:5000/books/${id}/image`,
+      formData);
+  }
 }

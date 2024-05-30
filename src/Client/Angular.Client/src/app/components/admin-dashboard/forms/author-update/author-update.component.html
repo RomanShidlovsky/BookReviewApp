@@ -18,7 +18,12 @@
             </div>
             <div class="card auth">
               <div class="card-body auth-card">
-                <form [formGroup]="form" (submit)="create(file.files)">
+                <form [formGroup]="form" (submit)="update(file.files)">
+                  <div class="mb-2">
+                    <label for="id">Id: </label>
+                    <input type="text" id="id" class="form-control" placeholder="id"
+                           formControlName="id" readonly/>
+                  </div>
                   <div class="mb-2">
                     <label for="firstName">First name: </label>
                     <input type="text" id="firstName" class="form-control" placeholder="first name"
@@ -49,14 +54,12 @@
                     <textarea id="biography" class="form-control" placeholder="biography"
                               formControlName="biography"></textarea>
                   </div>
-
                   <div class="mb-2">
                     <label class="form-label" for="customFile">Author Image:</label>
                     <input #file type="file" class="form-control pb-2" id="customFile" accept="image/*"/>
                   </div>
-
                   <div class="text-center">
-                    <input type="submit" class="btn signup-btn bg-red" value="Create">
+                    <input type="submit" class="btn signup-btn bg-red" value="Update">
                   </div>
                 </form>
               </div>
@@ -67,3 +70,4 @@
     </div>
   </div>
 </section>
+

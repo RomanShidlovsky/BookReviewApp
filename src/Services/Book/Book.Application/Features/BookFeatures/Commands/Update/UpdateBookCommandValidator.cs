@@ -19,9 +19,6 @@ public class UpdateBookCommandValidator : AbstractValidator<UpdateBookCommand>
         RuleFor(b => b.Dto.EditionCount)
             .NotEmpty().WithMessage("The EditionCount field is required.");
         
-        RuleFor(b => b.Dto.ImageUrl)
-            .MaximumLength(2000).WithMessage("The ImageUrl field must not exceed 2000 characters.");
-        
         RuleFor(b => b.Dto.PublicationYear)
             .NotEmpty().WithMessage("The PublicationYear field is required.");
     }

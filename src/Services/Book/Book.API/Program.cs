@@ -5,6 +5,7 @@ using Book.Infrastructure;
 using Book.Infrastructure.Context;
 using Book.Infrastructure.Extensions;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.Extensions.FileProviders;
 using Shared.Extensions;
 using Shared.Middlewares;
 
@@ -29,6 +30,23 @@ if (!app.Environment.IsProduction())
 app.UseHttpsRedirection();
 app.UseForwardedHeaders(new ForwardedHeadersOptions { ForwardedHeaders = ForwardedHeaders.All });
 app.UseCors("CorsPolicy");
+
+
+var resourcePath = Path.Combine(Directory.GetCurrentDirectory(), "Resources");
+
+// Check if the directory exists, if not, create it
+if (!Directory.Exists(resourcePath))
+{
+    Directory.CreateDirectory(resourcePath);
+}
+
+app.UseStaticFiles(new StaticFileOptions()
+{
+    FileProvider = new PhysicalFileProvider(resourcePath),
+    RequestPath = new PathString("/Resources")
+});
+
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

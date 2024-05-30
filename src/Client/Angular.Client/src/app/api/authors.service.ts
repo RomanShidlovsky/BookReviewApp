@@ -151,10 +151,10 @@ export class AuthorsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiAuthorsIdPut(id: string, body?: UpdateAuthorDto, observe?: 'body', reportProgress?: boolean): Observable<AuthorResponseDto>;
-    public apiAuthorsIdPut(id: string, body?: UpdateAuthorDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AuthorResponseDto>>;
-    public apiAuthorsIdPut(id: string, body?: UpdateAuthorDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AuthorResponseDto>>;
-    public apiAuthorsIdPut(id: string, body?: UpdateAuthorDto, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public apiAuthorsIdPut(id: number, body?: UpdateAuthorDto, observe?: 'body', reportProgress?: boolean): Observable<AuthorResponseDto>;
+    public apiAuthorsIdPut(id: number, body?: UpdateAuthorDto, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AuthorResponseDto>>;
+    public apiAuthorsIdPut(id: number, body?: UpdateAuthorDto, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AuthorResponseDto>>;
+    public apiAuthorsIdPut(id: number, body?: UpdateAuthorDto, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling apiAuthorsIdPut.');
@@ -265,4 +265,13 @@ export class AuthorsService {
         );
     }
 
+    public uploadFile (id: number, file : File)
+    {
+      const formData = new FormData();
+      formData.append('file', file, file.name);
+
+      return this.httpClient.post(
+        `https://localhost:5000/authors/${id}/image`,
+        formData);
+    }
 }
