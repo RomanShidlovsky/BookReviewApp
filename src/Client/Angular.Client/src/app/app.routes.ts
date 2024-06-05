@@ -12,6 +12,9 @@ import {AuthorUpdateComponent} from "./components/admin-dashboard/forms/author-u
 import {LanguageUpdateComponent} from "./components/admin-dashboard/forms/language-update/language-update.component";
 import {SubjectUpdateComponent} from "./components/admin-dashboard/forms/subject-update/subject-update.component";
 import {BookCreateComponent} from "./components/admin-dashboard/forms/book-create/book-create.component";
+import {FaqComponent} from "./components/faq/faq.component";
+import {ContactComponent} from "./components/contact/contact.component";
+import {BookFiltersComponent} from "./components/book-filters/book-filters.component";
 
 export const routes: Routes = [
   {
@@ -66,5 +69,17 @@ export const routes: Routes = [
     path: 'admin-dashboard/author-update/:id',
     component: AuthorUpdateComponent
   },
+  {
+    path: 'faq',
+    component: FaqComponent
+  },
+  {
+    path: 'contact',
+    component: ContactComponent
+  },
+  {
+    path: 'filter',
+    component: BookFiltersComponent
+  }
 ];
 
