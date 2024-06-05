@@ -1,0 +1,43 @@
+<div class="book-filters-container">
+  <h3>Filter Books</h3>
+  <form [formGroup]="filterForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input id="title" formControlName="title" type="text" />
+    </div>
+    <div class="form-group">
+      <label for="publicationYearStart">Publication Year (Start)</label>
+      <input id="publicationYearStart" formControlName="publicationYearStart" type="number" />
+    </div>
+    <div class="form-group">
+      <label for="publicationYearEnd">Publication Year (End)</label>
+      <input id="publicationYearEnd" formControlName="publicationYearEnd" type="number" />
+    </div>
+    <div class="form-group">
+      <label for="subjects">Subjects</label>
+      <ng-multiselect-dropdown
+        [settings]="dropdownWithNameSettings"
+        [data]="subjects"
+        id="subjects"
+        formControlName="selectedSubjects"
+        placeholder="Select Subjects">
+      </ng-multiselect-dropdown>
+    </div>
+    <div class="form-group">
+      <label for="authors">Authors</label>
+      <input id="authors" formControlName="authors" type="text" />
+    </div>
+    <div class="form-group">
+      <label for="languages">Languages</label>
+      <ng-multiselect-dropdown
+        [settings]="dropdownWithNameSettings"
+        [data]="languages"
+        id="languages"
+        formControlName="selectedLanguages"
+        placeholder="Select Subjects">
+      </ng-multiselect-dropdown>
+    </div>
+    <button type="submit">Apply Filters</button>
+    <button type="button" (click)="clearFilters()">Clear Filters</button>
+  </form>
+</div>
