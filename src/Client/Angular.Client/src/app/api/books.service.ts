@@ -46,26 +46,51 @@ export class BooksService {
    * @param orderByQueryString
    * @param pageNumber
    * @param pageSize
+   * @param selectedSubjects
+   * @param selectedLanguages
+   * @param selectedAuthors
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public apiBooksGet(filterQueryString?: string, orderByQueryString?: string, pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<Array<BookResponseDto>>;
-  public apiBooksGet(filterQueryString?: string, orderByQueryString?: string, pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<BookResponseDto>>>;
-  public apiBooksGet(filterQueryString?: string, orderByQueryString?: string, pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<BookResponseDto>>>;
-  public apiBooksGet(filterQueryString?: string, orderByQueryString?: string, pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
+  public apiBooksGet(filterQueryString?: string, orderByQueryString?: string, pageNumber?: number, pageSize?: number, selectedSubjects?: number[], selectedLanguages?: number[], selectedAuthors?: number[], observe?: 'body', reportProgress?: boolean): Observable<Array<BookResponseDto>>;
+  public apiBooksGet(filterQueryString?: string, orderByQueryString?: string, pageNumber?: number, pageSize?: number, selectedSubjects?: number[], selectedLanguages?: number[], selectedAuthors?: number[], observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<BookResponseDto>>>;
+  public apiBooksGet(filterQueryString?: string, orderByQueryString?: string, pageNumber?: number, pageSize?: number, selectedSubjects?: number[], selectedLanguages?: number[], selectedAuthors?: number[], observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<BookResponseDto>>>;
+  public apiBooksGet(filterQueryString?: string, orderByQueryString?: string, pageNumber?: number, pageSize?: number, selectedSubjects?: number[], selectedLanguages?: number[], selectedAuthors?: number[], observe: any = 'body', reportProgress: boolean = false): Observable<any> {
 
     let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+
     if (filterQueryString !== undefined && filterQueryString !== null) {
       queryParameters = queryParameters.set('filterQueryString', <any>filterQueryString);
     }
+
     if (orderByQueryString !== undefined && orderByQueryString !== null) {
       queryParameters = queryParameters.set('orderByQueryString', <any>orderByQueryString);
     }
+
     if (pageNumber !== undefined && pageNumber !== null) {
       queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
     }
+
     if (pageSize !== undefined && pageSize !== null) {
       queryParameters = queryParameters.set('pageSize', <any>pageSize);
+    }
+
+    if (selectedSubjects !== undefined && selectedSubjects !== null && selectedSubjects.length > 0) {
+      selectedSubjects.forEach(id => {
+        queryParameters = queryParameters.append('selectedSubjects', id.toString());
+      });
+    }
+
+    if (selectedLanguages !== undefined && selectedLanguages !== null && selectedLanguages.length > 0) {
+      selectedLanguages.forEach(id => {
+        queryParameters = queryParameters.append('selectedLanguages', id.toString());
+      });
+    }
+
+    if (selectedAuthors !== undefined && selectedAuthors !== null && selectedAuthors.length > 0) {
+      selectedAuthors.forEach(id => {
+        queryParameters = queryParameters.append('selectedAuthors', id.toString());
+      });
     }
 
     let headers = this.defaultHeaders;

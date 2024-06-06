@@ -1,9 +1,6 @@
 .book-filters-container {
   padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-  max-width: 300px;
+  color: white;
 }
 
 h3 {
@@ -32,17 +29,37 @@ input[type="number"] {
 button {
   margin-top: 10px;
   padding: 10px;
-  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 
-button[type="button"] {
-  background-color: #dc3545;
+.bg-submit {
+  background-color: #03255c;
 }
 
 button:hover {
   opacity: 0.8;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.scrollable-container {
+  max-height: 800px; /* Set the height according to your requirements */
+  overflow: auto;
+  border: 1px solid #ddd; /* Optional: Add a border for better visibility */
+  padding: 10px; /* Optional: Add padding for better spacing */
+}
+
+.list-group-item {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.loading {
+  height: 50px;
 }

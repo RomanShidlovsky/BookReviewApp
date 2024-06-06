@@ -12,8 +12,9 @@ public class GetBooksQueryHandler(IBookRepository _repository, IMapper _mapper)
     public async Task<Response<IEnumerable<BookResponseDto>>> Handle(GetBooksQuery request, CancellationToken cancellationToken)
     {
         var books = await _repository.GetBooksAsync(request.PageNumber, request.PageSize, 
-            request.FilterQueryString, request.OrderByQueryString, cancellationToken);
-
+            request.FilterQueryString, request.OrderByQueryString, request.SelectedSubjects,
+            request.SelectedLanguages, request.SelectedAuthors, cancellationToken);
+        
         return _mapper.Map<List<BookResponseDto>>(books);
     }
 }

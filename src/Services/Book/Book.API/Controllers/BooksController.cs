@@ -35,9 +35,13 @@ public class BooksController(IMediator _mediator, ILogger<BooksController> _logg
     [ProducesResponseType(typeof(IEnumerable<BookResponseDto>), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.BadRequest)]
     public async Task<IActionResult> GetBooks(CancellationToken cancellationToken, [FromQuery] string filterQueryString = "", 
-        [FromQuery] string orderByQueryString = "", [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+        [FromQuery] string orderByQueryString = "", [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10,
+        [FromQuery] int[]? selectedSubjects = null, [FromQuery] int[]? selectedLanguages = null, 
+        [FromQuery] int[]? selectedAuthors = null)
     {
-        var query = new GetBooksQuery(filterQueryString, orderByQueryString, pageNumber, pageSize);
+        var query = new GetBooksQuery(filterQueryString, orderByQueryString, selectedSubjects, selectedLanguages,
+            selectedAuthors, pageNumber, pageSize);
+        
         var result = await _mediator.Send(query, cancellationToken);
 
         return ApiResponse.GetObjectResult(result, _logger);

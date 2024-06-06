@@ -1,18 +1,20 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {BookResponseDto} from "../../../models/book/bookResponseDto";
+import {BooksService} from "../../../api/books.service";
 import {RouterLink} from "@angular/router";
-import {BookResponseDto} from "../../../../models/book/bookResponseDto";
-import {BooksService} from "../../../../api/books.service";
+import {NgClass} from "@angular/common";
 
 @Component({
-  selector: 'app-book-line',
+  selector: 'app-book-view',
   standalone: true,
   imports: [
-    RouterLink
+    RouterLink,
+    NgClass
   ],
-  templateUrl: './book-line.component.html',
-  styleUrl: './book-line.component.css'
+  templateUrl: './book-view.component.html',
+  styleUrl: './book-view.component.css'
 })
-export class BookLineComponent {
+export class BookViewComponent {
   @Input() book!: BookResponseDto;
   @Output() onBookDeleted = new EventEmitter<number>();
 
