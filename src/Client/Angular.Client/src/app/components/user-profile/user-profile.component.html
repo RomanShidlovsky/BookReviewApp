@@ -1,0 +1,23 @@
+<div class="container mt-5">
+  <h2>Edit Profile</h2>
+  <div *ngIf="message != null" class="text-danger">
+    {{ message }}
+  </div>
+  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label for="name" class="form-label">Username</label>
+      <input type="text" id="name" class="form-control" formControlName="userName" />
+      <div *ngIf="profileForm.get('name')?.invalid && profileForm.get('name')?.touched" class="text-danger">
+        userName is required.
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input type="email" id="email" class="form-control" formControlName="email" />
+      <div *ngIf="profileForm.get('email')?.invalid && profileForm.get('email')?.touched" class="text-danger">
+        Enter a valid email.
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="profileForm.invalid">Save Changes</button>
+  </form>
+</div>

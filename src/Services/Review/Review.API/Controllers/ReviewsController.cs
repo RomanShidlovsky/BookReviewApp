@@ -16,6 +16,7 @@ using Review.Application.Features.ReviewFeatures.Commands.Update;
 using Review.Application.Features.ReviewFeatures.Queries.GetAll;
 using Review.Application.Features.ReviewFeatures.Queries.GetBookReviews;
 using Review.Application.Features.ReviewFeatures.Queries.GetById;
+using Review.Application.Features.ReviewFeatures.Queries.GetUserReviews;
 using Shared;
 using Shared.Constants;
 using Shared.Wrappers;
@@ -45,6 +46,18 @@ public class ReviewsController(IMediator _mediator, ILogger<ReviewsController> _
     public async Task<IActionResult> GetBookReviews([FromRoute] int bookId,CancellationToken cancellationToken)
     {
         var query = new GetBookReviewsQuery(bookId);
+        var result = await _mediator.Send(query, cancellationToken);
+
+        return ApiResponse.GetObjectResult(result, _logger);
+    }
+    
+    [HttpGet("user/{userId:int}")]
+    [AllowAnonymous]
+    [ProducesResponseType(typeof(IEnumerable<ReviewResponseDto>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(Error), (int)HttpStatusCode.BadRequest)]
+    public async Task<IActionResult> GetUserReviews([FromRoute] int userId,CancellationToken cancellationToken)
+    {
+        var query = new GetUserReviewsQuery(userId);
         var result = await _mediator.Send(query, cancellationToken);
 
         return ApiResponse.GetObjectResult(result, _logger);

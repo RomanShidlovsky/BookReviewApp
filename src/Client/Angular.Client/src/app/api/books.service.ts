@@ -95,6 +95,33 @@ export class BooksService {
 
     let headers = this.defaultHeaders;
 
+    return this.httpClient.request<Array<BookResponseDto>>('get', `${this.basePath}/books`,
+      {
+        params: queryParameters,
+        headers: headers,
+        observe: observe,
+        reportProgress: reportProgress
+      }
+    );
+  }
+
+  public apiBooksRecommendedGet(id: number, count: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+  public apiBooksRecommendedGet(id: number, count: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+  public apiBooksRecommendedGet(id: number, count: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+  public apiBooksRecommendedGet(id: number, count: number, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
+
+    if (id === null || id === undefined) {
+      throw new Error('Required parameter id was null or undefined when calling apiBooksIdDelete.');
+    }
+
+    let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+
+    if (count !== undefined && count !== null) {
+      queryParameters = queryParameters.set('count', <any>count);
+    }
+
+    let headers = this.defaultHeaders;
+
     // to determine the Accept header
     let httpHeaderAccepts: string[] = [
       'text/plain',
@@ -105,7 +132,7 @@ export class BooksService {
     // to determine the Content-Type header
     const consumes: string[] = [];
 
-    return this.httpClient.request<Array<BookResponseDto>>('get', `${this.basePath}/books`,
+    return this.httpClient.request<any>('get', `${this.basePath}/books/${encodeURIComponent(String(id))}/recommendations`,
       {
         params: queryParameters,
         headers: headers,

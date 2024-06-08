@@ -131,3 +131,8 @@ export const updateSubjectDtoForm = new FormGroup({
   id: new FormControl(null, [Validators.required]),
   name: new FormControl(null, [Validators.required])
 });
+
+export const addToRole = new FormGroup({
+  userId: new FormControl(null, [Validators.required]),
+  roleId: new FormControl(null, [Validators.required])
+})

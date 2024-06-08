@@ -19,7 +19,7 @@
           </li>
           <li class="nav-item active ml-5">
             <a [routerLink]="['/filter']" [routerLinkActive]="['active']" class="nav-link text-white" href="#">
-              <span>READING LIST</span>
+              <span>SEARCH</span>
             </a>
           </li>
           <li class="nav-item active ml-5">
@@ -34,6 +34,12 @@
 
     <div class="col-lg-7 bg-lighter">
       <div class="row m-0 d-flex justify-content-end">
+        <div class="text-center" *ngIf="isLoggedIn()">
+          <button [routerLink]="['/user', getUserId()]" type="button" class="btn  btn-rounded icon-header-li">
+            Edit Profile
+          </button>
+        </div>
+
         <div class="text-center" *ngIf="!isLoggedIn()">
           <button [routerLink]="['/register']" type="button" class="btn  btn-rounded icon-header-li">
             Sign Up

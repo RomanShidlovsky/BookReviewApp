@@ -1,8 +1,25 @@
 .logo {
-  width: 40%;
+  height: 350px;
 }
 
 .text-white {
   font-family: 'M PLUS Rounded 1c', sans-serif;
   color: whitesmoke;
+}
+
+.text-color {
+  color: #202020;
+}
+
+.card {
+  height: 200px;
+  width: 150px;
+}
+
+.recommendation-img {
+  height: 80%;
+}
+
+.recommendation-text {
+  font-size: small;
 }

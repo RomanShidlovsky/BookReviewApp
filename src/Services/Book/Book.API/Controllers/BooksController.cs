@@ -13,6 +13,7 @@ using Book.Application.Features.BookFeatures.Commands.UploadImage;
 using Book.Application.Features.BookFeatures.Queries.GetBooks;
 using Book.Application.Features.BookFeatures.Queries.GetById;
 using Book.Application.Features.BookFeatures.Queries.GetByOpenLibraryKey;
+using Book.Application.Features.BookFeatures.Queries.GetRecommendedBooks;
 using Book.Application.Features.LanguageFeatures.Commands.AddLanguageToBook;
 using Book.Application.Features.LanguageFeatures.Commands.RemoveLanguageFromBook;
 using Book.Application.Features.SubjectFeatures.Commands.AddSubjectToBook;
@@ -41,6 +42,19 @@ public class BooksController(IMediator _mediator, ILogger<BooksController> _logg
     {
         var query = new GetBooksQuery(filterQueryString, orderByQueryString, selectedSubjects, selectedLanguages,
             selectedAuthors, pageNumber, pageSize);
+        
+        var result = await _mediator.Send(query, cancellationToken);
+
+        return ApiResponse.GetObjectResult(result, _logger);
+    }
+    
+    [HttpGet("{id:int}/recommendations")]
+    [AllowAnonymous]
+    [ProducesResponseType(typeof(IEnumerable<BookResponseDto>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(Error), (int)HttpStatusCode.BadRequest)]
+    public async Task<IActionResult> GetRecommendedBooks([FromRoute] int id, [FromQuery] int count, CancellationToken cancellationToken)
+    {
+        var query = new GetRecommendedBooksQuery(id, count);
         
         var result = await _mediator.Send(query, cancellationToken);
 

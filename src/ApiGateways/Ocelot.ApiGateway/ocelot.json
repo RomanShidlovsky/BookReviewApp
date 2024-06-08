@@ -146,6 +146,20 @@
       "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
+      "UpstreamPathTemplate": "/books/{id}/recommendations",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/books/{id}/recommendations",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "book-service",
+          "Port": 443
+        }
+      ],
+      "SwaggerKey": "books",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
       "UpstreamPathTemplate": "/authors",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/authors",
@@ -416,6 +430,34 @@
       "UpstreamPathTemplate": "/criticreviews/book/{bookId}",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/criticreviews/book/{bookId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "review-service",
+          "Port": 443
+        }
+      ],
+      "SwaggerKey": "reviews",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/reviews/user/{userId}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/reviews/user/{userId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "review-service",
+          "Port": 443
+        }
+      ],
+      "SwaggerKey": "reviews",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/criticreviews/user/{userId}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/criticreviews/user/{userId}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {

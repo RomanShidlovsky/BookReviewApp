@@ -96,6 +96,29 @@ public class BookRepository(BookContext context, IDistributedCache _cache, ILogg
         return books;
     }
 
+    public async Task<List<BookEntity>> GetBooksBySubjectMatchesAsync(int bookId, int count, CancellationToken cancellationToken)
+    {
+        var book = await GetByIdAsync(bookId, cancellationToken);
+
+        var subjectIds = book.Subjects.Select(s => s.Id).ToList();
+
+        var books = await GetAsync(b => b.Id != bookId, cancellationToken);
+
+        var booksWithSubjectMatches = books
+            .Select(b => new
+            {
+                Book = b,
+                MatchCount = b.Subjects.Count(s => subjectIds.Contains(s.Id))
+            })
+            .Where(b => b.MatchCount > 0)
+            .OrderByDescending(b => b.MatchCount)
+            .Take(count)
+            .Select(b => b.Book)
+            .ToList();
+
+        return booksWithSubjectMatches;
+    }
+
     public override async Task<BookEntity?> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
         var cacheKey = BaseCacheKey + id;

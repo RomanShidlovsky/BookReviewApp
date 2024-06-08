@@ -29,4 +29,8 @@ export class HeaderComponent {
   isLoggedIn() {
     return this.authService.isLogged();
   }
+
+  getUserId() {
+    return this.authService.getUserId();
+  }
 }

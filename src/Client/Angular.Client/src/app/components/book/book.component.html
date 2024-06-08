@@ -10,6 +10,19 @@
             by <span> {{ getAuthorsNames() }} </span>
           </span>
           <img src="{{ book.imageUrl }}" class="logo-img logo" alt="logo">
+
+          <span class="text-white mb-2 mt-2">
+            Recommendations:
+          </span>
+
+          <div class="d-flex justify-content-between mt-1">
+            <a *ngFor="let book of recommendedBooks" [routerLink]="['/book', book.id]">
+              <div class="card mb-3 mr-3 text-color">
+                <img class="card-img-top recommendation-img" src="{{ book.imageUrl }}" alt="Card image cap">
+                <span class="card-title recommendation-text">{{ book.title }}</span>
+              </div>
+            </a>
+          </div>
         </div>
       </div>
 

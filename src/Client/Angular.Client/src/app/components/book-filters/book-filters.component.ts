@@ -117,11 +117,6 @@ export class BookFiltersComponent implements OnInit, AfterViewInit {
 
     const { selectedLanguages, selectedSubjects, selectedAuthors }: { selectedLanguages: Item[], selectedSubjects: Item[], selectedAuthors: Item[] } = this.filterForm.value;
 
-    console.log("lang", selectedLanguages);
-    console.log("subj", selectedSubjects);
-    console.log("lang", selectedAuthors);
-
-
     const selectedLanguagesIds = selectedLanguages.map((language: Item) => language.id);
     const selectedSubjectsIds = selectedSubjects.map((subject: Item) => subject.id);
     const selectedAuthorsIds = selectedAuthors.map((author: Item) => author.id);
@@ -137,24 +132,6 @@ export class BookFiltersComponent implements OnInit, AfterViewInit {
     ).subscribe({
       next: books => {
         if (books.length != 0) {
-          /*const { selectedLanguages, selectedSubjects, selectedAuthors }: { selectedLanguages: Item[], selectedSubjects: Item[], selectedAuthors: Item[] } = this.filterForm.value;
-
-          const selectedLanguagesIds = selectedLanguages.map((language: Item) => language.id);
-          const selectedSubjectsIds = selectedSubjects.map((subject: Item) => subject.id);
-          const selectedAuthorsIds = selectedAuthors.map((author: Item) => author.id);
-
-          console.log(selectedSubjectsIds);
-
-          const filteredBooks = books.filter(book => {
-            const hasSelectedLanguages = selectedLanguagesIds.length === 0 || book.languages.some(language => selectedLanguagesIds.includes(language.id));
-            const hasSelectedSubjects = selectedSubjectsIds.length === 0 || book.subjects.some(subject => selectedSubjectsIds.includes(subject.id));
-            console.log(hasSelectedSubjects);
-            const hasSelectedAuthors = selectedAuthorsIds.length === 0 || book.authors.some(author => selectedAuthorsIds.includes(author.id));
-            return hasSelectedLanguages && hasSelectedSubjects && hasSelectedAuthors;
-          });*/
-
-
-
           this.books = [...this.books, ...books];
 
           this.currentPage++;

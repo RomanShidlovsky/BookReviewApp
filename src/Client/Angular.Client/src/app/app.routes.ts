@@ -15,6 +15,9 @@ import {BookCreateComponent} from "./components/admin-dashboard/forms/book-creat
 import {FaqComponent} from "./components/faq/faq.component";
 import {ContactComponent} from "./components/contact/contact.component";
 import {BookFiltersComponent} from "./components/book-filters/book-filters.component";
+import {UserProfileComponent} from "./components/user-profile/user-profile.component";
+import {AddToRoleComponent} from "./components/admin-dashboard/forms/add-to-role/add-to-role.component";
+import {DeleteFromRoleComponent} from "./components/admin-dashboard/forms/delete-from-role/delete-from-role.component";
 
 export const routes: Routes = [
   {
@@ -70,6 +73,14 @@ export const routes: Routes = [
     component: AuthorUpdateComponent
   },
   {
+    path: 'admin-dashboard/add-to-role',
+    component: AddToRoleComponent
+  },
+  {
+    path: 'admin-dashboard/delete-from-role',
+    component: DeleteFromRoleComponent
+  },
+  {
     path: 'faq',
     component: FaqComponent
   },
@@ -80,6 +91,10 @@ export const routes: Routes = [
   {
     path: 'filter',
     component: BookFiltersComponent
+  },
+  {
+    path: 'user/:id',
+    component: UserProfileComponent
   }
 ];
 

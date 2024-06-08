@@ -1,0 +1,48 @@
+<section class="h-100 p-0 m-0">
+  <div class="container-fluid h-100">
+    <div class="row h-100">
+      <div class="col-lg-5 h-100 bg-main p-0">
+        <div class="logo-container h-100 d-flex flex-column justify-content-center align-items-center">
+          <img src="./assets/img/logo.png" class="logo-img" alt="logo">
+          <h1 class="strong-title">
+            Every burnt book enlightens the world.
+          </h1>
+        </div>
+      </div>
+
+      <div class="col-lg-7 d-flex flex-column justify-content-center align-items-center" style="height: 100%">
+        <div class="container row">
+          <div class="col-md-8 offset-md-2">
+            <div class="error-message">
+              <span> {{ this.message }}</span>
+            </div>
+            <div class="card auth">
+              <div class="card-body auth-card">
+                <form [formGroup]="form" (submit)="deleteFromRole()">
+                  <div class="mb-2">
+                    <label for="user">Select User: </label>
+                    <select id="user" class="form-control" formControlName="userId">
+                      <option *ngFor="let user of users" [value]="user.id">{{ user.userName }}</option>
+                    </select>
+                  </div>
+
+                  <div class="mb-2">
+                    <label for="role">Select Role: </label>
+                    <select id="role" class="form-control" formControlName="roleId">
+                      <option *ngFor="let role of roles" [value]="role.id">{{ role.name }}</option>
+                    </select>
+                  </div>
+
+                  <div class="text-center">
+                    <input type="submit" class="btn signup-btn bg-red" value="Apply">
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+

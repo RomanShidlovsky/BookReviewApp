@@ -16,7 +16,8 @@ public class ReviewRepository(
     : BaseRepository<ReviewEntity>(_reviewsCollection), IReviewRepository
 {
     private readonly string BaseCacheKey = isCritic? "CriticReview" : "Review";
-    private readonly string BookReviewsKey = isCritic? "CriticBookReviews" :"BookReviews";
+    private readonly string BookReviewsKey = isCritic? "CriticBookReviews" : "BookReviews";
+    private readonly string UserReviewsKey = isCritic ? "CriticUserReviews" : "UserReviews";
 
     public override async Task<List<ReviewEntity>> GetAllAsync(CancellationToken cancellationToken)
     {
@@ -101,6 +102,30 @@ public class ReviewRepository(
         else
         {
             reviews = await GetAsync(review => review.BookId.Equals(bookId), cancellationToken);
+
+            reviewsCache = Cache<List<ReviewEntity>>.GetCache(reviews, out var options);
+
+            await _cache.SetAsync(cacheKey, reviewsCache, options, cancellationToken);
+        }
+
+        return reviews;
+    }
+
+    public async Task<List<ReviewEntity>> GetUserReviewsAsync(int userId, CancellationToken cancellationToken)
+    {
+        var cacheKey = UserReviewsKey + userId;
+
+        var reviewsCache = await _cache.GetAsync(cacheKey, cancellationToken);
+
+        List<ReviewEntity>? reviews;
+
+        if (reviewsCache is not null)
+        {
+            reviews = Cache<List<ReviewEntity>>.GetData(reviewsCache);
+        }
+        else
+        {
+            reviews = await GetAsync(review => review.UserId.Equals(userId), cancellationToken);
 
             reviewsCache = Cache<List<ReviewEntity>>.GetCache(reviews, out var options);
 

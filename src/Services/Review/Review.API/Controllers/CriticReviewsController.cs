@@ -15,6 +15,7 @@ using Review.Application.Features.CriticReviewFeatures.Commands.Update;
 using Review.Application.Features.CriticReviewFeatures.Queries.GetAll;
 using Review.Application.Features.CriticReviewFeatures.Queries.GetBookReviews;
 using Review.Application.Features.CriticReviewFeatures.Queries.GetById;
+using Review.Application.Features.CriticReviewFeatures.Queries.GetUserReviews;
 using Shared;
 using Shared.Constants;
 using Shared.Wrappers;
@@ -44,6 +45,18 @@ public class CriticReviewsController(IMediator _mediator, ILogger<ReviewsControl
     public async Task<IActionResult> GetBookReviews([FromRoute] int bookId,CancellationToken cancellationToken)
     {
         var query = new GetBookCriticReviewsQuery(bookId);
+        var result = await _mediator.Send(query, cancellationToken);
+
+        return ApiResponse.GetObjectResult(result, _logger);
+    }
+    
+    [HttpGet("user/{userId:int}")]
+    [AllowAnonymous]
+    [ProducesResponseType(typeof(IEnumerable<ReviewResponseDto>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(Error), (int)HttpStatusCode.BadRequest)]
+    public async Task<IActionResult> GetUserReviews([FromRoute] int userId, CancellationToken cancellationToken)
+    {
+        var query = new GetUserCriticReviewsQuery(userId);
         var result = await _mediator.Send(query, cancellationToken);
 
         return ApiResponse.GetObjectResult(result, _logger);
