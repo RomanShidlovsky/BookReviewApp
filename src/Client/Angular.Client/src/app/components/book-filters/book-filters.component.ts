@@ -16,6 +16,11 @@ interface Item {
   id: number;
 }
 
+interface OrderByItem {
+  text: string;
+  value: string;
+}
+
 @Component({
   selector: 'app-book-filters',
   standalone: true,
@@ -43,8 +48,30 @@ export class BookFiltersComponent implements OnInit, AfterViewInit {
   isLoaded = false;
   filterQueryString = '';
   orderByQueryString = '';
+  orderBy: OrderByItem[] = [
+    {
+      text: 'Title',
+      value: 'title'
+    },
+    {
+      text: 'Edition Count',
+      value: 'editionCount'
+    },
+    {
+      text: 'Publication Year',
+      value: 'publicationYear'
+    },
+    {
+      text: 'User Rating',
+      value: 'averageRating'
+    },
+    {
+      text: 'Critic Rating',
+      value: 'averageCriticRating'
+    }
+  ]
 
-  @ViewChild('scrollContainer', { static: false }) scrollContainer!: ElementRef;
+  @ViewChild('scrollContainer', {static: false}) scrollContainer!: ElementRef;
 
   constructor(
     private fb: FormBuilder,
@@ -57,6 +84,8 @@ export class BookFiltersComponent implements OnInit, AfterViewInit {
       title: [''],
       publicationYearStart: [''],
       publicationYearEnd: [''],
+      orderBy: ['title'],
+      order: ['desc'],
       selectedSubjects: [[], []],
       selectedAuthors: [[], []],
       selectedLanguages: [[], []]
@@ -115,7 +144,11 @@ export class BookFiltersComponent implements OnInit, AfterViewInit {
 
     this.isLoading = true;
 
-    const { selectedLanguages, selectedSubjects, selectedAuthors }: { selectedLanguages: Item[], selectedSubjects: Item[], selectedAuthors: Item[] } = this.filterForm.value;
+    const {selectedLanguages, selectedSubjects, selectedAuthors}: {
+      selectedLanguages: Item[],
+      selectedSubjects: Item[],
+      selectedAuthors: Item[]
+    } = this.filterForm.value;
 
     const selectedLanguagesIds = selectedLanguages.map((language: Item) => language.id);
     const selectedSubjectsIds = selectedSubjects.map((subject: Item) => subject.id);
@@ -148,7 +181,7 @@ export class BookFiltersComponent implements OnInit, AfterViewInit {
   }
 
   onScroll(): void {
-    const { scrollTop, scrollHeight, clientHeight } = this.scrollContainer.nativeElement;
+    const {scrollTop, scrollHeight, clientHeight} = this.scrollContainer.nativeElement;
     if (scrollTop + clientHeight >= scrollHeight - 1) {
       this.loadMoreBooks();
     }
@@ -158,13 +191,14 @@ export class BookFiltersComponent implements OnInit, AfterViewInit {
     const formValues = this.filterForm.value;
 
     return Object.entries(formValues)
-      .filter(([key, value]) => value && !Array.isArray(value))
+      .filter(([key, value]) => value && !Array.isArray(value) && key !== 'orderBy' && key !== 'order')
       .map(([key, value]) => `${key}=${value}`)
       .join(',');
   }
 
   onSubmit() {
     this.filterQueryString = this.getQueryString();
+    this.orderByQueryString = this.filterForm.value.orderBy + ' ' + this.filterForm.value.order;
     console.log(this.filterQueryString);
     this.currentPage = 1;
     this.books = [];
@@ -177,7 +211,9 @@ export class BookFiltersComponent implements OnInit, AfterViewInit {
     this.filterForm.reset({
       selectedLanguages: [],
       selectedSubjects: [],
-      selectedAuthors: []
+      selectedAuthors: [],
+      orderBy: ['title'],
+      order: ['desc']
     });
   }
 }

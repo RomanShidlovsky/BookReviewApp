@@ -48,6 +48,16 @@
                   placeholder="Select Languages">
                 </ng-multiselect-dropdown>
               </div>
+              <div class="form-group">
+                <label for="orderBy">Order By</label>
+                <select class="form-control" id="orderBy" formControlName="orderBy">
+                  <option *ngFor="let item of orderBy" [value]="item.value">{{ item.text }}</option>
+                </select>
+                <select class="form-control" id="order" formControlName="order">
+                  <option value="desc">DESC</option>
+                  <option value="asc">ASC</option>
+                </select>
+              </div>
             </div>
             <div class="d-flex justify-content-between">
               <button type="submit" class="bg-submit">Apply Filters</button>
