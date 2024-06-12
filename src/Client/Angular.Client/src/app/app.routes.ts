@@ -18,6 +18,7 @@ import {BookFiltersComponent} from "./components/book-filters/book-filters.compo
 import {UserProfileComponent} from "./components/user-profile/user-profile.component";
 import {AddToRoleComponent} from "./components/admin-dashboard/forms/add-to-role/add-to-role.component";
 import {DeleteFromRoleComponent} from "./components/admin-dashboard/forms/delete-from-role/delete-from-role.component";
+import {authGuard} from "./guards/auth.guard";
 
 export const routes: Routes = [
   {
@@ -43,42 +44,52 @@ export const routes: Routes = [
   {
     path: 'admin-dashboard',
     component: AdminDashboardComponent,
+    canActivate: [adminRoleGuard]
   },
   {
     path: 'admin-dashboard/book-create',
     component: BookCreateComponent,
+    canActivate: [adminRoleGuard]
   },
   {
     path: 'admin-dashboard/language-create',
     component: LanguageCreateComponent,
+    canActivate: [adminRoleGuard]
   },
   {
     path: 'admin-dashboard/language-update/:id',
-    component: LanguageUpdateComponent
+    component: LanguageUpdateComponent,
+    canActivate: [adminRoleGuard]
   },
   {
     path: 'admin-dashboard/subject-create',
-    component: SubjectCreateComponent
+    component: SubjectCreateComponent,
+    canActivate: [adminRoleGuard]
   },
   {
     path: 'admin-dashboard/subject-update/:id',
-    component: SubjectUpdateComponent
+    component: SubjectUpdateComponent,
+    canActivate: [adminRoleGuard]
   },
   {
     path: 'admin-dashboard/author-create',
-    component: AuthorCreateComponent
+    component: AuthorCreateComponent,
+    canActivate: [adminRoleGuard]
   },
   {
     path: 'admin-dashboard/author-update/:id',
-    component: AuthorUpdateComponent
+    component: AuthorUpdateComponent,
+    canActivate: [adminRoleGuard]
   },
   {
     path: 'admin-dashboard/add-to-role',
-    component: AddToRoleComponent
+    component: AddToRoleComponent,
+    canActivate: [adminRoleGuard]
   },
   {
     path: 'admin-dashboard/delete-from-role',
-    component: DeleteFromRoleComponent
+    component: DeleteFromRoleComponent,
+    canActivate: [adminRoleGuard]
   },
   {
     path: 'faq',
@@ -94,7 +105,8 @@ export const routes: Routes = [
   },
   {
     path: 'user/:id',
-    component: UserProfileComponent
+    component: UserProfileComponent,
+    canActivate: [authGuard]
   }
 ];
 
