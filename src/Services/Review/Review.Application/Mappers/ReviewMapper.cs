@@ -28,7 +28,8 @@ public class ReviewMapper : Profile
             .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Text))
             .ForMember(dest => dest.Likes, opt => opt.MapFrom(src => src.Likes))
             .ForMember(dest => dest.Dislikes, opt => opt.MapFrom(src => src.Dislikes))
-            .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.Comments));
-            
+            .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.Comments))
+            .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User))
+            .ForMember(dest => dest.Book, opt => opt.MapFrom(src => src.Book));
     }
 }

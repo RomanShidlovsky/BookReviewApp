@@ -4,6 +4,7 @@ services:
   identity-service:
     depends_on: 
       - mssql
+      - rabbitmq
     ports:
       - "5001:8080"
       - "5002:443"
@@ -18,10 +19,12 @@ services:
       - elastic
       - mssql-network
       - api-gateway
+      - rabbitmq-network
   
   book-service:
     depends_on: 
       - mssql
+      - rabbitmq
     ports:
       - "5003:8080"
       - "5004:443"
@@ -36,10 +39,12 @@ services:
       - elastic
       - mssql-network
       - api-gateway
+      - rabbitmq-network
   
   review-service:
     depends_on:
       - mongodb
+      - rabbitmq
     ports:
       - "5005:8080"
       - "5006:443"
@@ -54,6 +59,7 @@ services:
       - elastic
       - mongodb-network
       - api-gateway
+      - rabbitmq-network
         
   ocelot-api-gateway:
     depends_on:
@@ -73,6 +79,15 @@ services:
     networks:
       - elastic
       - api-gateway
+      - rabbitmq-network
+  
+  rabbitmq:
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    hostname: "rabbitmq"
+    networks:
+      - rabbitmq-network
   
   mssql:
     ports:
@@ -125,6 +140,8 @@ networks:
   mongodb-network:
     driver: bridge
   api-gateway:
+    driver: bridge
+  rabbitmq-network:
     driver: bridge
 
 volumes: 

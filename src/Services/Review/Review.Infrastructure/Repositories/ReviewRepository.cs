@@ -75,11 +75,11 @@ public class ReviewRepository(
     private async Task LoadRelativeData(ReviewEntity review, CancellationToken cancellationToken)
     {
         var user = await _usersCollection
-            .Find(user => user.Id == review.UserId.ToString())
+            .Find(user => user.Id.Equals(review.UserId.ToString()))
             .FirstOrDefaultAsync(cancellationToken);
 
         var book = await _booksCollection
-            .Find(book => book.Id == review.BookId.ToString())
+            .Find(book => book.Id.Equals(review.BookId.ToString()))
             .FirstOrDefaultAsync(cancellationToken);
 
         review.User = user;

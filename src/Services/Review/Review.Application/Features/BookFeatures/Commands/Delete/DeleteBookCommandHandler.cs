@@ -12,8 +12,9 @@ public class DeleteBookCommandHandler(IUnitOfWork _unitOfWork)
     public async Task<Response> Handle(DeleteBookCommand request, CancellationToken cancellationToken)
     {
         var repository = _unitOfWork.BookRepository;
-
-        var book = await repository.GetByIdAsync(request.Id.ToString(), cancellationToken);
+        var dto = request.Dto;
+        
+        var book = await repository.GetByIdAsync(dto.Id.ToString(), cancellationToken);
 
         if (book is null)
         {
