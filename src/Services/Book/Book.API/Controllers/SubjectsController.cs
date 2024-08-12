@@ -56,7 +56,7 @@ public class SubjectsController(IMediator _mediator, ILogger<SubjectsController>
         return ApiResponse.GetObjectResult(result, _logger);
     }
 
-    [HttpPut]
+    [HttpPut("{id:int}")]
     [Authorize(Roles = Roles.Admin)]
     [ProducesResponseType(typeof(SubjectResponseDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(IEnumerable<Error>), (int)HttpStatusCode.UnprocessableEntity)]

@@ -11,12 +11,13 @@ services:
       - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=https://+:443;http://+:8080
       - ASPNETCORE_Kestrel__Certificates__Default__Password=1234
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/identity.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnet.pfx
     volumes:
       - ~/.aspnet/https:/https:ro
     networks: 
       - elastic
       - mssql-network
+      - api-gateway
   
   book-service:
     depends_on: 
@@ -28,12 +29,13 @@ services:
       - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=https://+:443;http://+:8080
       - ASPNETCORE_Kestrel__Certificates__Default__Password=1234
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/identity.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnet.pfx
     volumes:
       - ~/.aspnet/https:/https:ro
     networks:
       - elastic
       - mssql-network
+      - api-gateway
   
   review-service:
     depends_on:
@@ -45,12 +47,32 @@ services:
       - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=https://+:443;http://+:8080
       - ASPNETCORE_Kestrel__Certificates__Default__Password=1234
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/identity.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnet.pfx
     volumes:
       - ~/.aspnet/https:/https:ro
     networks:
       - elastic
       - mongodb-network
+      - api-gateway
+        
+  ocelot-api-gateway:
+    depends_on:
+      - identity-service
+      - book-service
+      - review-service
+    ports:
+      - "5010:8080"
+      - "5000:443"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+      - ASPNETCORE_URLS=https://+:443;http://+:8080
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=1234
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnet.pfx
+    volumes:
+      - ~/.aspnet/https:/https:ro
+    networks:
+      - elastic
+      - api-gateway
   
   mssql:
     ports:
@@ -101,6 +123,8 @@ networks:
   mssql-network:
     driver: bridge
   mongodb-network:
+    driver: bridge
+  api-gateway:
     driver: bridge
 
 volumes: 

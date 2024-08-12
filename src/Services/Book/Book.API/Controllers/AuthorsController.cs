@@ -69,7 +69,7 @@ public class AuthorsController(IMediator _mediator, ILogger<AuthorsController> _
         return ApiResponse.GetObjectResult(result, _logger);
     }
 
-    [HttpPut]
+    [HttpPut("{id:int}")]
     [Authorize(Roles = Roles.Admin)]
     [ProducesResponseType(typeof(AuthorResponseDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(IEnumerable<Error>), (int)HttpStatusCode.UnprocessableEntity)]

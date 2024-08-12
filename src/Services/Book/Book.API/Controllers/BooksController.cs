@@ -79,7 +79,7 @@ public class BooksController(IMediator _mediator, ILogger<BooksController> _logg
         return ApiResponse.GetObjectResult(result, _logger);
     }
 
-    [HttpPut]
+    [HttpPut("{id:int}")]
     [Authorize(Roles = Roles.Admin)]
     [ProducesResponseType(typeof(BookResponseDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(IEnumerable<Error>), (int)HttpStatusCode.UnprocessableEntity)]
