@@ -3,4 +3,4 @@ using Book.Application.Interfaces.Queries;
 
 namespace Book.Application.Features.BookFeatures.Queries.GetById;
 
-public sealed record GetBookByIdQuery(int Id) : ISingleQuery<BookResponseDto>;
+public sealed record GetBookByIdQuery(int Id) : ISingleQuery<BookWithReviewsResponseDto>;

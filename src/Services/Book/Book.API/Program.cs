@@ -10,7 +10,7 @@ using Shared.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.ConfigureApplication();
+builder.Services.ConfigureApplication(builder.Configuration);
 builder.Services.ConfigureInfrastructure(builder.Configuration);
 builder.Services.ConfigureApi(builder.Configuration);
 

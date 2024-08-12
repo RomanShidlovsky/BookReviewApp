@@ -29,11 +29,11 @@ public class UpdateBookCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper, 
         
         if (dto.OpenLibraryKey is not null)
         {
-            var openLibraryKeyAuthor =
+            var openLibraryKeyBook =
                 await repository.GetAsync(b => 
-                        b.Id != dto.Id && b.IsOpenLibraryKey(dto.OpenLibraryKey), cancellationToken);
+                        b.Id != dto.Id && b.OpenLibraryKey == dto.OpenLibraryKey, cancellationToken);
 
-            if (openLibraryKeyAuthor.Count != 0)
+            if (openLibraryKeyBook.Count != 0)
             {
                 return Response.Failure<BookResponseDto>(DomainErrors.Book.OpenLibraryKeyConflict);
             }

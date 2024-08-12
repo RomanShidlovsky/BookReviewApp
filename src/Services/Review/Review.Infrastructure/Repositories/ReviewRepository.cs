@@ -104,7 +104,7 @@ public class ReviewRepository(
         }
         else
         {
-            reviews = await GetAsync(review => review.BookId == bookId, cancellationToken);
+            reviews = await GetAsync(review => review.BookId.Equals(bookId), cancellationToken);
 
             reviewsCache = Cache<List<ReviewEntity>>.GetCache(reviews, out var options);
 

@@ -5,7 +5,7 @@ using Book.Application.DTOs.Subject.ResponseDTOs;
 
 namespace Book.Application.DTOs.Book.ResponseDTOs;
 
-public record BookResponseDto(
+public record BookWithReviewsResponseDto(
     int Id,
     string? OpenLibraryKey,
     string Title,
@@ -15,4 +15,7 @@ public record BookResponseDto(
     string? ImageUrl,
     IEnumerable<AuthorResponseDto> Authors,
     IEnumerable<LanguageResponseDto> Languages,
-    IEnumerable<SubjectResponseDto> Subjects);
+    IEnumerable<SubjectResponseDto> Subjects)
+{
+    public IEnumerable<ReviewResponseDto> Reviews { get; set; }
+};
