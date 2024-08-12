@@ -11,11 +11,13 @@ public class ReviewRepository(
     IMongoCollection<ReviewEntity> _reviewsCollection,
     IMongoCollection<User> _usersCollection,
     IMongoCollection<Book> _booksCollection,
+    bool isCritic,
     IDistributedCache _cache)
     : BaseRepository<ReviewEntity>(_reviewsCollection), IReviewRepository
 {
-    private const string BaseCacheKey = "Review";
-    private const string BookReviewsKey = "BookReviews";
+    private readonly string BaseCacheKey = isCritic? "CriticReview" : "Review";
+    private readonly string BookReviewsKey = isCritic? "CriticBookReviews" : "BookReviews";
+    private readonly string UserReviewsKey = isCritic ? "CriticUserReviews" : "UserReviews";
 
     public override async Task<List<ReviewEntity>> GetAllAsync(CancellationToken cancellationToken)
     {
@@ -32,6 +34,7 @@ public class ReviewRepository(
 
         return reviews;
     }
+
 
     public override async Task<ReviewEntity?> GetByIdAsync(string id, CancellationToken cancellationToken)
     {
@@ -72,6 +75,8 @@ public class ReviewRepository(
     public override async Task CreateAsync(ReviewEntity entity, CancellationToken cancellationToken)
     {
         await base.CreateAsync(entity, cancellationToken);
+        
+        await LoadRelativeData(entity, cancellationToken);
 
         await RemoveCacheAsync(entity.Id, entity.BookId, cancellationToken);
     }
@@ -110,8 +115,82 @@ public class ReviewRepository(
 
             await _cache.SetAsync(cacheKey, reviewsCache, options, cancellationToken);
         }
-        
+
         return reviews;
+    }
+
+    public async Task<List<ReviewEntity>> GetUserReviewsAsync(int userId, CancellationToken cancellationToken)
+    {
+        var cacheKey = UserReviewsKey + userId;
+
+        var reviewsCache = await _cache.GetAsync(cacheKey, cancellationToken);
+
+        List<ReviewEntity>? reviews;
+
+        if (reviewsCache is not null)
+        {
+            reviews = Cache<List<ReviewEntity>>.GetData(reviewsCache);
+        }
+        else
+        {
+            reviews = await GetAsync(review => review.UserId.Equals(userId), cancellationToken);
+
+            reviewsCache = Cache<List<ReviewEntity>>.GetCache(reviews, out var options);
+
+            await _cache.SetAsync(cacheKey, reviewsCache, options, cancellationToken);
+        }
+
+        return reviews;
+    }
+
+    public async Task Like(string reviewId, int userId, CancellationToken cancellationToken)
+    {
+        var review = await GetByIdAsync(reviewId, cancellationToken);
+
+        review.LikeUserIds.Add(userId);
+
+        await UpdateAsync(review, cancellationToken);
+    }
+    
+    public async Task Unlike(string reviewId, int userId, CancellationToken cancellationToken)
+    {
+        var review = await GetByIdAsync(reviewId, cancellationToken);
+
+        review.LikeUserIds.Remove(userId);
+        
+        await UpdateAsync(review, cancellationToken);
+    }
+    
+    public async Task Dislike(string reviewId, int userId, CancellationToken cancellationToken)
+    {
+        var review = await GetByIdAsync(reviewId, cancellationToken);
+
+        review.DislikeUserIds.Add(userId);
+
+        await UpdateAsync(review, cancellationToken);
+    }
+    
+    public async Task Undislike(string reviewId, int userId, CancellationToken cancellationToken)
+    {
+        var review = await GetByIdAsync(reviewId, cancellationToken);
+
+        review.DislikeUserIds.Remove(userId);
+        
+        await UpdateAsync(review, cancellationToken);
+    }
+
+    public async Task<bool> LikeExists(string reviewId, int userId, CancellationToken cancellationToken)
+    {
+        var review = await GetByIdAsync(reviewId, cancellationToken);
+
+        return review.LikeUserIds.Contains(userId);
+    }
+    
+    public async Task<bool> DislikeExists(string reviewId, int userId, CancellationToken cancellationToken)
+    {
+        var review = await GetByIdAsync(reviewId, cancellationToken);
+
+        return review.DislikeUserIds.Contains(userId);
     }
 
     public async Task AddCommentToReviewAsync(string reviewId, Comment comment, CancellationToken cancellationToken)

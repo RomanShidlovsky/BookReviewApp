@@ -21,8 +21,5 @@ public class CreateAuthorCommandValidator : AbstractValidator<CreateAuthorComman
         
         RuleFor(a => a.Dto.OpenLibraryKey)
             .MaximumLength(50).WithMessage("The OpenLibraryKey must not exceed 50 characters.");
-        
-        RuleFor(a => a.Dto.ImageUrl)
-            .MaximumLength(2000).WithMessage("The ImageUrl field must not exceed 2000 characters.");
     }
 }

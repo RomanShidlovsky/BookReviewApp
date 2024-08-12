@@ -1,0 +1,63 @@
+.auth-card{
+  background: #202020;
+  border-radius: 5px;
+  box-shadow: 0 0 30px #f7f7f7;
+}
+
+label{
+  color: #fff;
+  font-weight: 700;
+}
+.user-image{
+  height: 70px;
+}
+
+.auth-avatar{
+  text-align: center;
+  margin-top: -50px;
+}
+
+.auth{
+  margin-top: 35px;
+  border: none;
+  border-radius: 6px;
+}
+
+.signup-btn {
+  color: #fff;
+}
+
+.error-message {
+  text-align: center;
+  color: #fd2d2d;
+  height: 20px;
+}
+
+h1 {
+  margin: 2% auto;
+  font-size: 3em;
+}
+
+h2 {
+  font-size: 1.4em;
+}
+
+hr {
+  border: 0 solid #FBD160;
+  height: 0;
+  text-align: center;
+  width: 100%;
+}
+
+a:link {
+  text-decoration: none;
+}
+
+h4 {
+  font-size: 1em;
+}
+
+strong {
+  font-size: 1em;
+}
+

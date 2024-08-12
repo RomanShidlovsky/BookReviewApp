@@ -47,7 +47,7 @@ public class CreateReviewCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper
         book.AverageRating = averageRating;
 
         var review = _mapper.Map<ReviewEntity>(dto);
-
+        
         await repository.CreateAsync(review, cancellationToken);
         await _unitOfWork.BookRepository.UpdateAsync(book, cancellationToken);
 

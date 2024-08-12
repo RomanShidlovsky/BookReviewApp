@@ -29,7 +29,7 @@ public class UpdateAuthorCommandHandler(IUnitOfWork _unitOfWork, IMapper _mapper
         if (dto.OpenLibraryKey is not null)
         {
             var openLibraryKeyAuthor =
-                await repository.GetAsync(a => a.Id != dto.Id && a.IsOpenLibraryKey(dto.OpenLibraryKey),
+                await repository.GetAsync(a => a.Id != dto.Id && a.OpenLibraryKey == dto.OpenLibraryKey,
                     cancellationToken);
 
             if (openLibraryKeyAuthor.Count != 0)

@@ -1,0 +1,8 @@
+.reviews {
+  height: 500px;
+  overflow: auto;
+}
+
+textarea {
+  resize: none;
+}

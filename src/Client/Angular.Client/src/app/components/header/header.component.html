@@ -1,0 +1,63 @@
+<nav class="container-fluid navbar navbar-expand-md navbar-light bg-light navbar-light-color w-100 m-0">
+  <button class="navbar-toggler animatedBtn" type="button" data-toggle="collapse" data-target="#navbar-dropdown"
+          aria-controls="navbar-dropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon icon-bar"></span>
+  </button>
+
+
+  <div class="row w-100 m-0">
+    <div class="col-lg-5 d-flex align-items-center bg-darker">
+      <div class="collapse navbar-collapse" id="navbar-dropdown">
+        <ul class="navbar-nav content-nav text-center">
+          <li class="nav-brand">
+            <span>Book Reviews</span>
+          </li>
+          <li class="nav-item ml-5">
+            <a [routerLink]="['/home']" [routerLinkActive]="['active']" class="nav-link text-white " href="#">
+              <span>HOME</span>
+            </a>
+          </li>
+          <li class="nav-item active ml-5">
+            <a [routerLink]="['/filter']" [routerLinkActive]="['active']" class="nav-link text-white" href="#">
+              <span>SEARCH</span>
+            </a>
+          </li>
+          <li class="nav-item active ml-5">
+            <a [routerLink]="['/admin-dashboard']" [routerLinkActive]="['active']" class="nav-link text-white" href="#"
+               *ngIf="isLoggedIn()">
+              <span>MANAGE BOOKS</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-lg-7 bg-lighter">
+      <div class="row m-0 d-flex justify-content-end">
+        <div class="text-center" *ngIf="isLoggedIn()">
+          <button [routerLink]="['/user', getUserId()]" type="button" class="btn  btn-rounded icon-header-li">
+            Edit Profile
+          </button>
+        </div>
+
+        <div class="text-center" *ngIf="!isLoggedIn()">
+          <button [routerLink]="['/register']" type="button" class="btn  btn-rounded icon-header-li">
+            Sign Up
+          </button>
+        </div>
+
+        <div class="text-center" *ngIf="!isLoggedIn()">
+          <button [routerLink]="['/login']" type="button" class="btn btn-rounded icon-header-li">
+            Sign In
+          </button>
+        </div>
+
+        <div class="text-center" *ngIf="isLoggedIn()">
+          <button type="button" class="btn btn-rounded icon-header-li" (click)="logOut()">
+            Sign Out
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

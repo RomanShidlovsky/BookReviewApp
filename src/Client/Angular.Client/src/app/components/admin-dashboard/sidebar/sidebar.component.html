@@ -1,0 +1,42 @@
+<div class="sidebar h-100">
+  <ul class="p-0">
+    <li (click)="selectSection('books')">
+      <span>Books</span>
+      <a [routerLink]="['book-create']">
+        <div class="add-button">
+          +
+        </div>
+      </a>
+    </li>
+    <li (click)="selectSection('authors')">
+      <span>Authors</span>
+      <a [routerLink]="['author-create']">
+        <div class="add-button">
+          +
+        </div>
+      </a>
+    </li>
+    <li (click)="selectSection('languages')">
+      <span>Languages</span>
+      <a [routerLink]="['language-create']">
+        <div class="add-button">
+          +
+        </div>
+      </a>
+    </li>
+    <li (click)="selectSection('subjects')">
+      <span>Subjects</span>
+      <a [routerLink]="['subject-create']">
+        <div class="add-button">
+          +
+        </div>
+      </a>
+    </li>
+    <li [routerLink]="['add-to-role']">
+      <span>Add User To Role</span>
+    </li>
+    <li [routerLink]="['delete-from-role']">
+      <span>Delete User From Role</span>
+    </li>
+  </ul>
+</div>

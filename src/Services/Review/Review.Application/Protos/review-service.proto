@@ -4,14 +4,21 @@ option csharp_namespace = "Review.Application.GrpcServices";
 
 import "google/protobuf/wrappers.proto";
 
+message User {
+  int32 id = 1;
+  string userName = 2;
+  google.protobuf.StringValue imageUrl = 3;
+}
+
 message Review {
   string id = 1;
   int32 bookId = 2;
   int32 userId = 3;
   int32 rating = 4;
   google.protobuf.StringValue text = 5;
-  google.protobuf.UInt32Value Likes = 6;
-  google.protobuf.UInt32Value Dislikes = 7;
+  repeated int32 LikeUserIds = 6;
+  repeated int32 DislikeUserIds = 7;
+  User user = 9;
 }
 
 message GetBookReviewsRequest {
@@ -20,6 +27,7 @@ message GetBookReviewsRequest {
 
 message GetBookReviewsResponse {
   repeated Review reviews = 1;
+  repeated Review criticReviews = 2;
 }
 
 service ReviewService {

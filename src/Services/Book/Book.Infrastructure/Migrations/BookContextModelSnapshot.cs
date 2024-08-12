@@ -101,6 +101,9 @@ namespace Book.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<double>("AverageCriticRating")
+                        .HasColumnType("float");
+
                     b.Property<double>("AverageRating")
                         .HasColumnType("float");
 

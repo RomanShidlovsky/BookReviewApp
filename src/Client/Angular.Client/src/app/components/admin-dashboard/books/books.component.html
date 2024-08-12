@@ -1,0 +1,5 @@
+<div class="item-box">
+  <app-book-line *ngFor="let book of books" [book]="book" (onBookDeleted)="onBookDeleted($event)"></app-book-line>
+</div>
+
+

@@ -4,6 +4,7 @@ namespace Review.Infrastructure.Repositories;
 
 public interface IUnitOfWork
 {
+    IReviewRepository CriticReviewRepository { get; }
     IReviewRepository ReviewRepository { get; }
     IUserRepository UserRepository { get; }
     IBookRepository BookRepository { get; }

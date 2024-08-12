@@ -16,8 +16,7 @@ public class AuthorProfile : Profile
             .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.FullName))
             .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate))
             .ForMember(dest => dest.DeathDate, opt => opt.MapFrom(src => src.DeathDate))
-            .ForMember(dest => dest.Biography, opt => opt.MapFrom(src => src.Biography))
-            .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.ImageUrl));
+            .ForMember(dest => dest.Biography, opt => opt.MapFrom(src => src.Biography));
         
         CreateMap<Author, AuthorResponseDto>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
@@ -38,7 +37,6 @@ public class AuthorProfile : Profile
             .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.FullName))
             .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate))
             .ForMember(dest => dest.DeathDate, opt => opt.MapFrom(src => src.DeathDate))
-            .ForMember(dest => dest.Biography, opt => opt.MapFrom(src => src.Biography))
-            .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.ImageUrl));
+            .ForMember(dest => dest.Biography, opt => opt.MapFrom(src => src.Biography));
     }
 }

@@ -9,9 +9,11 @@ using Book.Application.Features.AuthorFeatures.Commands.RemoveAuthorFromBook;
 using Book.Application.Features.BookFeatures.Commands.Create;
 using Book.Application.Features.BookFeatures.Commands.Delete;
 using Book.Application.Features.BookFeatures.Commands.Update;
+using Book.Application.Features.BookFeatures.Commands.UploadImage;
 using Book.Application.Features.BookFeatures.Queries.GetBooks;
 using Book.Application.Features.BookFeatures.Queries.GetById;
 using Book.Application.Features.BookFeatures.Queries.GetByOpenLibraryKey;
+using Book.Application.Features.BookFeatures.Queries.GetRecommendedBooks;
 using Book.Application.Features.LanguageFeatures.Commands.AddLanguageToBook;
 using Book.Application.Features.LanguageFeatures.Commands.RemoveLanguageFromBook;
 using Book.Application.Features.SubjectFeatures.Commands.AddSubjectToBook;
@@ -34,9 +36,26 @@ public class BooksController(IMediator _mediator, ILogger<BooksController> _logg
     [ProducesResponseType(typeof(IEnumerable<BookResponseDto>), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(Error), (int)HttpStatusCode.BadRequest)]
     public async Task<IActionResult> GetBooks(CancellationToken cancellationToken, [FromQuery] string filterQueryString = "", 
-        [FromQuery] string orderByQueryString = "", [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+        [FromQuery] string orderByQueryString = "", [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10,
+        [FromQuery] int[]? selectedSubjects = null, [FromQuery] int[]? selectedLanguages = null, 
+        [FromQuery] int[]? selectedAuthors = null)
     {
-        var query = new GetBooksQuery(filterQueryString, orderByQueryString, pageNumber, pageSize);
+        var query = new GetBooksQuery(filterQueryString, orderByQueryString, selectedSubjects, selectedLanguages,
+            selectedAuthors, pageNumber, pageSize);
+        
+        var result = await _mediator.Send(query, cancellationToken);
+
+        return ApiResponse.GetObjectResult(result, _logger);
+    }
+    
+    [HttpGet("{id:int}/recommendations")]
+    [AllowAnonymous]
+    [ProducesResponseType(typeof(IEnumerable<BookResponseDto>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(Error), (int)HttpStatusCode.BadRequest)]
+    public async Task<IActionResult> GetRecommendedBooks([FromRoute] int id, [FromQuery] int count, CancellationToken cancellationToken)
+    {
+        var query = new GetRecommendedBooksQuery(id, count);
+        
         var result = await _mediator.Send(query, cancellationToken);
 
         return ApiResponse.GetObjectResult(result, _logger);
@@ -179,6 +198,32 @@ public class BooksController(IMediator _mediator, ILogger<BooksController> _logg
         var command = new RemoveSubjectFromBookCommand(dto);
         var result = await _mediator.Send(command, cancellationToken);
         
+        return ApiResponse.GetObjectResult(result, _logger);
+    }
+    
+    [HttpPost("{id:int}/image"), DisableRequestSizeLimit]
+    [Authorize(Roles = Roles.Admin)]
+    [ProducesResponseType(typeof(string),(int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(Error), (int)HttpStatusCode.NotFound)]
+    [ProducesResponseType(typeof(Error), (int)HttpStatusCode.InternalServerError)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    public async Task<IActionResult> UploadImage([FromRoute] int id, CancellationToken cancellationToken)
+    {
+        var formCollection = await Request.ReadFormAsync(cancellationToken);
+        var files = formCollection.Files;
+        
+        if (!files.Any())
+            return BadRequest("No files found in the request");
+
+        if (files.Count > 1)
+            return BadRequest("Cannot upload more than one file at a time");
+
+        if (files[0].Length <= 0)
+            return BadRequest("Invalid file length, seems to be empty");
+        
+        var command = new UploadBookImageCommand(id, files[0]);
+        var result = await _mediator.Send(command, cancellationToken);
+
         return ApiResponse.GetObjectResult(result, _logger);
     }
 }

@@ -1,0 +1,15 @@
+<div class="contacts-container">
+  <h2>Contact List</h2>
+  <ul>
+    <li *ngFor="let contact of contacts" class="contact-item">
+      <h3>{{ contact.name }} - {{ contact.role }}</h3>
+      <p>Email: <a [href]="'mailto:' + contact.email">{{ contact.email }}</a></p>
+      <div *ngIf="contact.social.telegram">
+        <p>Telegram: <a [href]="contact.social.telegram" target="_blank">{{ contact.social.telegram }}</a></p>
+      </div>
+      <div *ngIf="contact.social.linkedin">
+        <p>LinkedIn: <a [href]="contact.social.linkedin" target="_blank">{{ contact.social.linkedin }}</a></p>
+      </div>
+    </li>
+  </ul>
+</div>

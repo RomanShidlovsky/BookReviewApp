@@ -1,0 +1,68 @@
+<section class="h-100 p-0 m-0">
+  <div class="container-fluid h-100">
+    <div class="row h-100">
+      <div class="col-lg-5 h-100 bg-main p-0">
+        <div class="logo-container h-100 d-flex flex-column justify-content-center align-items-center">
+          <img src="./assets/img/logo.png" class="logo-img" alt="logo">
+          <h1 class="strong-title">
+            Every burnt book enlightens the world.
+          </h1>
+        </div>
+      </div>
+
+      <div class="col-lg-7 d-flex flex-column justify-content-center align-items-center" style="height: 100%">
+        <div class="container row">
+          <div class="col-md-8 offset-md-2">
+            <div class="error-message">
+              <span> {{ this.message }}</span>
+            </div>
+            <div class="card auth">
+              <div class="card-body auth-card">
+                <form [formGroup]="form" (submit)="create(file.files)">
+                  <div class="mb-2">
+                    <label for="firstName">First name: </label>
+                    <input type="text" id="firstName" class="form-control" placeholder="first name"
+                           formControlName="firstName"/>
+                  </div>
+                  <div class="mb-2">
+                    <label for="lastName">Last name: </label>
+                    <input type="text" id="lastName" class="form-control" placeholder="last name"
+                           formControlName="lastName"/>
+                  </div>
+                  <div class="mb-2">
+                    <label for="fullName">Full name: </label>
+                    <input type="text" id="fullName" class="form-control" placeholder="full name"
+                           formControlName="fullName"/>
+                  </div>
+                  <div class="mb-2">
+                    <label for="fullName">Birth Date: </label>
+                    <input type="date" id="birthDate" class="form-control" formControlName="birthDate"/>
+                  </div>
+                  <div class="mb-2">
+                    <label for="fullName">Death Date: </label>
+                    <input type="date" id="deathDate" class="form-control"
+                           formControlName="deathDate"/>
+                  </div>
+                  <div class="mb-2">
+                    <label for="biography">Biography: </label>
+                    <textarea id="biography" class="form-control" placeholder="biography"
+                              formControlName="biography"></textarea>
+                  </div>
+
+                  <div class="mb-2">
+                    <label class="form-label" for="customFile">Author Image:</label>
+                    <input #file type="file" class="form-control pb-2" id="customFile" accept="image/*"/>
+                  </div>
+
+                  <div class="text-center">
+                    <input type="submit" class="btn signup-btn bg-red" value="Create">
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

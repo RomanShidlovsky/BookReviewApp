@@ -1,0 +1,35 @@
+li {
+  list-style-type: none;
+  width: 100%;
+  color: white;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+}
+
+li:hover {
+  background-color: #202020;
+}
+
+.sidebar {
+  background-color: #343434;
+}
+
+.add-button {
+  width: 20px;
+  height: 20px;
+  border: #202020;
+  background-color: white;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #202020
+}
+
+.add-button:hover {
+  background-color: #fd2d2d;
+  color: white;
+}

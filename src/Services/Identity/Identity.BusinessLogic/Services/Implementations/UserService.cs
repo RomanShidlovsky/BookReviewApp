@@ -155,7 +155,7 @@ public class UserService(
             return Response.Failure(DomainErrors.User.UserNotFoundById);
         }
 
-        if (await _userManager.IsInRoleAsync(user, role.Name))
+        if (!await _userManager.IsInRoleAsync(user, role.Name))
         {
             return Response.Failure(DomainErrors.User.UserNotInRole);
         }

@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using System.Linq.Dynamic.Core;
+using Microsoft.EntityFrameworkCore;
 using BookEntity = Book.Domain.Entities.Book;
 
 namespace Book.Infrastructure.Extensions;
@@ -10,7 +11,7 @@ public static class IQueryableExtensions
     {
         if (string.IsNullOrWhiteSpace(orderByQueryString))
         {
-            return books.OrderBy(b => b.Title);
+            return books.OrderByDescending(b => b.DateCreated);
         }
         
         var orderParams = orderByQueryString.Trim().Split(',');
@@ -19,7 +20,7 @@ public static class IQueryableExtensions
 
         if (string.IsNullOrWhiteSpace(orderQuery))
         {
-            return books.OrderBy(b => b.Title);
+            return books.OrderByDescending(b => b.DateCreated);
         }
         
         return books.OrderBy(orderQuery);
@@ -55,9 +56,29 @@ public static class IQueryableExtensions
 
             Expression expression;
             
-            if (paramName.Equals("PublicationYear", StringComparison.OrdinalIgnoreCase))
+            if (paramName.Equals("PublicationYearStart", StringComparison.OrdinalIgnoreCase))
             {
-                expression = GetYearRangeExpression(paramName, paramValue);
+                var property = Expression.Property(parameter, "PublicationYear");
+                var value = Expression.Constant(int.Parse(paramValue));
+                expression = Expression.GreaterThanOrEqual(property, value);
+            }
+            else if (paramName.Equals("PublicationYearEnd", StringComparison.OrdinalIgnoreCase))
+            {
+                var property = Expression.Property(parameter, "PublicationYear");
+                var value = Expression.Constant(int.Parse(paramValue));
+                expression = Expression.LessThanOrEqual(property, value);
+            }
+            else if (paramName.Equals("Title", StringComparison.OrdinalIgnoreCase))
+            {
+                var property = Expression.Property(parameter, paramName);
+                var value = Expression.Constant(paramValue);
+            
+                // Create the expression for EF.Functions.Like
+                var methodName = nameof(string.Contains);
+                var method = typeof(string).GetMethod(methodName, new[] { typeof(string) });
+                var callExpression = Expression.Call(property, method!, value);
+
+                expression = callExpression;
             }
             else
             {

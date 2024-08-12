@@ -19,9 +19,18 @@ public class UnitOfWork(IMongoDbContext context, IOptions<ReviewDatabaseSettings
         new(new ReviewRepository(context.GetCollection<ReviewEntity>(options.Value.ReviewsCollectionName),
             context.GetCollection<User>(options.Value.UsersCollectionName),
             context.GetCollection<Book>(options.Value.BooksCollectionName),
+            false,
+            cache));
+    
+    private readonly Lazy<IReviewRepository> _criticReviewRepository = 
+        new(new ReviewRepository(context.GetCollection<ReviewEntity>(options.Value.CriticReviewsCollectionName),
+            context.GetCollection<User>(options.Value.UsersCollectionName),
+            context.GetCollection<Book>(options.Value.BooksCollectionName),
+            true,
             cache));
     
     public IBookRepository BookRepository => _bookRepository.Value;
     public IUserRepository UserRepository => _userRepository.Value;
     public IReviewRepository ReviewRepository => _reviewRepository.Value;
+    public IReviewRepository CriticReviewRepository => _criticReviewRepository.Value;
 }

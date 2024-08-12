@@ -1,4 +1,5 @@
-﻿using Book.Domain.Interfaces.Repositories;
+﻿using System.Linq.Dynamic.Core;
+using Book.Domain.Interfaces.Repositories;
 using Book.Infrastructure.Context;
 using Book.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -26,12 +27,30 @@ public class BookRepository(BookContext context, IDistributedCache _cache, ILogg
     }
 
     public async Task<List<BookEntity>> GetBooksAsync(int pageNumber, int pageSize, string filterQueryString,
-        string orderByQueryString, CancellationToken cancellationToken)
+        string orderByQueryString, int[]? selectedSubjects, int[]? selectedLanguages, int[]? selectedAuthors, 
+        CancellationToken cancellationToken)
     {
-        var cacheKey = BooksCacheKey + pageNumber + pageSize + filterQueryString + orderByQueryString;
+        var cacheKey = BooksCacheKey + $",{nameof(pageNumber)}={pageNumber},{nameof(pageSize)}={pageSize}," +
+                       $"{nameof(filterQueryString)}={filterQueryString},{nameof(orderByQueryString)}={orderByQueryString}";
 
+        if (selectedSubjects is not null)
+        {
+            cacheKey += $",{nameof(selectedSubjects)}={string.Join(", ", selectedSubjects)}";
+        }
+        
+        if (selectedLanguages is not null)
+        {
+            cacheKey += $",{nameof(selectedLanguages)}={string.Join(", ", selectedLanguages)}";
+        }
+        
+        if (selectedAuthors is not null)
+        {
+            cacheKey += $",{nameof(selectedAuthors)}={string.Join(", ", selectedAuthors)}";
+        }
+        
         var booksCache = await _cache.GetAsync(cacheKey, cancellationToken);
 
+        
         List<BookEntity>? books;
 
         if (booksCache is not null)
@@ -42,12 +61,29 @@ public class BookRepository(BookContext context, IDistributedCache _cache, ILogg
         }
         else
         {
-            books = await GetEntitySet()
+            var query = GetEntitySet()
                 .Filter(filterQueryString)
-                .Sort(orderByQueryString)
+                .Sort(orderByQueryString);
+
+            if (selectedSubjects is { Length: > 0 })
+            {
+                query = query.Where(book => book.Subjects.Any(subject => selectedSubjects.Contains(subject.Id)));
+            }
+
+            if (selectedLanguages is { Length: > 0 })
+            {
+                query = query.Where(book => book.Languages.Any(language => selectedLanguages.Contains(language.Id)));
+            }
+
+            if (selectedAuthors is { Length: > 0 })
+            {
+                query = query.Where(book => book.Authors.Any(author => selectedAuthors.Contains(author.Id)));
+            }
+
+            books = await query
                 .Paginate(pageNumber, pageSize)
                 .ToListAsync(cancellationToken);
-
+            
             _logger.LogInformation("Get books with cashKey = {key} from db", cacheKey);
             
             booksCache = Cache<List<BookEntity>>.GetCache(books, out var options);
@@ -58,6 +94,29 @@ public class BookRepository(BookContext context, IDistributedCache _cache, ILogg
         }
 
         return books;
+    }
+
+    public async Task<List<BookEntity>> GetBooksBySubjectMatchesAsync(int bookId, int count, CancellationToken cancellationToken)
+    {
+        var book = await GetByIdAsync(bookId, cancellationToken);
+
+        var subjectIds = book.Subjects.Select(s => s.Id).ToList();
+
+        var books = await GetAsync(b => b.Id != bookId, cancellationToken);
+
+        var booksWithSubjectMatches = books
+            .Select(b => new
+            {
+                Book = b,
+                MatchCount = b.Subjects.Count(s => subjectIds.Contains(s.Id))
+            })
+            .Where(b => b.MatchCount > 0)
+            .OrderByDescending(b => b.MatchCount)
+            .Take(count)
+            .Select(b => b.Book)
+            .ToList();
+
+        return booksWithSubjectMatches;
     }
 
     public override async Task<BookEntity?> GetByIdAsync(int id, CancellationToken cancellationToken)
@@ -116,6 +175,24 @@ public class BookRepository(BookContext context, IDistributedCache _cache, ILogg
         }
 
         return book;
+    }
+
+    public async Task UpdateRatingAsync(int bookId, double rating, CancellationToken cancellationToken)
+    {
+        var book = await context.Set<BookEntity>()
+            .FirstAsync(book => book.Id == bookId, cancellationToken);
+
+        book.AverageRating = rating;
+        Update(book);
+    }
+
+    public async Task UpdateCriticRatingAsync(int bookId, double rating, CancellationToken cancellationToken)
+    {
+        var book = await context.Set<BookEntity>()
+            .FirstAsync(book => book.Id == bookId, cancellationToken);
+
+        book.AverageCriticRating = rating;
+        Update(book);
     }
 
     public override void Create(BookEntity entity)

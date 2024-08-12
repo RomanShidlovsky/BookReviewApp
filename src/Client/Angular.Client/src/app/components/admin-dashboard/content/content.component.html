@@ -1,0 +1,10 @@
+<div class="content">
+  <h2>{{ section }}</h2>
+  <div [ngSwitch]="section">
+    <app-books *ngSwitchCase="'books'"></app-books>
+    <app-authors *ngSwitchCase="'authors'"></app-authors>
+    <app-languages *ngSwitchCase="'languages'"></app-languages>
+    <app-subjects *ngSwitchCase="'subjects'"></app-subjects>
+    <div *ngSwitchDefault>Select a section</div>
+  </div>
+</div>

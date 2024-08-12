@@ -1,0 +1,52 @@
+<section>
+  <div class="pt-3">
+    <h1>{{ title }}</h1>
+  </div>
+  <div class="d-flex justify-content-start align-items-center py-3 border-bottom border-top border-dark">
+    <div class="mr-3">
+      <h5>Average rating: </h5>
+      <span>Based on {{ book.criticReviews.length }} reviews</span>
+    </div>
+
+    <button class="rating_circle" [ngClass]="{
+      'bg-success': book.averageCriticRating >= 4,
+      'bg-warning': book.averageCriticRating < 4 && book.averageCriticRating > 2,
+      'bg-danger' : book.averageCriticRating < 2
+    }">
+      {{ book.averageCriticRating > 0 ? book.averageCriticRating.toFixed(2) : "N/A" }}
+    </button>
+  </div>
+
+  <div class="reviews border-bottom border-dark px-2">
+    <app-review *ngFor="let review of book.criticReviews" [review]="review" [isCritic]="true"></app-review>
+  </div>
+
+  <div class="pt-2">
+    <form [formGroup]="form" (submit)="post()">
+      <div class="d-flex justify-content-between align-items-center p-2">
+        <label for="reviewText" class="form-label m-0">Review text:</label>
+
+        <span [ngClass]="{
+          'text-success': success,
+          'text-danger': !success
+        }"> {{ this.message }} </span>
+
+        <div>
+          <label for="reviewText" class="form-label my-0 mx-2">Review rating:</label>
+          <select class="form-select" formControlName="rating">
+            <option value="1">1 </option>
+            <option value="2">2 </option>
+            <option value="3">3 </option>
+            <option value="4">4 </option>
+            <option value="5">5 </option>
+          </select>
+        </div>
+      </div>
+
+      <textarea class="form-control" id="reviewText" rows="3" formControlName="text"></textarea>
+      <input type="submit" class="btn signup-btn bg-red" value="Post">
+    </form>
+
+
+  </div>
+</section>

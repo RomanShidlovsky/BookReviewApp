@@ -5,5 +5,4 @@ public sealed record UpdateBookDto(
     string? OpenLibraryKey,
     string Title,
     int EditionCount,
-    int PublicationYear,
-    string? ImageUrl);
+    int PublicationYear);

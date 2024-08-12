@@ -1,8 +1,9 @@
 ﻿namespace Review.Application.DTOs.ResponseDTOs;
 
 public sealed record BookResponseDto(
-    int Id,
+    string Id,
     string Title,
-    int AverageRating,
+    double AverageRating,
+    double AverageCriticRating,
     string? ImageUrl);
 

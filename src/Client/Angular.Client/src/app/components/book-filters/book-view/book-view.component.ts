@@ -1,0 +1,53 @@
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {BookResponseDto} from "../../../models/book/bookResponseDto";
+import {BooksService} from "../../../api/books.service";
+import {RouterLink} from "@angular/router";
+import {NgClass} from "@angular/common";
+
+@Component({
+  selector: 'app-book-view',
+  standalone: true,
+  imports: [
+    RouterLink,
+    NgClass
+  ],
+  templateUrl: './book-view.component.html',
+  styleUrl: './book-view.component.css'
+})
+export class BookViewComponent {
+  @Input() book!: BookResponseDto;
+  @Output() onBookDeleted = new EventEmitter<number>();
+
+  constructor(private booksService: BooksService) {
+  }
+
+  confirmDeletion() {
+    const confirmed = confirm('Are you sure that you want to delete this item?');
+
+    if (confirmed) {
+      this.deleteBook();
+    }
+  }
+
+  deleteBook() {
+    this.booksService.apiBooksIdDelete(this.book.id).subscribe({
+      next: deleted => {
+        if (deleted === true) {
+          this.onBookDeleted.emit(this.book.id);
+        }
+      }
+    });
+  }
+
+  getAuthorsNames() {
+    return this.book.authors.map(a => a.fullName).join(', ');
+  }
+
+  getLanguagesNames() {
+    return this.book.languages.map(l => l.name).join(', ');
+  }
+
+  getSubjectsNames() {
+    return this.book.subjects.map(s => s.name).join(', ');
+  }
+}

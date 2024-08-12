@@ -1,4 +1,6 @@
-﻿namespace Book.Application.DTOs.Review.ResponseDTOs;
+﻿using Book.Application.DTOs.User.ResponseDTOs;
+
+namespace Book.Application.DTOs.Review.ResponseDTOs;
 
 public sealed record ReviewResponseDto(
     string Id,
@@ -6,5 +8,6 @@ public sealed record ReviewResponseDto(
     int UserId,
     int Rating,
     string? Text,
-    int? Likes,
-    int? Dislikes);
+    IEnumerable<int> LikeUserIds,
+    IEnumerable<int> DislikeUserIds,
+    UserResponseDto User);

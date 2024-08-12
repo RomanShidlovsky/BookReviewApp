@@ -40,6 +40,11 @@ public class DomainErrors
             "Author.AuthorNotRemovedFromBook",
             "Author not removed from book",
             500);
+
+        public static readonly Error AuthorImageNotUploaded = new(
+            "Author.ImageNotUploaded",
+            "Author image not uploaded.",
+            500);
     }
 
     public static class Book
@@ -88,6 +93,11 @@ public class DomainErrors
             "Book.OpenLibraryKeyConflict",
             "Book with provided OpenLibraryKey already exists.",
             409);
+            
+        public static readonly Error BookImageNotUploaded = new(
+            "Book.ImageNotUploaded",
+            "Book image not uploaded.",
+            500);
     }
 
     public static class Subject

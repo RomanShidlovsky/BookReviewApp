@@ -28,14 +28,15 @@ public class GetBookByIdQueryHandler(
         
         var response = _mapper.Map<BookWithReviewsResponseDto>(book);
             
-        var reviews = await GetBookReviewsAsync(request.Id, cancellationToken);
+        var allReviews = await GetBookReviewsAsync(request.Id, cancellationToken);
 
-        response.Reviews = _mapper.Map<List<ReviewResponseDto>>(reviews);
+        response.Reviews = _mapper.Map<List<ReviewResponseDto>>(allReviews.Reviews.ToList());
+        response.CriticReviews = _mapper.Map<List<ReviewResponseDto>>(allReviews.CriticReviews.ToList());
 
         return response;
     }
 
-    private async Task<IEnumerable<Review>> GetBookReviewsAsync(int bookId, CancellationToken cancellationToken)
+    private async Task<GetBookReviewsResponse> GetBookReviewsAsync(int bookId, CancellationToken cancellationToken)
     {
         var request = new GetBookReviewsRequest { BookId = bookId };
 
@@ -45,6 +46,6 @@ public class GetBookByIdQueryHandler(
         
         _logger.LogInformation("Receive GetBookReviewsResponse for bookId = {bookId}", bookId);
 
-        return response.Reviews.ToList();
+        return response;
     }
 }

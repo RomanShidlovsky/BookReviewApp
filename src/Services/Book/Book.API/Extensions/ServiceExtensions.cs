@@ -1,5 +1,6 @@
 ﻿using System.Security.Cryptography;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.IdentityModel.Tokens;
 using Shared.Extensions;
 
@@ -14,6 +15,13 @@ public static class ServiceExtensions
         services.AddControllers();
         services.ConfigureIdentityServer(configuration);
         services.ConfigureSwagger(configuration);
+        
+        services.Configure<FormOptions>(o =>
+        {
+            o.ValueLengthLimit = int.MaxValue;
+            o.MultipartBodyLengthLimit = int.MaxValue;
+            o.MemoryBufferThreshold = int.MaxValue;
+        });
     }
     
     private static void ConfigureCors(this IServiceCollection services)

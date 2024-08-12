@@ -12,6 +12,7 @@ public record BookResponseDto(
     int EditionCount,
     int PublicationYear,
     double AverageRating,
+    double AverageCriticRating,
     string? ImageUrl,
     IEnumerable<AuthorResponseDto> Authors,
     IEnumerable<LanguageResponseDto> Languages,
